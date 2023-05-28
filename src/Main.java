@@ -1,7 +1,3 @@
-import game.users.User;
-import util.events.ArgEvent;
-import util.events.Event;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -9,6 +5,7 @@ public class Main {
 
         RoomManager.initialize();
         if (!NetworkManager.initialize()) {
+            AudioManager.initialize();
             game.users.User.loadUsers();
             gui.Login.instance.showWindow();
         }

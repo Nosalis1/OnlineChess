@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Quick Fix">
+      <change afterPath="$PROJECT_DIR$/src/AudioManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/AudioClip.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/capture.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/end.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/move.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/start.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/Piece.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +47,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "onboarding.tips.debug.path": "C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java",
-    "project.structure.last.edited": "Facets",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel"
@@ -107,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685276024887</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Quick Fix">
+      <created>1685277126581</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685277126581</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
