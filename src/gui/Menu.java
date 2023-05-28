@@ -44,6 +44,6 @@ public class Menu extends  Window implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         LocalClient.connect();
-       LocalClient.disconnect();
+       //LocalClient.disconnect();
     }
 }
