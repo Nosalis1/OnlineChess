@@ -1,6 +1,7 @@
 package socket;
 
 import socket.packages.Packet;
+import util.Console;
 
 import java.net.Socket;
 
@@ -42,6 +43,11 @@ public class LocalClient extends Client implements Runnable {
 
     @Override
     public void run() {
+
+        if (getSocket().isClosed()) {
+            Console.error("SOCKET IS CLOSED!", Console.PrintType.Socket);
+            return;
+        }
 
         do {
             this.packet = receive(this.packet);

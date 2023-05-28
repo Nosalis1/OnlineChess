@@ -9,18 +9,17 @@ import java.net.Socket;
 public class NetworkManager implements ServerEventable {
     public static NetworkManager instance;
 
-    public static void initialize() {
+    public static boolean initialize() {
+        if (Server.isMasterUp())
+            return false;
+
         if (instance == null)
             instance = new NetworkManager();
 
-        if (Server.isMasterUp()) {
-            LocalClient.connect();
-            LocalClient.disconnect();
-        } else {
-            Server.start();
-            Server.startListening();
-            //Server.stop();
-        }
+        Server.start();
+        Server.startListening();
+        //Server.stop();
+        return true;
     }
 
     public NetworkManager() {
