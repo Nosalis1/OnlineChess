@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Quick Fix">
-      <change afterPath="$PROJECT_DIR$/src/AudioManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/AudioClip.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/capture.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/end.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/move.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/start.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/Piece.java" afterDir="false" />
+    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Editing users">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OnlineChess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OnlineChess.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/users/UserData" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/UserData" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Array.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +31,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2QMoiVsCVgGjgSev7aJ1d5PId8K" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -41,15 +47,22 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "12",
     "onboarding.tips.debug.path": "C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
@@ -70,6 +83,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1685172942860</updated>
+      <workItem from="1685305074441" duration="15046000" />
+      <workItem from="1685364113165" duration="384000" />
+      <workItem from="1685364512410" duration="58000" />
+      <workItem from="1685364581139" duration="3526000" />
     </task>
     <task id="LOCAL-00001" summary="Setup">
       <created>1685172992366</created>
@@ -123,10 +140,25 @@
     <option name="localTasksCounter" value="8" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Setup" />
     <MESSAGE value="Server/Client setup" />
     <MESSAGE value="Quick Fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Quick Fix" />
+    <MESSAGE value="Editing users" />
+    <option name="LAST_COMMIT_MESSAGE" value="Editing users" />
   </component>
 </project>

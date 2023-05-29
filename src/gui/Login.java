@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Login extends Window implements ActionListener {
-
     public static final Login instance = new Login();
 
     public Login() {

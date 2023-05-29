@@ -5,9 +5,14 @@ public class Main {
 
         RoomManager.initialize();
         if (!NetworkManager.initialize()) {
-            AudioManager.initialize();
-            game.users.User.loadUsers();
-            gui.Login.instance.showWindow();
+            try {
+                AudioManager.initialize();
+                game.users.User.loadUsers();
+                gui.Login.instance.showWindow();
+            } catch (Exception e) {
+                util.Console.error("Error while initializing in main method: " + e.getMessage());
+                System.exit(-1);
+            }
         }
     }
 }

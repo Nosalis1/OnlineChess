@@ -1,7 +1,16 @@
-User:
-    UserName: Nosalis
-    Password: 1234
-
-User:
-    UserName: Hadaror
-    Password: 54321
+{
+  "users": [
+    {
+      "username": "Nosalis",
+      "password": "81dc9bdb52d04dc20036dbd8313ed055"
+    },
+    {
+      "username": "Hadaror",
+      "password": "01cfcd4f6b8770febfb40cb906715822"
+    },
+    {
+      "username": "luca",
+      "password": "81dc9bdb52d04dc20036dbd8313ed055"
+    }
+  ]
+}
