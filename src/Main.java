@@ -1,12 +1,14 @@
+import gui.Game;
 import util.Array;
 
 public class Main {
     public static void main(String[] args) {
 
+        Game.instance.showWindow();
+        if (true)
+            return;
         util.Array<String> someArray = new Array<>();
-        someArray.foreach((String item)->{
-            System.out.println(item);
-        });
+        someArray.foreach(System.out::println);
 
         util.Console.message("Hello World!");
 
