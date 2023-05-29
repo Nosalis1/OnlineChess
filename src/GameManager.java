@@ -54,7 +54,7 @@ public class GameManager {
         Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
     }
 
-    private Array<Field> currentHighlights = new Array<>();
+    private final Array<Field> currentHighlights = new Array<>();
 
     private void resetHighlights() {
         currentHighlights.foreach((Field field) -> {
@@ -83,7 +83,7 @@ public class GameManager {
         moves.foreach((Vector position) -> {
             Field temp = Game.instance.getField(position);
 
-            temp.setColor(ColorGradient.MOVE.getColor(temp.isGradient()));
+            temp.setColor(Board.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         });
     }

@@ -53,11 +53,13 @@ public class Board {
     }
 
     private static void onPieceEaten(Piece piece) {
-        if (piece.isColor(Piece.Color.White))
-            whitePieces.remove(piece);
-        else
-            blackPieces.remove(piece);
-
+        if (piece.isColor(Piece.Color.White)) {
+            if (whitePieces.contains(piece))
+                whitePieces.remove(piece);
+        } else {
+            if (blackPieces.contains(piece))
+                blackPieces.remove(piece);
+        }
         allPieces.remove(piece);
 
         onPieceEaten.run(piece);

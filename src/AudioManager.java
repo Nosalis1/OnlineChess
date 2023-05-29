@@ -53,10 +53,10 @@ public class AudioManager {
     }
 
     private void onPieceEaten(Piece piece) {
-
+        playClip(0);
     }
 
     private void onPieceMoved(Piece piece) {
-
+        playClip(2);
     }
 }

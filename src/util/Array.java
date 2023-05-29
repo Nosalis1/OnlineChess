@@ -169,7 +169,7 @@ public class Array<T> {
 
         this.array[index] = null;
 
-        for (int i = index; i < size(); i++)
+        for (int i = index; i < size() - 1; i++)
             this.array[i] = this.array[i + 1];
 
         resize(size() - 1);
