@@ -12,21 +12,20 @@ public class Array<T> {
     private T[] array;
 
     /**
-     * The internal array to store elements.
-     */
-    private Array<String> elementTypes;
-
-    /**
      * Constructs a new Array object with an initial size of 0.
      */
-    public Array() { this.array = createNew(0); }
+    public Array() {
+        this.array = createNew(0);
+    }
 
     /**
      * Returns the internal array.
      *
      * @return The internal array.
      */
-    public final T[] getArray() { return this.array; }
+    public final T[] getArray() {
+        return this.array;
+    }
 
     /**
      * Creates a new array of the specified size.
@@ -203,6 +202,4 @@ public class Array<T> {
 
         return str.toString();
     }
-
-
 }
