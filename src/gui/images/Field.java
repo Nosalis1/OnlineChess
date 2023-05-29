@@ -3,6 +3,7 @@ package gui.images;
 import game.Board;
 import gui.ColorGradient;
 import util.Vector;
+import util.events.ArgEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,9 +62,11 @@ public class Field extends ImagePanel implements MouseListener {
         }
     }
 
+    public static util.events.ArgEvent<Vector> onFieldClicked = new ArgEvent<>();
+
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        onFieldClicked.run(boardPosition);
     }
 
     @Override
