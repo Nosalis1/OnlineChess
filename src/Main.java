@@ -4,6 +4,7 @@ import util.Array;
 public class Main {
     public static void main(String[] args) {
 
+        GameManager.initialize();//TODO:MOVE IN INITIALIZERS
         Game.instance.showWindow();
         if (true)
             return;
@@ -11,6 +12,7 @@ public class Main {
         someArray.foreach(System.out::println);
 
         util.Console.message("Hello World!");
+
 
         RoomManager.initialize();
         if (!NetworkManager.initialize()) {

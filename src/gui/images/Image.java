@@ -10,20 +10,20 @@ public class Image {
 
     public static final Image[][] IMAGES = {
             {
-                    new Image("gui/sprites/256px/w_rook_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/w_knight_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/w_bishop_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/w_queen_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/w_king_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/w_pawn_png_shadow_256px.png")
+                    new Image("src/gui/images/256px/w_rook_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/w_knight_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/w_bishop_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/w_queen_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/w_king_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/w_pawn_png_shadow_256px.png")
             },
             {
-                    new Image("gui/sprites/256px/b_rook_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/b_knight_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/b_bishop_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/b_queen_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/b_king_png_shadow_256px.png"),
-                    new Image("gui/sprites/256px/b_pawn_png_shadow_256px.png")
+                    new Image("src/gui/images/256px/b_rook_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/b_knight_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/b_bishop_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/b_queen_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/b_king_png_shadow_256px.png"),
+                    new Image("src/gui/images/256px/b_pawn_png_shadow_256px.png")
             }
     };
 

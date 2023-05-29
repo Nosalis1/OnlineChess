@@ -2,6 +2,7 @@ package game;
 
 import util.Array;
 import util.Vector;
+import util.events.ArgEvent;
 
 public class Board {
 
@@ -58,6 +59,8 @@ public class Board {
             blackPieces.remove(piece);
 
         allPieces.remove(piece);
+
+        onPieceEaten.run(piece);
     }
 
     public static Piece get(final int x, final int y) {
@@ -134,16 +137,23 @@ public class Board {
         return inPath(from, to, step.X, step.Y);
     }
 
+    public static util.events.ArgEvent<Piece> onPieceEaten = new ArgEvent<>();
+    public static util.events.ArgEvent<Piece> onPieceWillMove = new ArgEvent<>();
+    public static util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
+
     public static void move(final Vector from,final Vector to) {
         Piece temp = get(from);
 
         if (!isNull(to))
             onPieceEaten(get(to));
 
+        onPieceWillMove.run(temp);
+
         pieces[from.X][from.Y] = null;
         pieces[to.X][to.Y] = temp;
 
         temp.updatePosition(to);
+        onPieceMoved.run(temp);
     }
 
     public static boolean tryMove(final Vector from,final Vector to) {

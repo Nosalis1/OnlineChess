@@ -1,7 +1,11 @@
 import audio.AudioClip;
+import game.Board;
+import game.Piece;
 import util.Array;
 
 public class AudioManager {
+    public static AudioManager instance;
+
     public static void initialize() {
         final String[] FILE_PATHS = {
                 "src/audio/sfx/capture.wav",
@@ -13,6 +17,9 @@ public class AudioManager {
         for (String path : FILE_PATHS) {
             clips.add(new AudioClip(path));
         }
+
+        if (instance == null)
+            instance = new AudioManager();
     }
 
     public static final util.Array<audio.AudioClip> clips = new Array<>();
@@ -38,5 +45,18 @@ public class AudioManager {
 
         if (clip != null)
             clip.play();
+    }
+
+    public AudioManager() {
+        Board.onPieceEaten.add(this::onPieceEaten);
+        Board.onPieceMoved.add(this::onPieceMoved);
+    }
+
+    private void onPieceEaten(Piece piece) {
+
+    }
+
+    private void onPieceMoved(Piece piece) {
+
     }
 }
