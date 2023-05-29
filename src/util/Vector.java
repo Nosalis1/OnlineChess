@@ -26,6 +26,12 @@ public class Vector {
         this.Y += other.Y;
     }
 
+    // Add the components of another vector to this vector
+    public void add(final int x,final int y) {
+        this.X += x;
+        this.Y += y;
+    }
+
     // Subtract the components of another vector from this vector
     public void subtract(final Vector other) {
         this.X -= other.X;

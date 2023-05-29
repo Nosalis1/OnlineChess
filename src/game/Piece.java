@@ -97,6 +97,10 @@ public class Piece {
         this.position.Y = y;
     }
 
+    public void updatePosition(final Vector newPosition) {
+        updatePosition(newPosition.X, newPosition.Y);
+    }
+
     private final util.Array<Vector> moves = new Array<>();
 
     public util.Array<Vector> getMoves() {
@@ -104,7 +108,7 @@ public class Piece {
         return this.moves;
     }
 
-    private void tryAddMove(int x,int y) {
+    private void tryAddMove(int x, int y) {
         if (canMove(x, y))
             moves.add(new Vector(x, y));
     }
@@ -141,36 +145,106 @@ public class Piece {
     }
 
     private void getKnightMoves() {
-/*
+        int x, y;
 
--1	-2
--1	+2
-+1	-2
-+1	+2
+        //SIDE A
+        x = position.X - 1;
+        y = position.Y - 2;
 
--2	-1
--2	+1
-+2	-1
-+2	+1
+        tryAddMove(x, y);
 
- */
+        x = position.X - 1;
+        y = position.Y + 2;
 
+        tryAddMove(x, y);
+
+        x = position.X + 1;
+        y = position.Y - 2;
+
+        tryAddMove(x, y);
+
+        x = position.X + 1;
+        y = position.Y + 2;
+
+        tryAddMove(x, y);
+        //SIDE B
+        x = position.X - 2;
+        y = position.Y - 1;
+
+        tryAddMove(x, y);
+
+        x = position.X - 2;
+        y = position.Y + 1;
+
+        tryAddMove(x, y);
+
+        x = position.X + 2;
+        y = position.Y - 1;
+
+        tryAddMove(x, y);
+
+        x = position.X + 2;
+        y = position.Y + 1;
+
+        tryAddMove(x, y);
     }
 
     private void getBishopMoves() {
+        int x, y;
+        for (int i = -8; i < 8; i++) {
 
+            if (i == 0)
+                continue;
+
+            x = position.X + i;
+            y = position.Y + i;
+
+            tryAddMove(x, y);
+
+            y = position.Y - i;
+            tryAddMove(x, y);
+        }
     }
 
     private void getQueenMoves() {
-
+        getKingMoves();
+        getBishopMoves();
+        getRookMoves();
     }
 
     private void getKingMoves() {
+        int x, y;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
 
+                if (i == 0 && j == 0)
+                    continue;
+
+                x = position.X + i;
+                y = position.Y + i;
+
+                tryAddMove(x, y);
+            }
+        }
     }
 
     private void getPawnMoves() {
+        int direction = isColor(Color.White) ? 1 : -1;
 
+        int x, y;
+
+        x = position.X + direction * 2;
+        y = position.Y;
+        tryAddMove(x, y);
+
+        x = position.X + direction;
+        tryAddMove(x, y);
+
+        y = position.Y + 1;
+        tryAddMove(x, y);
+
+        y = position.Y - 1;
+        tryAddMove(x, y);
     }
 
     public Piece(final Color color, final Type type, final Vector position) {
@@ -188,23 +262,88 @@ public class Piece {
         if ((x <= -1 || x >= 8) || (y <= -1 || y >= 8))
             return false;
 
-        //TODO: CHECK IF DESTINATION IS NULL && COLOR IS SAME => FALSE
+        if (!Board.isNull(x, y) && isColor(Board.get(x, y).getColor()))
+            return false;
 
         final int code = getTypeCode();
 
-        switch (code) {
-            case 6:
-                return canPawnMove(x, y);
-            case 5:
-            case 4:
-            case 3:
-            case 2:
-            case 1:
-        }
-        return false;
+        return switch (code) {
+            case 6 -> canPawnMove(x, y);
+            case 5 -> canKingMove(x, y);
+            case 4 -> canQueenMove(x, y);
+            case 3 -> canBishopMove(x, y);
+            case 2 -> canKnightMove(x, y);
+            case 1 -> canRookMove(x, y);
+            default -> throw new IndexOutOfBoundsException(code);
+        };
     }
 
-    private boolean canPawnMove(int x,int y) {
+    private boolean canRookMove(int x, int y) {
+        if (position.X != x && position.Y != y)
+            return false;
+
+        int ddx = (position.X == x) ? 0
+                : (x - position.X) / Math.abs(x - position.X);
+        int ddy = (position.Y == y) ? 0
+                : (y - position.Y) / Math.abs(y - position.Y);
+
+        return Board.inPath(position, x, y, ddx, ddy);
+    }
+
+    private boolean canKnightMove(int x, int y) {
+        int ddx = Math.abs(x - position.X);
+        int ddy = Math.abs(y - position.Y);
+
+        return (ddx == 2 && ddy == 1) || (ddx == 1 && ddy == 2);
+    }
+
+    private boolean canBishopMove(int x, int y) {
+        int ddx = Math.abs(x - position.X);
+        int ddy = Math.abs(y - position.Y);
+
+        if (ddx != ddy)
+            return false;
+
+        ddx = Integer.signum(x - position.X);
+        ddy = Integer.signum(y - position.Y);
+
+        return Board.inPath(position, x, y, ddx, ddy);
+    }
+
+    private boolean canQueenMove(int x, int y) {
+        int ddx = Math.abs(x - position.X);
+        int ddy = Math.abs(y - position.Y);
+
+        if (ddx != ddy && ddx != 0 && ddy != 0)
+            return false;
+
+        ddx = Integer.compare(x, position.X);
+        ddy = Integer.compare(y, position.Y);
+
+        return Board.inPath(position, x, y, ddx, ddy);
+    }
+
+    private boolean canKingMove(int x, int y) {
+        int ddx = Math.abs(x - position.X);
+        int ddy = Math.abs(y - position.Y);
+
+        return ddx <= 1 && ddy <= 1;
+
+    }
+
+    private boolean canPawnMove(int x, int y) {
+        int direction = isColor(Color.White) ? 1 : -1;
+
+        if (y == position.Y && (x == position.X + direction
+                || (position.X == 1 || position.X == 6)
+                && x == position.X + (2 * direction))) {
+            return Board.isNull(x, y);
+        }
+
+        if (Math.abs(y - position.Y) == 1 && x == position.X + direction) {
+            return !Board.isNull(x, y) && !isColor(Board.get(x, y).getColor());
+        }
+
         return false;
     }
 }
