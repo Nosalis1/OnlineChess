@@ -17,9 +17,22 @@ public class Game extends Window {
         super.setLocationRelativeTo(null);
 
         createTable();
+        createInfo();
     }
 
     gui.images.Field[][] fields = null;
+
+    public gui.images.Field[][] getFields() {
+        return this.fields;
+    }
+
+    public gui.images.Field getField(final int x,final int y) {
+        return this.fields[x][y];
+    }
+
+    public gui.images.Field getField(final Vector at) {
+        return getField(at.X, at.Y);
+    }
 
     private void createTable() {
         JPanel tablePanel = new JPanel();
@@ -39,5 +52,9 @@ public class Game extends Window {
         }
 
         add(tablePanel);
+    }
+
+    private void createInfo(){
+        //TODO: OVDE KOLEGA LUKA ODRADITE TRAZENI DIZAJN
     }
 }
