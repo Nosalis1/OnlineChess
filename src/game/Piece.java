@@ -221,7 +221,7 @@ public class Piece {
                     continue;
 
                 x = position.X + i;
-                y = position.Y + i;
+                y = position.Y + j;
 
                 tryAddMove(x, y);
             }
