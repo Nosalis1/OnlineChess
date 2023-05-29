@@ -2,8 +2,6 @@ package game.users;
 
 import util.Array;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -18,7 +16,7 @@ public class User {
     private final String password;
     public User(String userName, String password) {
         this.userName = userName;
-        this.password = password;
+        this.password = getMD5StringHash(password);
     }
 
     public static boolean login(String userName, String password) {
@@ -32,9 +30,8 @@ public class User {
         return false;
     }
 
+    private static final String DATA_PATH = "src/game/users/UserData";
     public static void loadUsers() throws IOException {
-        final String DATA_PATH = "src/game/users/UserData";
-
         try (FileReader fileReader = new FileReader(DATA_PATH)) {
             JsonObject json = gson.fromJson(fileReader, JsonObject.class);
             JsonArray usersArray = json.getAsJsonArray("users");
@@ -49,40 +46,89 @@ public class User {
         }
     }
 
-//    public static void removeUsers(String[] userNames) {
-//        for (String userName : userNames)
-//            removeUsers(userName);
-//    }
-//    public static void removeUsers(String userName) {
-//
-//    }
-//    public static void addUsers(String[] userNames) {
-//        List<String> unprocessedUsers = new ArrayList<>();
-//        for (String userName : userNames) {
-//            if (!existingUsers.contains())
-//                unprocessedUsers.add(userName);
-//            addUsers(userName);
-//        }
-//    }
-//    public static void addUsers(String userName) {
-//
-//    }
-//
+    public boolean addUser() throws IOException {
+        if (!existingUsers.contains(this)) {
+            try (FileReader fileReader = new FileReader(DATA_PATH)) {
+                JsonObject json = gson.fromJson(fileReader, JsonObject.class);
+                JsonArray usersArray = json.getAsJsonArray("users");
+
+                JsonObject obj = new JsonObject();
+                obj.addProperty("username", this.userName);
+                obj.addProperty("password", this.password);
+                usersArray.add(obj);
+            }
+            return true;
+        }
+        return false;
+    }
+    public static boolean addUser(String userName, String password) throws IOException {
+        User user = new User(userName, getMD5StringHash(password));
+        if (!existingUsers.contains(user))
+            return user.addUser();
+        return false;
+    }
+    public static boolean addUser(User user) throws IOException {
+        if (!existingUsers.contains(user))
+            return user.addUser();
+        return false;
+    }
+
+    public boolean removeUser() throws IOException {
+        if (existingUsers.contains(this)) {
+            JsonArray usersArray;
+            try (FileReader fileReader = new FileReader(DATA_PATH)) {
+                JsonObject json = gson.fromJson(fileReader, JsonObject.class);
+                usersArray = json.getAsJsonArray("users");
+            }
+            for (JsonElement userElement : usersArray) {
+                JsonObject userObject = userElement.getAsJsonObject();
+                String userName = userObject.get("username").getAsString();
+                String passwordHash = userObject.get("password").getAsString();
+                if (userName.equals(this.userName) && passwordHash.equals(this.password)) {
+                    usersArray.remove(userObject);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean removeUser(String userName) throws IOException {
+        boolean userExists = false;
+        User user = null;
+        for (User dummy : existingUsers.getArray())
+            if (dummy.getUserName().equals(userName)) {
+                userExists = true;
+                user = dummy;
+                break;
+            }
+        if (userExists)
+            return user.removeUser();
+        return false;
+    }
+    public static boolean removeUser(User user) throws IOException {
+        if (existingUsers.contains(user))
+            return user.removeUser();
+        return false;
+    }
+
     public final String getUserName() {
         return this.userName;
     }
     public final boolean isCorrectPassword(String password) {
+        return this.password.equals(getMD5StringHash(password));
+    }
+
+    private static String getMD5StringHash(String inputString) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
+            md.update(inputString.getBytes());
             StringBuilder hexString = new StringBuilder();
             for (byte b : md.digest())
                 hexString.append(String.format("%02x", b));
-            util.Console.message(hexString.toString());
-            return this.password.equals(hexString.toString().toLowerCase());
+            return hexString.toString().toLowerCase();
         } catch (java.security.NoSuchAlgorithmException e) {
-            util.Console.error("Set hashing algorithm in password comparing method doesn't exist!");
-            return false;
+            util.Console.error("Set hashing algorithm in User class doesn't exist!");
+            return "";
         }
     }
 }
