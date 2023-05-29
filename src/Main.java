@@ -1,5 +1,12 @@
+import util.Array;
+
 public class Main {
     public static void main(String[] args) {
+
+        util.Array<String> someArray = new Array<>();
+        someArray.foreach((String item)->{
+            System.out.println(item);
+        });
 
         util.Console.message("Hello World!");
 

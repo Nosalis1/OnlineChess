@@ -191,6 +191,11 @@ public class Array<T> {
         resize(0);
     }
 
+    public void foreach(util.events.Action<T> action) {
+        for (T item : this.array)
+            action.run(item);
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

@@ -90,27 +90,87 @@ public class Piece {
         if (!position.inBounds(-1, 8))
             return;
         this.position = position;
-
-        updateMoves();
     }
 
     public void updatePosition(int x, int y) {
         this.position.X = x;
         this.position.Y = y;
-
-        updateMoves();
     }
 
-    private util.Array<Vector> moves = new Array<>();
+    private final util.Array<Vector> moves = new Array<>();
 
     public util.Array<Vector> getMoves() {
+        updateMoves();
         return this.moves;
+    }
+
+    private void tryAddMove(int x,int y) {
+        if (canMove(x, y))
+            moves.add(new Vector(x, y));
     }
 
     public void updateMoves() {
         moves.clear();
 
-        //TODO: UPDATE MOVES
+        final int code = getTypeCode();
+
+        switch (code) {
+            case 6 -> getPawnMoves();
+            case 5 -> getKingMoves();
+            case 4 -> getQueenMoves();
+            case 3 -> getBishopMoves();
+            case 2 -> getKnightMoves();
+            case 1 -> getRookMoves();
+            default -> throw new IndexOutOfBoundsException(code);
+        }
+    }
+
+    private void getRookMoves() {
+        int x, y;
+        for (int i = 0; i < 8; i++) {
+            x = position.X;
+            y = i;
+
+            tryAddMove(x, y);
+
+            x = i;
+            y = position.Y;
+
+            tryAddMove(x, y);
+        }
+    }
+
+    private void getKnightMoves() {
+/*
+
+-1	-2
+-1	+2
++1	-2
++1	+2
+
+-2	-1
+-2	+1
++2	-1
++2	+1
+
+ */
+
+    }
+
+    private void getBishopMoves() {
+
+    }
+
+    private void getQueenMoves() {
+
+    }
+
+    private void getKingMoves() {
+
+    }
+
+    private void getPawnMoves() {
+
     }
 
     public Piece(final Color color, final Type type, final Vector position) {
@@ -145,6 +205,6 @@ public class Piece {
     }
 
     private boolean canPawnMove(int x,int y) {
-return false;
+        return false;
     }
 }
