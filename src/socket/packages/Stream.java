@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.Buffer;
 
 public class Stream {
     protected PrintWriter out;
@@ -21,11 +22,6 @@ public class Stream {
 
     protected void initializeStreams(Socket socket) {
         try {
-            if (out != null)
-                out.close();
-            if (in != null)
-                in.close();
-
             this.out = new PrintWriter(socket.getOutputStream(), true);
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
             this.in = new BufferedReader(isr);
@@ -43,10 +39,14 @@ public class Stream {
 
     public Packet receive(Packet packet) {
         try {
-            packet.setBuffer(in.readLine());
+            String buffer = in.readLine();
+            System.out.println(buffer);
+            packet.setBuffer(buffer);
+            return packet;
         } catch (Exception ex) {
             ex.printStackTrace();
+            System.exit(-1);
         }
-        return packet;
+        return null;
     }
 }

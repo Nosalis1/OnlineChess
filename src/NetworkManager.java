@@ -1,25 +1,23 @@
-import socket.LocalClient;
-import socket.Server;
-import socket.ServerClient;
-import socket.ServerRoom;
+import socket.*;
 import socket.events.ServerEventable;
 
 import java.net.Socket;
 
 public class NetworkManager implements ServerEventable {
-    public static NetworkManager instance;
+    public static NetworkManager instance = null;
 
     public static boolean initialize() {
-        if (Server.isMasterUp())
+        if (instance != null)
             return false;
 
-        if (instance == null)
-            instance = new NetworkManager();
+        instance = new NetworkManager();
 
-        Server.start();
-        Server.startListening();
-        //Server.stop();
-        return true;
+        if (!Server.isMasterUp()) {
+            Server.start();
+            Server.startListening();
+            return true;
+        }
+        return false;
     }
 
     public NetworkManager() {
@@ -51,7 +49,6 @@ public class NetworkManager implements ServerEventable {
         ServerRoom room = RoomManager.findOpenRoom();
         room = room == null ? RoomManager.createNewRoom() : room;
 
-        ServerClient serverClient = new ServerClient(clientSocket);
-        room.clientTryJoin(serverClient);
+        room.clientTryJoin(new Client(clientSocket));
     }
 }

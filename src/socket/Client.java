@@ -13,7 +13,12 @@ public class Client extends Stream {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-        super.initializeStreams(this.socket);
+        try {
+            this.socket.setSoTimeout(0);
+            super.initializeStreams(this.socket);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public Client(){}

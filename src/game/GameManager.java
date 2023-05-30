@@ -1,9 +1,12 @@
-import game.Board;
-import game.Piece;
+package game;
+
+import audio.AudioManager;
 import gui.ColorGradient;
 import gui.Game;
 import gui.images.Field;
 import gui.images.Image;
+import socket.LocalClient;
+import socket.packages.Packet;
 import util.Array;
 import util.Vector;
 
@@ -19,8 +22,8 @@ public class GameManager {
         Field.onFieldClicked.add(this::onFieldClicked);
 
         Board.onPieceEaten.add(this::onPieceEaten);
-        Board.onPieceWillMove.add(this::onPieceWillMove);
         Board.onPieceMoved.add(this::onPieceMoved);
+        Board.onPieceMove.add(this::onPieceMove);
 
         Board.reset();
         updateAll();
@@ -42,16 +45,19 @@ public class GameManager {
         Game.instance.getField(at).setImage(null);
     }
 
-    private void onPieceWillMove(Piece piece) {
-        util.Vector at = piece.getPosition();
-
-        Game.instance.getField(at).setImage(null);
-    }
-
     private void onPieceMoved(Piece piece) {
         util.Vector at = piece.getPosition();
 
         Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+
+        nextTurn();
+    }
+
+    private void onPieceMove(Move move) {
+        util.Vector at = move.getFrom();
+        Game.instance.getField(at).setImage(null);
+
+        LocalClient.instance.send(new Packet(move.pack()));
     }
 
     private final Array<Field> currentHighlights = new Array<>();
@@ -88,10 +94,36 @@ public class GameManager {
         });
     }
 
+    private boolean white = true;
+
+    public void changeColor() {
+        this.white = !this.white;
+    }
+
+    public boolean isWhite() {
+        return this.white;
+    }
+
+    private boolean whiteTurn = true;
+
+    public boolean isWhiteTurn() {
+        return this.whiteTurn;
+    }
+
+    public void nextTurn() {
+        whiteTurn = !whiteTurn;
+    }
+
+    public boolean canPlay() {
+        return isWhite() && isWhiteTurn();
+    }
+
     Vector selected;
 
     private void handleClicked(Vector at) {
-        if (selected == null && !Board.isNull(at)) {
+        if (!canPlay())
+            return;
+        if (selected == null && (!Board.isNull(at) && Board.get(at).isColor(isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
             setSelected(at);
         } else if (selected == at) {
@@ -106,5 +138,24 @@ public class GameManager {
 
     private void onFieldClicked(Vector at) {
         handleClicked(at);
+    }
+
+    final Move networkMove = new Move(Vector.ZERO, Vector.ZERO);
+
+    public void handleNetworkPackage(final Packet packet) {
+
+        if (packet.equals(Packet.START_GAME)) {
+            //TODO:START GAME
+            Game.instance.showWindow();
+            AudioManager.playClip(3);
+        } else if (packet.equals(Packet.CHANGE_COLOR)) {
+            changeColor();
+        } else if (packet.equals(Packet.DISCONNECTED)) {
+            //TODO:HANDLE DISCONNECTED
+        } else {
+            //TODO:HANDLE CUSTOM PACKAGE
+            //networkMove.unapck(packet.getBuffer());
+            //Board.move(networkMove);
+        }
     }
 }

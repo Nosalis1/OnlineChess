@@ -140,22 +140,26 @@ public class Board {
     }
 
     public static util.events.ArgEvent<Piece> onPieceEaten = new ArgEvent<>();
-    public static util.events.ArgEvent<Piece> onPieceWillMove = new ArgEvent<>();
+    public static util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
     public static util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
     public static void move(final Vector from,final Vector to) {
+        onPieceMove.run(new Move(from,to));
+
         Piece temp = get(from);
 
         if (!isNull(to))
             onPieceEaten(get(to));
-
-        onPieceWillMove.run(temp);
 
         pieces[from.X][from.Y] = null;
         pieces[to.X][to.Y] = temp;
 
         temp.updatePosition(to);
         onPieceMoved.run(temp);
+    }
+
+    public static void move(final Move move) {
+        move(move.getFrom(), move.getTo());
     }
 
     public static boolean tryMove(final Vector from,final Vector to) {
@@ -166,5 +170,8 @@ public class Board {
             return true;
         }
         return false;
+    }
+    public static boolean tryMove(final Move move) {
+        return tryMove(move.getFrom(), move.getTo());
     }
 }

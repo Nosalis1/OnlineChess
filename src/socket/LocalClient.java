@@ -1,5 +1,6 @@
 package socket;
 
+import game.GameManager;
 import socket.packages.Packet;
 import util.Console;
 
@@ -25,7 +26,7 @@ public class LocalClient extends Client implements Runnable {
             return;
 
         try {
-            //TODO: SEND SERVER MSG TO DISCONNECT
+            instance.send(Packet.DISCONNECTED);
             instance.getSocket().close();
             instance = null;
         } catch (Exception ex) {
@@ -41,6 +42,8 @@ public class LocalClient extends Client implements Runnable {
 
     private Packet packet = new Packet("");
 
+    boolean iff(){return true;}
+
     @Override
     public void run() {
 
@@ -49,16 +52,21 @@ public class LocalClient extends Client implements Runnable {
             return;
         }
 
+        System.out.println("CLIENT START LISTENING");
+
+        while(true) {
+            if (!iff())
+                break;
+        }
         do {
             this.packet = receive(this.packet);
         } while (handlePacket());
 
+        System.out.println("CLIENT STOP LISTENING");
     }
 
     private boolean handlePacket() {
-
-        //TODO: HANDLE PACKET
-
+        GameManager.instance.handleNetworkPackage(packet);
         return true;
     }
 }

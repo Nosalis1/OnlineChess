@@ -1,6 +1,8 @@
 package util;
 
-public class Vector {
+import socket.packages.Streamable;
+
+public class Vector implements Streamable {
     // Public fields for X and Y coordinates
     public int X, Y;
 
@@ -27,7 +29,7 @@ public class Vector {
     }
 
     // Add the components of another vector to this vector
-    public void add(final int x,final int y) {
+    public void add(final int x, final int y) {
         this.X += x;
         this.Y += y;
     }
@@ -91,5 +93,19 @@ public class Vector {
         X = Y;
         Y = i;
     }
-}
 
+    @Override
+    public String pack() {
+        return X + "," + Y;
+    }
+
+    @Override
+    public void unapck(String buffer) {
+        String[] values = buffer.split(",");
+        if (values.length == 2) {
+            this.X = Integer.parseInt(values[0]);
+            this.Y = Integer.parseInt(values[1]);
+        } else
+            throw new IllegalArgumentException("Invalid buffer format");
+    }
+}

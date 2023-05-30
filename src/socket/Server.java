@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class Server {
     public static final int PORT = 51130;
-    public static final int MAX_SOCKET_CONNECTIONS = 2;
+    public static final int MAX_SOCKET_CONNECTIONS = 4;
 
     private static ServerSocket serverSocket = null;
 
@@ -112,8 +112,8 @@ public class Server {
         while (isListening()) {
 
             Console.message("Waiting for new connection...", Console.PrintType.Socket);
-            try (Socket clientSocket = serverSocket.accept()) {
-
+            try {
+                Socket clientSocket = serverSocket.accept();
                 handleNewConnection(clientSocket);
 
                 if (connectedSockets.size() >= MAX_SOCKET_CONNECTIONS)

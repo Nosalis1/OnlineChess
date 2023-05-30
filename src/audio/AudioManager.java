@@ -1,4 +1,5 @@
-import audio.AudioClip;
+package audio;
+
 import game.Board;
 import game.Piece;
 import util.Array;

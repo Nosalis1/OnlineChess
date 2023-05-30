@@ -22,4 +22,8 @@ public class Packet {
     public void unapck(Streamable streamable) {
         streamable.unapck(this.buffer);
     }
+
+    public static final Packet DISCONNECTED = new Packet("DISCONNECTED");
+    public static final Packet START_GAME = new Packet("START_GAME");
+    public static final Packet CHANGE_COLOR = new Packet("CHANGE_COLOR");
 }

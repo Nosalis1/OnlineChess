@@ -6,9 +6,9 @@ import util.events.ArgEvent;
 public class ServerRoom implements Runnable {
     public static final int MAX_CLIENTS = 2;
 
-    private final util.Array<ServerClient> clients = new Array<>();
+    private final util.Array<Client> clients = new Array<>();
 
-    public util.Array<ServerClient> getClients() {
+    public util.Array<Client> getClients() {
         return this.clients;
     }
 
@@ -24,7 +24,11 @@ public class ServerRoom implements Runnable {
         return this.inProgress;
     }
 
-    public void clientTryJoin(ServerClient client) {
+    public void clientTryJoin(Client client) {
+        clients.foreach((Client c) -> {
+            if (c.getSocket().isClosed())
+                System.out.println("CLOSED BEFORE THREAD CALL");
+        });
         if (!isOpen()) {
             return;
         }
@@ -49,10 +53,13 @@ public class ServerRoom implements Runnable {
 
     @Override
     public void run() {
-        if (inProgress)
-            return;
         inProgress = true;
 
-        onRoomStarted.run(this);
+        clients.foreach((Client client) -> {
+            if (client.getSocket().isClosed())
+                System.out.println("CLOSED IN ROOM");
+        });
+        //onRoomStarted.run(this); TODO:HANDLE THIS
+        inProgress = false;
     }
 }
