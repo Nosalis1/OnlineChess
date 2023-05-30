@@ -25,10 +25,6 @@ public class ServerRoom implements Runnable {
     }
 
     public void clientTryJoin(Client client) {
-        clients.foreach((Client c) -> {
-            if (c.getSocket().isClosed())
-                System.out.println("CLOSED BEFORE THREAD CALL");
-        });
         if (!isOpen()) {
             return;
         }
@@ -55,11 +51,7 @@ public class ServerRoom implements Runnable {
     public void run() {
         inProgress = true;
 
-        clients.foreach((Client client) -> {
-            if (client.getSocket().isClosed())
-                System.out.println("CLOSED IN ROOM");
-        });
-        //onRoomStarted.run(this); TODO:HANDLE THIS
+        onRoomStarted.run(this);
         inProgress = false;
     }
 }

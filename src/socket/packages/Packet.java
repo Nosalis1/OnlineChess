@@ -15,6 +15,10 @@ public class Packet {
         this.buffer = buffer;
     }
 
+    public boolean equals(Packet other) {
+        return this.buffer.equals(other.getBuffer());
+    }
+
     public void pack(Streamable streamable) {
         this.buffer = streamable.pack();
     }

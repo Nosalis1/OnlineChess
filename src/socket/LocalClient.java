@@ -42,8 +42,6 @@ public class LocalClient extends Client implements Runnable {
 
     private Packet packet = new Packet("");
 
-    boolean iff(){return true;}
-
     @Override
     public void run() {
 
@@ -54,10 +52,6 @@ public class LocalClient extends Client implements Runnable {
 
         System.out.println("CLIENT START LISTENING");
 
-        while(true) {
-            if (!iff())
-                break;
-        }
         do {
             this.packet = receive(this.packet);
         } while (handlePacket());
