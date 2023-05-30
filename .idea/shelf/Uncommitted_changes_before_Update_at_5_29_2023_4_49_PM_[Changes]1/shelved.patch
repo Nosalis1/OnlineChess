@@ -1,0 +1,87 @@
+Index: src/game/users/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/game/users/User.java b/src/game/users/User.java
+--- a/src/game/users/User.java	
++++ b/src/game/users/User.java	
+@@ -49,40 +49,53 @@
+         }
+     }
+ 
+-//    public static void removeUsers(String[] userNames) {
+-//        for (String userName : userNames)
+-//            removeUsers(userName);
+-//    }
+-//    public static void removeUsers(String userName) {
+-//
+-//    }
+-//    public static void addUsers(String[] userNames) {
+-//        List<String> unprocessedUsers = new ArrayList<>();
+-//        for (String userName : userNames) {
+-//            if (!existingUsers.contains())
+-//                unprocessedUsers.add(userName);
+-//            addUsers(userName);
+-//        }
+-//    }
+-//    public static void addUsers(String userName) {
+-//
+-//    }
+-//
++    public static boolean addUser(String userName) {
++        if (!existingUsers.contains())
++
++    }
++
++    public void removeUser() {
++
++    }
++    public static boolean removeUser(String userName) {
++        boolean userExists = false;
++        for (User user : existingUsers.getArray())
++            if (user.getUserName().equals(userName)) {
++                userExists = true;
++                break;
++            }
++        if (userExists) {
++            return true;
++        }
++        else return false;
++    }
++    public static boolean removeUser(User user) {
++        if (existingUsers.contains(user))
++
++    }
++
++    public void changeUserPassword() {
++
++    }
++
+     public final String getUserName() {
+         return this.userName;
+     }
+     public final boolean isCorrectPassword(String password) {
++        return this.password.equals(getMD5StringHash(password));
++    }
++
++    private String getMD5StringHash(String inputString) {
+         try {
+             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+-            md.update(password.getBytes());
++            md.update(inputString.getBytes());
+             StringBuilder hexString = new StringBuilder();
+             for (byte b : md.digest())
+                 hexString.append(String.format("%02x", b));
+-            util.Console.message(hexString.toString());
+-            return this.password.equals(hexString.toString().toLowerCase());
++            return hexString.toString().toLowerCase();
+         } catch (java.security.NoSuchAlgorithmException e) {
+-            util.Console.error("Set hashing algorithm in password comparing method doesn't exist!");
+-            return false;
++            util.Console.error("Set hashing algorithm in User class doesn't exist!");
++            return "";
+         }
+     }
+ }
+\ No newline at end of file

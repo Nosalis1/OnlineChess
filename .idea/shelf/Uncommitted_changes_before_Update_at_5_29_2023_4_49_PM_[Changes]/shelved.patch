@@ -1,0 +1,72 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,15 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Editing users">
+-      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/OnlineChess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OnlineChess.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/game/users/UserData" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/UserData" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/util/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Array.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -63,7 +56,7 @@
+     "project.structure.proportion": "0.15",
+     "project.structure.side.proportion": "0.2",
+     "run.code.analysis.last.selected.profile": "pProject Default",
+-    "settings.editor.selected.configurable": "preferences.lookFeel"
++    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Language Defaults"
+   }
+ }]]></component>
+   <component name="RunManager">
+@@ -86,7 +79,7 @@
+       <workItem from="1685305074441" duration="15046000" />
+       <workItem from="1685364113165" duration="384000" />
+       <workItem from="1685364512410" duration="58000" />
+-      <workItem from="1685364581139" duration="3526000" />
++      <workItem from="1685364581139" duration="6707000" />
+     </task>
+     <task id="LOCAL-00001" summary="Setup">
+       <created>1685172992366</created>
+@@ -137,7 +130,28 @@
+       <option name="project" value="LOCAL" />
+       <updated>1685277126581</updated>
+     </task>
+-    <option name="localTasksCounter" value="8" />
++    <task id="LOCAL-00008" summary="Editing users">
++      <created>1685368373968</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1685368373968</updated>
++    </task>
++    <task id="LOCAL-00009" summary="Editing users">
++      <created>1685368414894</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1685368414894</updated>
++    </task>
++    <task id="LOCAL-00010" summary="Editing users">
++      <created>1685368442750</created>
++      <option name="number" value="00010" />
++      <option name="presentableId" value="LOCAL-00010" />
++      <option name="project" value="LOCAL" />
++      <updated>1685368442750</updated>
++    </task>
++    <option name="localTasksCounter" value="11" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
