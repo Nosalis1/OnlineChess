@@ -1,5 +1,6 @@
 package game.users;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import util.Array;
 import java.io.*;
 
@@ -14,9 +15,9 @@ public class User {
 
     private final String userName;
     private final String password;
-    public User(String userName, String password) {
+    public User(String userName, String passwordHash) {
         this.userName = userName;
-        this.password = getMD5StringHash(password);
+        this.password = passwordHash;
     }
 
     public static boolean login(String userName, String password) {
@@ -95,12 +96,14 @@ public class User {
     public static boolean removeUser(String userName) throws IOException {
         boolean userExists = false;
         User user = null;
-        for (User dummy : existingUsers.getArray())
+        for (int i = 0; i < existingUsers.size(); i++) {
+            User dummy = existingUsers.get(i);
             if (dummy.getUserName().equals(userName)) {
                 userExists = true;
                 user = dummy;
                 break;
             }
+        }
         if (userExists)
             return user.removeUser();
         return false;
@@ -115,6 +118,7 @@ public class User {
         return this.userName;
     }
     public final boolean isCorrectPassword(String password) {
+        util.Console.message(this.password);
         return this.password.equals(getMD5StringHash(password));
     }
 
@@ -125,6 +129,8 @@ public class User {
             StringBuilder hexString = new StringBuilder();
             for (byte b : md.digest())
                 hexString.append(String.format("%02x", b));
+            util.Console.message("1");
+            util.Console.message(hexString.toString().toLowerCase());
             return hexString.toString().toLowerCase();
         } catch (java.security.NoSuchAlgorithmException e) {
             util.Console.error("Set hashing algorithm in User class doesn't exist!");

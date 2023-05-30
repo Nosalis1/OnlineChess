@@ -118,6 +118,8 @@ public class GameManager {
         return (isWhite() && isWhiteTurn()) || (!isWhite() && !isWhiteTurn());
     }
 
+    // TODO: add getUsername
+
     Vector selected;
 
     private void handleClicked(Vector at) {

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Menu extends  Window implements ActionListener {
+public class Menu extends Window implements ActionListener {
 
     public static final Menu instance = new Menu();
 

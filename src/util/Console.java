@@ -61,12 +61,19 @@ public class Console {
     public static void message(String message) {
         message(message, PrintType.Log);
     }
+    public static void message(int message) {
+        message(String.valueOf(message), PrintType.Log);
+    }
 
     public static void warning(String message) {
         warning(message, PrintType.Log);
+    }
+    public static void warning(int message) {
+        warning(String.valueOf(message), PrintType.Log);
     }
 
     public static void error(String message) {
         error(message, PrintType.Log);
     }
+    public static void error(int message) { error(String.valueOf(message), PrintType.Log); }
 }
