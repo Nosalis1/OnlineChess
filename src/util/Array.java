@@ -191,6 +191,10 @@ public class Array<T> {
         resize(0);
     }
 
+    /**
+     * Executes the specified action for each item in the array.
+     * @param action the action to execute for each item
+     */
     public void foreach(util.events.Action<T> action) {
         for (T item : this.array)
             action.run(item);

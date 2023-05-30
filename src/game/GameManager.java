@@ -52,7 +52,7 @@ public class GameManager {
         Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
 
         nextTurn();
-        System.out.println("WHITE TURN : "+isWhiteTurn());
+        System.out.println("WHITE TURN : " + isWhiteTurn());
     }
 
     private void onPieceMove(Move move) {
@@ -145,7 +145,6 @@ public class GameManager {
     public void handleNetworkPackage(final Packet packet) {
 
         if (packet.equals(Packet.START_GAME)) {
-            //TODO:START GAME
             Game.instance.showWindow();
             AudioManager.playClip(3);
 
@@ -157,17 +156,14 @@ public class GameManager {
         } else {
             //TODO:HANDLE CUSTOM PACKAGE
             Console.warning(packet.getBuffer());
-            //packet.unapck(networkMove);
+            //packet.unpack(networkMove);//TODO:FIX THIS (RETURN CONSTANT VALUE)
 
             Vector from = new Vector(), to = new Vector();
             String[] values = packet.getBuffer().split("~");
-            for (String str : values)
-                System.out.println(str);
+
             if (values.length == 2) {
                 from.unapck(values[0]);
-                System.out.println("CONVERTED FROM : " + from.toString());
                 to.unapck(values[1]);
-                System.out.println("CONVERTED TO : " + to.toString());
             } else
                 throw new IllegalArgumentException("Invalid buffer format");
 

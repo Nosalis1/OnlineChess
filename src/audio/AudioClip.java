@@ -1,5 +1,7 @@
 package audio;
 
+import util.Console;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -7,95 +9,121 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class AudioClip {
-    // Private fields for the name and Clip object
+    /**
+     * Represents the name of the audio clip.
+     */
     private String name;
+
+    /**
+     * Represents the Clip object that holds the audio data.
+     */
     private Clip clip;
 
-    // Getter for the Clip object
+    /**
+     * Retrieves the Clip object of the audio clip.
+     *
+     * @return the Clip object of the audio clip
+     */
     public final Clip getClip() {
         return this.clip;
     }
 
-    // Getter for the name
+    /**
+     * Retrieves the name of the audio clip.
+     *
+     * @return the name of the audio clip
+     */
     public final String getName() {
         return name;
     }
 
-    // Setter for the name
+    /**
+     * Sets the name of the audio clip.
+     *
+     * @param name the name of the audio clip
+     */
     public void setName(final String name) {
         this.name = name;
     }
 
-    // Constructor for the AudioClip class
+    /**
+     * Checks if the audio clip is currently running.
+     *
+     * @return true if the audio clip is running, false otherwise
+     */
+    public final boolean isRunning() {
+        return this.clip != null && this.clip.isRunning();
+    }
+
+    /**
+     * Constructs an AudioClip object with the specified file name.
+     *
+     * @param fileName the name of the audio file
+     */
     public AudioClip(String fileName) {
-        // Call the private load method to load the audio clip from the file
         load(fileName);
     }
 
-    // Private method to load the audio clip from the file
+    /**
+     * Loads the audio file and initializes the Clip object.
+     *
+     * @param fileName the name of the audio file
+     */
     private void load(String fileName) {
-        // Initialize the clip to null
+        util.Console.message("Loading new AudioClip : " + fileName, Console.PrintType.Audio);
         this.clip = null;
 
         try {
-            // Create a File object using the provided file name
             File file = new File(fileName);
-
-            // Set the name of the audio clip to the file name
             this.name = file.getName();
 
-            // Get a Clip object from the AudioSystem
             this.clip = AudioSystem.getClip();
-
-            // Open the audio clip using the AudioSystem's AudioInputStream
             this.clip.open(AudioSystem.getAudioInputStream(file));
-        } catch (IOException ex) {
-            // Print the stack trace if an IOException occurs during audio loading
-            ex.printStackTrace();
         } catch (Exception ex) {
-            // Print the stack trace if any other exception occurs during audio loading
+            util.Console.error("Failed to load new AudioClip : " + fileName, Console.PrintType.Audio);
             ex.printStackTrace();
         }
+        util.Console.message("AudioClip loaded : " + this.name, Console.PrintType.Audio);
     }
 
-    // Play the audio clip
+    /**
+     * Plays the audio clip.
+     * If the audio clip is already playing, it will be stopped and restarted.
+     */
     public void play() {
-        // Check if the clip is null, throw an exception if it is
-        if (this.clip == null)
+        if (this.clip == null) {
+            util.Console.error("Failed to play AudioClip", Console.PrintType.Audio);
             throw new NullPointerException();
+        }
 
-        // Stop the clip if it is already running
         stop();
 
-        // Set the frame position of the clip to the beginning
         restart();
 
-        // Start playing the clip
         this.clip.start();
     }
 
-    // Stop the audio clip
+    /**
+     * Stops the audio clip if it is currently running.
+     */
     public void stop() {
-        // Return if the clip is not running
-        if (!isRunning())
+        if (!isRunning()) {
+            util.Console.warning("Trying to stop already stopped AudioClip", Console.PrintType.Audio);
             return;
+        }
 
-        // Stop the clip
         this.clip.stop();
     }
 
-    // Restart the audio clip by setting the frame position to the beginning
+    /**
+     * Restarts the audio clip by setting its frame position to 0.
+     */
     public void restart() {
-        // Return if the clip is null
-        if (this.clip == null)
-            return;
+        if (this.clip == null) {
+            util.Console.error("Trying to restart non existing clip", Console.PrintType.Audio);
+            throw new NullPointerException();
+        }
 
-        // Set the frame position of the clip to the beginning
         this.clip.setFramePosition(0);
-    }
-
-    // Check if the audio clip is currently running
-    public final boolean isRunning() {
-        return this.clip != null && this.clip.isRunning();
     }
 }

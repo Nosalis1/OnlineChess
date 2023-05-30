@@ -11,27 +11,37 @@ public class LocalClient extends Client implements Runnable {
     public static LocalClient instance;
 
     public static void connect() {
-        if (instance != null)
+        util.Console.message("Trying to connect LocalClient", Console.PrintType.Socket);
+        if (instance != null) {
+            util.Console.error("Failed to connect LocalClient.LocalClient is already connected!", Console.PrintType.Socket);
             return;
+        }
 
         try {
             instance = new LocalClient(new Socket(IP_ADDER, Server.PORT));
         } catch (Exception ex) {
+            util.Console.error("Failed to connect LocalClient!", Console.PrintType.Socket);
             ex.printStackTrace();
         }
+        util.Console.message("LocalClient connected to PORT : " + Server.PORT + " with address : " + IP_ADDER, Console.PrintType.Socket);
     }
 
     public static void disconnect() {
-        if (instance == null)
+        util.Console.message("Trying to disconnect LocalClient", Console.PrintType.Socket);
+        if (instance == null) {
+            util.Console.warning("Failed to disconnect LocalClient.LocalClient is not connected!", Console.PrintType.Socket);
             return;
+        }
 
         try {
             instance.send(Packet.DISCONNECTED);
             instance.getSocket().close();
             instance = null;
         } catch (Exception ex) {
+            util.Console.error("Failed to disconnect LocalClient!", Console.PrintType.Socket);
             ex.printStackTrace();
         }
+        util.Console.message("LocalClient disconnected", Console.PrintType.Socket);
     }
 
     public LocalClient(Socket socket) {
@@ -46,21 +56,19 @@ public class LocalClient extends Client implements Runnable {
     public void run() {
 
         if (getSocket().isClosed()) {
-            Console.error("SOCKET IS CLOSED!", Console.PrintType.Socket);
+            util.Console.error("LocalClient Socket is closed!", Console.PrintType.Socket);
             return;
         }
 
-        Console.message("Client started listening", Console.PrintType.Socket);
-
+        util.Console.message("LocalClient started listening", Console.PrintType.Socket);
         do {
             this.packet = receive(this.packet);
         } while (handlePacket());
-
-        Console.message("Client stopped listening", Console.PrintType.Socket);
+        util.Console.message("LocalClient stopped listening", Console.PrintType.Socket);
     }
 
     private boolean handlePacket() {
-        Console.message("Client received packet from Server", Console.PrintType.Socket);
+        Console.message("LocalClient received packet from Server", Console.PrintType.Socket);
         GameManager.instance.handleNetworkPackage(packet);
         return true;
     }

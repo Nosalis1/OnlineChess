@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 public class Console {
     public enum PrintType {
-        Log, Game, Gui, Socket, Util, Main
+        Log, Audio, Game, Gui, Socket, Util, Main
     }
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -28,24 +28,14 @@ public class Console {
 
     private static void printType(PrintType type) {
         System.out.print("[");
-        switch (type){
-            case Log:
-                System.out.print(ANSI_WHITE + " [Log] " + ANSI_RESET);
-                break;
-            case Game:
-                System.out.print(ANSI_BRIGHT_BLUE + " [Game] " + ANSI_RESET);
-                break;
-            case Gui:
-                System.out.print(ANSI_BRIGHT_PURPLE + " [Gui] " + ANSI_RESET);
-                break;
-            case Socket:
-                System.out.print(ANSI_CYAN + " [Socket] " + ANSI_RESET);
-                break;
-            case Util:
-                System.out.print(ANSI_PURPLE + " [Util] " + ANSI_RESET);
-                break;
-            default:
-                System.out.print(ANSI_BLUE + " [Main] " + ANSI_RESET);
+        switch (type) {
+            case Log -> System.out.print(ANSI_WHITE + " [Log] " + ANSI_RESET);
+            case Game -> System.out.print(ANSI_BRIGHT_BLUE + " [Game] " + ANSI_RESET);
+            case Audio -> System.out.print(ANSI_PURPLE + " [Audio] " + ANSI_RESET);
+            case Gui -> System.out.print(ANSI_BRIGHT_PURPLE + " [Gui] " + ANSI_RESET);
+            case Socket -> System.out.print(ANSI_CYAN + " [Socket] " + ANSI_RESET);
+            case Util -> System.out.print(ANSI_BRIGHT_BLACK + " [Util] " + ANSI_RESET);
+            default -> System.out.print(ANSI_BLUE + " [Main] " + ANSI_RESET);
         }
         System.out.print("]");
     }

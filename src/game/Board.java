@@ -164,8 +164,6 @@ public class Board {
         Move move = new Move(from, to);
 
         //Send move over network
-        System.out.print("SENDER-> MOVE/FROM :" + move.getFrom().toString());
-        System.out.print("SENDER-> MOVE/TO   :" + move.getTo().toString());
         LocalClient.instance.send(new Packet(move.pack()));
 
         move(move);
