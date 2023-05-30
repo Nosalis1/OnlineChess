@@ -39,9 +39,7 @@ public class Stream {
 
     public Packet receive(Packet packet) {
         try {
-            String buffer = in.readLine();
-            System.out.println(buffer);
-            packet.setBuffer(buffer);
+            packet.setBuffer(in.readLine());
             return packet;
         } catch (Exception ex) {
             ex.printStackTrace();

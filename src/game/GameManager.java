@@ -8,6 +8,7 @@ import gui.images.Image;
 import socket.LocalClient;
 import socket.packages.Packet;
 import util.Array;
+import util.Console;
 import util.Vector;
 
 public class GameManager {
@@ -51,13 +52,12 @@ public class GameManager {
         Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
 
         nextTurn();
+        System.out.println("WHITE TURN : "+isWhiteTurn());
     }
 
     private void onPieceMove(Move move) {
         util.Vector at = move.getFrom();
         Game.instance.getField(at).setImage(null);
-
-        LocalClient.instance.send(new Packet(move.pack()));
     }
 
     private final Array<Field> currentHighlights = new Array<>();
@@ -115,7 +115,7 @@ public class GameManager {
     }
 
     public boolean canPlay() {
-        return isWhite() && isWhiteTurn();
+        return (isWhite() && isWhiteTurn()) || (!isWhite() && !isWhiteTurn());
     }
 
     Vector selected;
@@ -140,7 +140,7 @@ public class GameManager {
         handleClicked(at);
     }
 
-    final Move networkMove = new Move(Vector.ZERO, Vector.ZERO);
+    Move networkMove = new Move(Vector.ZERO, Vector.ZERO);
 
     public void handleNetworkPackage(final Packet packet) {
 
@@ -148,14 +148,31 @@ public class GameManager {
             //TODO:START GAME
             Game.instance.showWindow();
             AudioManager.playClip(3);
+
+            System.out.println(isWhite());
         } else if (packet.equals(Packet.CHANGE_COLOR)) {
             changeColor();
         } else if (packet.equals(Packet.DISCONNECTED)) {
             //TODO:HANDLE DISCONNECTED
         } else {
             //TODO:HANDLE CUSTOM PACKAGE
-            //networkMove.unapck(packet.getBuffer());
-            //Board.move(networkMove);
+            Console.warning(packet.getBuffer());
+            //packet.unapck(networkMove);
+
+            Vector from = new Vector(), to = new Vector();
+            String[] values = packet.getBuffer().split("~");
+            for (String str : values)
+                System.out.println(str);
+            if (values.length == 2) {
+                from.unapck(values[0]);
+                System.out.println("CONVERTED FROM : " + from.toString());
+                to.unapck(values[1]);
+                System.out.println("CONVERTED TO : " + to.toString());
+            } else
+                throw new IllegalArgumentException("Invalid buffer format");
+
+
+            Board.move(from, to);
         }
     }
 }

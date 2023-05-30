@@ -1,5 +1,7 @@
 package game;
 
+import socket.LocalClient;
+import socket.packages.Packet;
 import util.Array;
 import util.Vector;
 import util.events.ArgEvent;
@@ -144,7 +146,7 @@ public class Board {
     public static util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
     public static void move(final Vector from,final Vector to) {
-        onPieceMove.run(new Move(from,to));
+        onPieceMove.run(new Move(from, to));
 
         Piece temp = get(from);
 
@@ -158,15 +160,30 @@ public class Board {
         onPieceMoved.run(temp);
     }
 
+    public static void networkMove(final Vector from,final Vector to) {
+        Move move = new Move(from, to);
+
+        //Send move over network
+        System.out.print("SENDER-> MOVE/FROM :" + move.getFrom().toString());
+        System.out.print("SENDER-> MOVE/TO   :" + move.getTo().toString());
+        LocalClient.instance.send(new Packet(move.pack()));
+
+        move(move);
+    }
+
     public static void move(final Move move) {
         move(move.getFrom(), move.getTo());
+    }
+
+    public static void networkMove(final Move move) {
+        networkMove(move.getFrom(), move.getTo());
     }
 
     public static boolean tryMove(final Vector from,final Vector to) {
         Piece temp = get(from);
 
         if (temp.canMove(to)) {
-            move(from, to);
+            networkMove(from, to);
             return true;
         }
         return false;

@@ -50,16 +50,17 @@ public class LocalClient extends Client implements Runnable {
             return;
         }
 
-        System.out.println("CLIENT START LISTENING");
+        Console.message("Client started listening", Console.PrintType.Socket);
 
         do {
             this.packet = receive(this.packet);
         } while (handlePacket());
 
-        System.out.println("CLIENT STOP LISTENING");
+        Console.message("Client stopped listening", Console.PrintType.Socket);
     }
 
     private boolean handlePacket() {
+        Console.message("Client received packet from Server", Console.PrintType.Socket);
         GameManager.instance.handleNetworkPackage(packet);
         return true;
     }
