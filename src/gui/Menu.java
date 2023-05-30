@@ -32,8 +32,9 @@ public class Menu extends Window implements ActionListener {
         add(label);
         y += SPACING;
 
-        JButton button = new JButton("Play");
+        JButton button = new JButton();
 
+        button.setText("Play");
         button.setBounds(x, y, 120, 20);
         button.addActionListener(this);
 

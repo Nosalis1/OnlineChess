@@ -145,8 +145,21 @@ public class Board {
     public static util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
     public static util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
-    public static void move(final Vector from,final Vector to) {
-        onPieceMove.run(new Move(from, to));
+    public static final util.Array<String> moves = new Array<>();
+
+    private static final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
+
+    private static String convertVector(final Vector vector) {
+        return (vector.X + 1) + "" + labels[vector.Y];
+    }
+
+    private static String convertMove(final Move move) {
+        return convertVector(move.getFrom()) + " : " + convertVector(move.getTo());
+    }
+
+    public static void move(final Vector from, final Vector to) {
+        Move move = new Move(from, to);
+        onPieceMove.run(move);
 
         Piece temp = get(from);
 
@@ -158,9 +171,11 @@ public class Board {
 
         temp.updatePosition(to);
         onPieceMoved.run(temp);
+
+        moves.add(convertMove(move));
     }
 
-    public static void networkMove(final Vector from,final Vector to) {
+    public static void networkMove(final Vector from, final Vector to) {
         Move move = new Move(from, to);
 
         //Send move over network
@@ -177,7 +192,7 @@ public class Board {
         networkMove(move.getFrom(), move.getTo());
     }
 
-    public static boolean tryMove(final Vector from,final Vector to) {
+    public static boolean tryMove(final Vector from, final Vector to) {
         Piece temp = get(from);
 
         if (temp.canMove(to)) {
@@ -186,7 +201,34 @@ public class Board {
         }
         return false;
     }
+
     public static boolean tryMove(final Move move) {
         return tryMove(move.getFrom(), move.getTo());
+    }
+
+    public static boolean isCheck(Piece.Color color) {
+        Piece king = get(color, Piece.Type.King);
+
+        util.Array<Piece> opponentPieces = color == Piece.Color.White ? whitePieces : blackPieces;
+        for (int i = 0; i < opponentPieces.size(); i++) {
+            if (opponentPieces.get(i).canMove(king.getPosition()))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isCheckmate(Piece.Color color) {
+
+        if (!isCheck(color))
+            return false;
+
+        //TODO:GENERATE ALL LEGAL MOVES
+
+        //TODO: FOREACH MOVE CHECK IF KING IS STILL IN CHECK
+        //RETURN FALSE
+
+
+        return true;
     }
 }
