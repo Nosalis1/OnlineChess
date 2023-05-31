@@ -3,6 +3,7 @@ package gui;
 import com.sun.tools.jconsole.JConsoleContext;
 import game.Board;
 import game.GameManager;
+import game.Move;
 import game.Piece;
 import gui.images.Field;
 import util.Array;
@@ -82,28 +83,30 @@ public class Game extends Window {
         int pawnsWhite = 0, pawnsBlack = 0,
             rooksWhite = 0, rooksBlack = 0,
             knightsWhite = 0, knightsBlack = 0,
-            bishopsWhite = 0, bishopsBlack = 0,
-            queenWhite = 0, queenBlack = 0,
-            kingWhite = 0, kingBlack = 0;
+            bishopsWhite = 0, bishopsBlack = 0;
+        boolean queenWhite = false, queenBlack = false,
+            kingWhite = false, kingBlack = false;
 
         util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(),
                           piecesBlack = Board.instance.getBlackPieces();
-        for (int i=0; i<16; i++) {
+        for (int i=0; i<Board.instance.getWhitePieces().size(); i++) {
             switch (piecesWhite.get(i).getType()) {
                 case Pawn -> pawnsWhite++;
                 case Rook -> rooksWhite++;
                 case Knight -> knightsWhite++;
                 case Bishop -> bishopsWhite++;
-                case Queen -> queenWhite = 1;
-                case King -> kingWhite = 1;
+                case Queen -> queenWhite = true;
+                case King -> kingWhite = true;
             }
+        }
+        for (int i=0; i<Board.instance.getBlackPieces().size(); i++) {
             switch (piecesBlack.get(i).getType()) {
                 case Pawn -> pawnsBlack++;
                 case Rook -> rooksBlack++;
                 case Knight -> knightsBlack++;
                 case Bishop -> bishopsBlack++;
-                case Queen -> queenBlack = 1;
-                case King -> kingBlack = 1;
+                case Queen -> queenBlack = true;
+                case King -> kingBlack = true;
             }
         }
 
@@ -114,8 +117,8 @@ public class Game extends Window {
                 String.format("Rooks (Castles): %d<br>", rooksWhite) +
                 String.format("Knights: %d<br>", knightsWhite) +
                 String.format("Bishops: %d<br>", bishopsWhite) +
-                String.format("Have Queen: %s<br>", queenWhite == 1 ? "true" : "false") +
-                String.format("Have King: %s</html>", kingWhite == 1 ? "true" : "false");
+                String.format("Have Queen: %s<br>", queenWhite ? "true" : "false") +
+                String.format("Have King: %s</html>", kingWhite ? "true" : "false");
 
         String messageBlack = String.format("<html>Username: %s<br>", "ime") +
                 String.format("ELO: %s<br>", "elo") +
@@ -124,8 +127,8 @@ public class Game extends Window {
                 String.format("Rooks (Castles): %d<br>", rooksBlack) +
                 String.format("Knights: %d<br>", knightsBlack) +
                 String.format("Bishops: %d<br>", bishopsBlack) +
-                String.format("Have Queen: %s<br>", queenBlack == 1 ? "true" : "false") +
-                String.format("Have King: %s</html>", kingBlack == 1 ? "true" : "false");
+                String.format("Have Queen: %s<br>", queenBlack ? "true" : "false") +
+                String.format("Have King: %s</html>", kingBlack ? "true" : "false");
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
@@ -156,10 +159,11 @@ public class Game extends Window {
         opponentPanel.setBounds(820, 240, 260, 225);
         opponentPanel.setName("opponent_panel");
 
-        Board.instance.onPieceMoved.add(this::updateInfoTable);
-
         playerLabel = (JLabel) playerPanel.getComponents()[1];
         opponentLabel = (JLabel) opponentPanel.getComponents()[1];
+
+        updateInfoTable(null);
+        Board.instance.onPieceMoved.add(this::updateInfoTable);
 
         System.out.println(playerLabel.getText());
         System.out.println(opponentLabel.getText());
