@@ -11,6 +11,7 @@ import util.Vector;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class Game extends Window {
@@ -71,10 +72,10 @@ public class Game extends Window {
         panel.setBorder(BorderFactory.createLineBorder(isWhite ? Color.LIGHT_GRAY : Color.GRAY, 5));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel labelPlayer = new JLabel("Player info", SwingConstants.CENTER);
-        panel.setPreferredSize(new Dimension(260, labelPlayer.getPreferredSize().height));
-        panel.setFont(labelPlayer.getFont().deriveFont(Font.BOLD, 20F));
-        panel.add(labelPlayer);
+        JLabel label = new JLabel("Player info", SwingConstants.CENTER);
+        panel.setPreferredSize(new Dimension(260, label.getPreferredSize().height));
+        panel.setFont(label.getFont().deriveFont(Font.BOLD, 20F));
+        panel.add(label);
         panel.add(new JLabel());
         return panel;
     }
@@ -134,16 +135,41 @@ public class Game extends Window {
         opponentLabel.setText(messageBlack);
     }
 
+    public void updateMovesTable(Piece piece) {
+        if (Board.instance.moves.size() > 0) {
+            if (movesTableModel.getRowCount() <= 10) {
+                String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
+                util.Console.message(moveString);
+                movesTableModel.addRow(new Object[] { moveString });
+            }
+            else {
+
+            }
+        }
+    }
+
     private JLabel playerLabel;
     private JLabel opponentLabel;
+    private DefaultTableModel movesTableModel;
 
     private void createInfo() {
-        JPanel movesPanel = new JPanel();
+        movesTableModel = new DefaultTableModel(new Object[] { "Column 1" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");
-        Border movesBorder = BorderFactory.createLineBorder(Color.GRAY, 5);
-        movesPanel.setBorder(movesBorder);
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
-        movesPanel.setBounds(820, 470, 260, 170);
+        JScrollPane scrollPane = new JScrollPane(movesPanel);
+        scrollPane.setBounds(820, 470, 260, 170);
+        Border movesBorder = BorderFactory.createLineBorder(Color.GRAY, 5);
+        scrollPane.setBorder(movesBorder);
+        movesPanel.setTableHeader(null);
+        add(scrollPane, BorderLayout.CENTER);
+
+        Board.instance.onPieceMoved.add(this::updateMovesTable);
 
         JPanel timerPanel = new JPanel();
         timerPanel.setName("timer_panel");

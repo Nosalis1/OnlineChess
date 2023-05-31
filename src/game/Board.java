@@ -29,6 +29,8 @@ public class Board {
         return copy;
     }
 
+    // TODO: resi sah mat exception
+
     public Board(){}
     public Board(Board other) {
         this.pieces = other.getPiecesCopy();
