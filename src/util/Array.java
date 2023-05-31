@@ -19,6 +19,15 @@ public class Array<T> {
     }
 
     /**
+     * Constructs a new Array object with arbitrary size set by the user.
+     *
+     * @param size The size of the new array.
+     */
+    public Array(final int size) {
+        this.array = createNew(size);
+    }
+
+    /**
      * Returns the internal array.
      *
      * @return The internal array.

@@ -32,6 +32,7 @@ public class GameManager {
     public void updateAll() {
         util.Array<Piece> allPieces = Board.instance.getAllPieces();
 
+        Game.initialize();
         allPieces.foreach((Piece piece) -> {
             util.Vector at = piece.getPosition();
 
