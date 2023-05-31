@@ -65,10 +65,6 @@ public class Game extends Window {
         add(tablePanel);
     }
 
-    public void updateInfoBoards() {
-
-    }
-
     private JPanel getPlayerInfoPanel(boolean isWhite) {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createLineBorder(isWhite ? Color.LIGHT_GRAY : Color.GRAY, 5));
@@ -90,8 +86,8 @@ public class Game extends Window {
             queenWhite = 0, queenBlack = 0,
             kingWhite = 0, kingBlack = 0;
 
-        util.Array<Piece> piecesWhite = Board.getWhitePieces(),
-                          piecesBlack = Board.getBlackPieces();
+        util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(),
+                          piecesBlack = Board.instance.getBlackPieces();
         for (int i=0; i<16; i++) {
             switch (piecesWhite.get(i).getType()) {
                 case Pawn -> pawnsWhite++;
@@ -160,8 +156,10 @@ public class Game extends Window {
         opponentPanel.setBounds(820, 240, 260, 225);
         opponentPanel.setName("opponent_panel");
 
-        Board.onPieceMoved(this::updateInfoBoards)
-        updateInfoBoards();
+        Board.instance.onPieceMoved.add(this::updateInfoTable);
+
+        playerLabel = (JLabel) playerPanel.getComponents()[1];
+        opponentLabel = (JLabel) opponentPanel.getComponents()[1];
 
         System.out.println(playerLabel.getText());
         System.out.println(opponentLabel.getText());
