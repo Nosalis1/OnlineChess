@@ -52,10 +52,22 @@ public class GameManager {
 
         nextTurn();
 
-        if (Board.instance.isCheck(Piece.Color.White)) {
-            System.out.println("WHITE IN CHECK");
-        } else if (Board.instance.isCheck(Piece.Color.Black)) {
-            System.out.println("BLACK IN CHECK");
+        if (Board.instance.isCheckmate(Piece.Color.White)) {
+            System.out.println("WHITE IN CHECKMATE");
+            //TODO:ENDGAME
+        } else {
+            if (Board.instance.isCheck(Piece.Color.White)) {
+                System.out.println("WHITE IN CHECK");
+            }
+
+            if (Board.instance.isCheckmate(Piece.Color.Black)) {
+                System.out.println("BLACK IN CHECKMATE");
+                //TODO:ENDGAME
+            } else {
+                if (Board.instance.isCheck(Piece.Color.Black)) {
+                    System.out.println("BLACK IN CHECK");
+                }
+            }
         }
     }
 
