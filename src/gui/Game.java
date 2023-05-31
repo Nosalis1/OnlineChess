@@ -63,7 +63,7 @@ public class Game extends Window {
     }
 
     private JPanel getPlayerInfoPanel(boolean isWhite, Color borderColor) {
-        util.Array<Piece> pieces = isWhite ? Board.getWhitePieces() : Board.getBlackPieces();
+        util.Array<Piece> pieces = isWhite ? Board.instance.getWhitePieces() : Board.instance.getBlackPieces();
         int pawns = 0,
             rooks = 0,
             knights = 0,

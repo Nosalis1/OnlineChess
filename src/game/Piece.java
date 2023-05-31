@@ -262,7 +262,7 @@ public class Piece {
         if ((x <= -1 || x >= 8) || (y <= -1 || y >= 8))
             return false;
 
-        if (!Board.isNull(x, y) && isColor(Board.get(x, y).getColor()))
+        if (!Board.instance.isNull(x, y) && isColor(Board.instance.get(x, y).getColor()))
             return false;
 
         final int code = getTypeCode();
@@ -287,7 +287,7 @@ public class Piece {
         int ddy = (position.Y == y) ? 0
                 : (y - position.Y) / Math.abs(y - position.Y);
 
-        return Board.inPath(position, x, y, ddx, ddy);
+        return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canKnightMove(int x, int y) {
@@ -307,7 +307,7 @@ public class Piece {
         ddx = Integer.signum(x - position.X);
         ddy = Integer.signum(y - position.Y);
 
-        return Board.inPath(position, x, y, ddx, ddy);
+        return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canQueenMove(int x, int y) {
@@ -320,7 +320,7 @@ public class Piece {
         ddx = Integer.compare(x, position.X);
         ddy = Integer.compare(y, position.Y);
 
-        return Board.inPath(position, x, y, ddx, ddy);
+        return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canKingMove(int x, int y) {
@@ -337,11 +337,11 @@ public class Piece {
         if (y == position.Y && (x == position.X + direction
                 || (position.X == 1 || position.X == 6)
                 && x == position.X + (2 * direction))) {
-            return Board.isNull(x, y);
+            return Board.instance.isNull(x, y);
         }
 
         if (Math.abs(y - position.Y) == 1 && x == position.X + direction) {
-            return !Board.isNull(x, y) && !isColor(Board.get(x, y).getColor());
+            return !Board.instance.isNull(x, y) && !isColor(Board.instance.get(x, y).getColor());
         }
 
         return false;

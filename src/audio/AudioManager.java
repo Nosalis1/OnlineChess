@@ -93,8 +93,8 @@ public class AudioManager {
      * Constructs an AudioManager object and subscribes to events on the Board class.
      */
     public AudioManager() {
-        Board.onPieceEaten.add(this::onPieceEaten);
-        Board.onPieceMoved.add(this::onPieceMoved);
+        Board.instance.onPieceEaten.add(this::onPieceEaten);
+        Board.instance.onPieceMoved.add(this::onPieceMoved);
     }
 
     /**

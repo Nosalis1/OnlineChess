@@ -8,17 +8,57 @@ import util.events.ArgEvent;
 
 public class Board {
 
+    public static final Board instance = new Board();
+
     public static final int SIZE = 8;
     public static final int HALF_SIZE = SIZE / 2;
     public static final int LAST = SIZE - 1;
 
-    private static final Piece[][] pieces = new Piece[SIZE][SIZE];
+    private Piece[][] pieces = new Piece[SIZE][SIZE];
 
-    private static final util.Array<Piece> whitePieces = new Array<>();
-    private static final util.Array<Piece> blackPieces = new Array<>();
-    private static final util.Array<Piece> allPieces = new Array<>();
+    private Piece[][] getPiecesCopy() {
+        Piece[][] copy = new Piece[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                Piece piece = pieces[i][j];
+                copy[i][j] = new Piece(
+                        piece.getColor(), piece.getType(), new Vector(i, j)
+                );
+            }
+        }
+        return copy;
+    }
 
-    public static void clear() {
+    public Board(){}
+    public Board(Board other) {
+        this.pieces = other.getPiecesCopy();
+        this.updatePieces();
+    }
+
+    private final util.Array<Piece> whitePieces = new Array<>();
+    private final util.Array<Piece> blackPieces = new Array<>();
+    private final util.Array<Piece> allPieces = new Array<>();
+
+    public void updatePieces() {
+        allPieces.clear();
+        whitePieces.clear();
+        blackPieces.clear();
+        for (int i = 0; i < SIZE; i++)
+            for (int j = 0; j < SIZE; j++) {
+                if (isNull(i, j))
+                    continue;
+
+                Piece tempPiece = pieces[i][j];
+                allPieces.add(tempPiece);
+
+                if (tempPiece.isColor(Piece.Color.White))
+                    whitePieces.add(tempPiece);
+                else
+                    blackPieces.add(tempPiece);
+            }
+    }
+
+    public void clear() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 pieces[i][j] = null;
@@ -26,7 +66,7 @@ public class Board {
         }
     }
 
-    private static void addPiece(final Piece newPiece) {
+    private void addPiece(final Piece newPiece) {
         final Vector position = newPiece.getPosition();
         pieces[position.X][position.Y] = newPiece;
 
@@ -39,7 +79,7 @@ public class Board {
 
     }
 
-    public static void reset() {
+    public void reset() {
         clear();
 
         final int[] order = {1, 2, 3, 4, 5, 3, 2, 1};
@@ -54,7 +94,7 @@ public class Board {
         }
     }
 
-    private static void onPieceEaten(Piece piece) {
+    private void onPieceEaten(Piece piece) {
         if (piece.isColor(Piece.Color.White)) {
             if (whitePieces.contains(piece))
                 whitePieces.remove(piece);
@@ -67,15 +107,15 @@ public class Board {
         onPieceEaten.run(piece);
     }
 
-    public static Piece get(final int x, final int y) {
+    public Piece get(final int x, final int y) {
         return pieces[x][y];
     }
 
-    public static Piece get(final Vector position) {
+    public Piece get(final Vector position) {
         return get(position.X, position.Y);
     }
 
-    public static Piece get(final Piece.Color color, final Piece.Type type, final int offset) {
+    public Piece get(final Piece.Color color, final Piece.Type type, final int offset) {
         int off = offset;
 
         util.Array<Piece> currentPieces = color == Piece.Color.White ? getWhitePieces() : getBlackPieces();
@@ -91,31 +131,31 @@ public class Board {
         return null;
     }
 
-    public static Piece get(final Piece.Color color, final Piece.Type type) {
+    public Piece get(final Piece.Color color, final Piece.Type type) {
         return get(color, type, 0);
     }
 
-    public static util.Array<Piece> getWhitePieces() {
+    public util.Array<Piece> getWhitePieces() {
         return whitePieces;
     }
 
-    public static util.Array<Piece> getBlackPieces() {
+    public util.Array<Piece> getBlackPieces() {
         return blackPieces;
     }
 
-    public static util.Array<Piece> getAllPieces() {
+    public util.Array<Piece> getAllPieces() {
         return allPieces;
     }
 
-    public static boolean isNull(final int x, final int y) {
+    public boolean isNull(final int x, final int y) {
         return get(x, y) == null;
     }
 
-    public static boolean isNull(final Vector position) {
+    public boolean isNull(final Vector position) {
         return isNull(position.X, position.Y);
     }
 
-    public static boolean inPath(final int x, final int y, final int dx, final int dy, int ddx, int ddy) {
+    public boolean inPath(final int x, final int y, final int dx, final int dy, int ddx, int ddy) {
         Vector i = new Vector(x, y);
         i.add(ddx, ddy);
 
@@ -129,35 +169,35 @@ public class Board {
         return true;
     }
 
-    public static boolean inPath(final Vector from, final int dx, final int dy, int ddx, int ddy) {
+    public boolean inPath(final Vector from, final int dx, final int dy, int ddx, int ddy) {
         return inPath(from.X, from.Y, dx, dy, ddx, ddy);
     }
 
-    public static boolean inPath(final Vector from, final Vector to, int ddx, int ddy) {
+    public boolean inPath(final Vector from, final Vector to, int ddx, int ddy) {
         return inPath(from, to.X, to.Y, ddx, ddy);
     }
 
-    public static boolean inPath(final Vector from, final Vector to, Vector step) {
+    public boolean inPath(final Vector from, final Vector to, Vector step) {
         return inPath(from, to, step.X, step.Y);
     }
 
-    public static util.events.ArgEvent<Piece> onPieceEaten = new ArgEvent<>();
-    public static util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
-    public static util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
+    public util.events.ArgEvent<Piece> onPieceEaten = new ArgEvent<>();
+    public util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
+    public util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
-    public static final util.Array<String> moves = new Array<>();
+    public final util.Array<String> moves = new Array<>();
 
-    private static final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
+    private final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
-    private static String convertVector(final Vector vector) {
+    private String convertVector(final Vector vector) {
         return (vector.X + 1) + "" + labels[vector.Y];
     }
 
-    private static String convertMove(final Move move) {
+    private String convertMove(final Move move) {
         return convertVector(move.getFrom()) + " : " + convertVector(move.getTo());
     }
 
-    public static void move(final Vector from, final Vector to) {
+    public void move(final Vector from, final Vector to) {
         Move move = new Move(from, to);
         onPieceMove.run(move);
 
@@ -175,7 +215,7 @@ public class Board {
         moves.add(convertMove(move));
     }
 
-    public static void networkMove(final Vector from, final Vector to) {
+    public void networkMove(final Vector from, final Vector to) {
         Move move = new Move(from, to);
 
         //Send move over network
@@ -184,15 +224,15 @@ public class Board {
         move(move);
     }
 
-    public static void move(final Move move) {
+    public void move(final Move move) {
         move(move.getFrom(), move.getTo());
     }
 
-    public static void networkMove(final Move move) {
+    public void networkMove(final Move move) {
         networkMove(move.getFrom(), move.getTo());
     }
 
-    public static boolean tryMove(final Vector from, final Vector to) {
+    public boolean tryMove(final Vector from, final Vector to) {
         Piece temp = get(from);
 
         if (temp.canMove(to)) {
@@ -202,14 +242,14 @@ public class Board {
         return false;
     }
 
-    public static boolean tryMove(final Move move) {
+    public boolean tryMove(final Move move) {
         return tryMove(move.getFrom(), move.getTo());
     }
 
-    public static boolean isCheck(Piece.Color color) {
+    public boolean isCheck(Piece.Color color) {
         Piece king = get(color, Piece.Type.King);
 
-        util.Array<Piece> opponentPieces = color == Piece.Color.White ? whitePieces : blackPieces;
+        util.Array<Piece> opponentPieces = color == Piece.Color.White ? blackPieces : whitePieces;
         for (int i = 0; i < opponentPieces.size(); i++) {
             if (opponentPieces.get(i).canMove(king.getPosition()))
                 return true;
@@ -218,16 +258,27 @@ public class Board {
         return false;
     }
 
-    public static boolean isCheckmate(Piece.Color color) {
+    public boolean isCheckmate(Piece.Color color) {
 
         if (!isCheck(color))
             return false;
 
-        //TODO:GENERATE ALL LEGAL MOVES
+        util.Array<Piece> tempPieces = color == Piece.Color.White ? getWhitePieces() : getBlackPieces();
+        util.Array<Move> legalMoves = new Array<>();
+        tempPieces.foreach((Piece piece) -> {
+            util.Array<Vector> moves = piece.getMoves();
+            moves.foreach((Vector destination) -> {
+                legalMoves.add(new Move(piece.getPosition(), destination));
+            });
+        });
 
-        //TODO: FOREACH MOVE CHECK IF KING IS STILL IN CHECK
-        //RETURN FALSE
-
+        for(int i =0;i<legalMoves.size();i++) {
+            Move legalMove = legalMoves.get(i);
+            Board tempBoard = new Board(this);
+            tempBoard.move(legalMove);
+            if (!tempBoard.isCheck(color))
+                return false;
+        }
 
         return true;
     }

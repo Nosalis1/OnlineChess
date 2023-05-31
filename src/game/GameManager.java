@@ -5,7 +5,6 @@ import gui.ColorGradient;
 import gui.Game;
 import gui.images.Field;
 import gui.images.Image;
-import socket.LocalClient;
 import socket.packages.Packet;
 import util.Array;
 import util.Console;
@@ -22,16 +21,16 @@ public class GameManager {
     public GameManager() {
         Field.onFieldClicked.add(this::onFieldClicked);
 
-        Board.onPieceEaten.add(this::onPieceEaten);
-        Board.onPieceMoved.add(this::onPieceMoved);
-        Board.onPieceMove.add(this::onPieceMove);
+        Board.instance.onPieceEaten.add(this::onPieceEaten);
+        Board.instance.onPieceMoved.add(this::onPieceMoved);
+        Board.instance.onPieceMove.add(this::onPieceMove);
 
-        Board.reset();
+        Board.instance.reset();
         updateAll();
     }
 
     public void updateAll() {
-        util.Array<Piece> allPieces = Board.getAllPieces();
+        util.Array<Piece> allPieces = Board.instance.getAllPieces();
 
         allPieces.foreach((Piece piece) -> {
             util.Vector at = piece.getPosition();
@@ -52,7 +51,12 @@ public class GameManager {
         Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
 
         nextTurn();
-        System.out.println("WHITE TURN : " + isWhiteTurn());
+
+        if (Board.instance.isCheck(Piece.Color.White)) {
+            System.out.println("WHITE IN CHECK");
+        } else if (Board.instance.isCheck(Piece.Color.Black)) {
+            System.out.println("BLACK IN CHECK");
+        }
     }
 
     private void onPieceMove(Move move) {
@@ -80,7 +84,7 @@ public class GameManager {
     }
 
     private void setMoves(Vector at) {
-        Piece piece = Board.get(at);
+        Piece piece = Board.instance.get(at);
         if (piece == null)
             return;
 
@@ -89,7 +93,7 @@ public class GameManager {
         moves.foreach((Vector position) -> {
             Field temp = Game.instance.getField(position);
 
-            temp.setColor(Board.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
+            temp.setColor(Board.instance.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         });
     }
@@ -125,14 +129,14 @@ public class GameManager {
     private void handleClicked(Vector at) {
         if (!canPlay())
             return;
-        if (selected == null && (!Board.isNull(at) && Board.get(at).isColor(isWhite() ? Piece.Color.White : Piece.Color.Black))) {
+        if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
             setSelected(at);
         } else if (selected == at) {
             selected = null;
             resetHighlights();
         } else if (selected != null) {
-            Board.tryMove(selected, at);
+            Board.instance.tryMove(selected, at);
             selected = null;
             resetHighlights();
         }
@@ -170,7 +174,7 @@ public class GameManager {
                 throw new IllegalArgumentException("Invalid buffer format");
 
 
-            Board.move(from, to);
+            Board.instance.move(from, to);
         }
     }
 }
