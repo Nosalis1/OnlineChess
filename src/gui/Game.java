@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import game.Board;
 import game.GameManager;
 import game.Move;
@@ -25,6 +24,8 @@ public class Game extends Window {
 
         createTable();
         createInfo();
+
+        super.showWindow();
     }
 
     public static void initialize() {
@@ -148,26 +149,25 @@ public class Game extends Window {
         }
     }
 
-    private JLabel playerLabel;
-    private JLabel opponentLabel;
+    private JPanel playerPanel, opponentPanel;
+    private JLabel playerLabel, opponentLabel;
     private DefaultTableModel movesTableModel;
 
     private void createInfo() {
         movesTableModel = new DefaultTableModel(new Object[] { "Column 1" }, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            public boolean isCellEditable(int row, int column) { return false; }
         };
         JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(movesPanel);
-        scrollPane.setBounds(820, 470, 260, 170);
-        Border movesBorder = BorderFactory.createLineBorder(Color.GRAY, 5);
-        scrollPane.setBorder(movesBorder);
         movesPanel.setTableHeader(null);
-        add(scrollPane, BorderLayout.CENTER);
+        movesPanel.setBounds(823, 475, 251, 240);
+        JPanel panel = new JPanel();
+        panel.add(movesPanel);
+        panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+        panel.setBounds(818, 470, 260, 250);
+        add(panel);
 
         Board.instance.onPieceMoved.add(this::updateMovesTable);
 
@@ -176,13 +176,14 @@ public class Game extends Window {
         Border timerBorder = BorderFactory.createLineBorder(Color.GRAY, 5);
         timerPanel.setBorder(timerBorder);
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
-        timerPanel.setBounds(820, 645, 260, 165);
+        timerPanel.setBounds(818, 725, 260, 85);
 
-        JPanel playerPanel = getPlayerInfoPanel(true),
-               opponentPanel = getPlayerInfoPanel(false);
-        playerPanel.setBounds(820, 10, 260, 225);
+        playerPanel = getPlayerInfoPanel(true);
+        opponentPanel = getPlayerInfoPanel(false);
+
+        playerPanel.setBounds(818, 10, 260, 225);
         playerPanel.setName("player_panel");
-        opponentPanel.setBounds(820, 240, 260, 225);
+        opponentPanel.setBounds(818, 240, 260, 225);
         opponentPanel.setName("opponent_panel");
 
         playerLabel = (JLabel) playerPanel.getComponents()[1];
@@ -191,15 +192,9 @@ public class Game extends Window {
         updateInfoTable(null);
         Board.instance.onPieceMoved.add(this::updateInfoTable);
 
-        System.out.println(playerLabel.getText());
-        System.out.println(opponentLabel.getText());
-
         add(playerPanel);
         add(opponentPanel);
         add(movesPanel);
         add(timerPanel);
-
-        Component[] components = getComponents();
-        util.Console.message(components[0].getSize().height);
     }
 }

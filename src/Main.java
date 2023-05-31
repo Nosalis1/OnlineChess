@@ -12,8 +12,9 @@ public class Main {
                 AudioManager.initialize();
                 GameManager.initialize();//TODO:MOVE IN INITIALIZERS
 
+//                Game.initialize();
                 Menu.instance.showWindow();
-                //game.users.User.loadUsers();
+//                game.users.User.loadUsers();
                 //gui.Login.instance.showWindow();//TODO:ENABLE LATER
             } catch (Exception e) {
                 util.Console.error("Error while initializing in main method: " + e.getMessage());
