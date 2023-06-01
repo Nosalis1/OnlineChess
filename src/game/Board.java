@@ -212,9 +212,9 @@ public class Board {
         pieces[to.X][to.Y] = temp;
 
         temp.updatePosition(to);
-        onPieceMoved.run(temp);
-
         moves.add(convertMove(move));
+
+        onPieceMoved.run(temp);
     }
 
     public void networkMove(final Vector from, final Vector to) {
