@@ -24,6 +24,7 @@ public class Game extends Window {
         createInfo();
     }
 
+        //comment
     gui.images.Field[][] fields = null;
 
     public gui.images.Field[][] getFields() {
@@ -134,15 +135,13 @@ public class Game extends Window {
     }
 
     public void updateMovesTable(Piece piece) {
-        if (Board.instance.moves.size() > 0) {
-            if (movesTableModel.getRowCount() <= 10) {
-                String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
-                util.Console.message(moveString);
-                movesTableModel.addRow(new Object[] { moveString });
-            }
-            else {
+        if (movesTableModel.getRowCount() <= 10) {
+            String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
+            util.Console.message(moveString);
+            movesTableModel.addRow(new Object[] { moveString });
+        }
+        else {
 
-            }
         }
     }
 

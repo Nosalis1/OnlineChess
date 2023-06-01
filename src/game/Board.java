@@ -196,7 +196,7 @@ public class Board {
     }
 
     private String convertMove(final Move move) {
-        return convertVector(move.getFrom()) + " : " + convertVector(move.getTo());
+        return (moves.size() + 1) + " - " + convertVector(move.getFrom()) + " : " + convertVector(move.getTo());
     }
 
     public void move(final Vector from, final Vector to) {
