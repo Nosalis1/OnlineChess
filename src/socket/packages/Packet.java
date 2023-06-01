@@ -1,33 +1,76 @@
 package socket.packages;
 
+import game.Piece;
+
 public class Packet {
+    public enum Type {
+        START_GAME("$0000!"),
+        CHANGE_COLOR("$0001!"),
+        DISCONNECT("$0010!"),
+        MOVE("$0011!"),
+        CUSTOM("$0100!");
+
+        private final String code;
+        public static final int CODE_LENGTH = 6;
+
+        public final String getCode() {
+            return this.code;
+        }
+
+        Type(final String code) {
+            this.code = code;
+        }
+
+        public static Type fromCode(String buffer) {
+            final String bufferCode = buffer.substring(0, CODE_LENGTH);
+
+            for (Type type : Type.values()) {
+                if (type.code.equals(bufferCode)) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("Invalid code: " + bufferCode);
+        }
+    }
+
     private String buffer;
 
     public String getBuffer() {
+        return this.buffer.substring(Type.CODE_LENGTH);
+    }
+
+    public String getPackedBuffer() {
         return this.buffer;
     }
 
-    public void setBuffer(String buffer) {
+    public Type getType() {
+        return Type.fromCode(this.buffer);
+    }
+
+    public void setBuffer(String buffer, Type type) {
+        this.buffer = type.getCode() + buffer;
+    }
+
+    public void setReceivedBuffer(String buffer) {
         this.buffer = buffer;
     }
 
     public Packet(String buffer) {
         this.buffer = buffer;
     }
-
-    public boolean equals(Packet other) {
-        return this.buffer.equals(other.getBuffer());
+    public Packet(String buffer, Type type) {
+        setBuffer(buffer, type);
     }
 
-    public void pack(Streamable streamable) {
-        this.buffer = streamable.pack();
+    public boolean equals(Packet other) {
+        return getType() == other.getType();
+    }
+
+    public void pack(Streamable streamable, Type type) {
+        this.buffer = streamable.pack(type);
     }
 
     public void unapck(Streamable streamable) {
-        streamable.unapck(this.buffer);
+        streamable.unapck(getBuffer());
     }
-
-    public static final Packet DISCONNECTED = new Packet("DISCONNECTED");
-    public static final Packet START_GAME = new Packet("START_GAME");
-    public static final Packet CHANGE_COLOR = new Packet("CHANGE_COLOR");
 }

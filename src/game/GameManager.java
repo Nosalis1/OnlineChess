@@ -15,7 +15,7 @@ public class GameManager {
     public static GameManager instance;
 
     public static void initialize() {
-        util.Console.message("Initializing GameManager.",Console.PrintType.Main);
+        util.Console.message("Initializing GameManager.", Console.PrintType.Main);
 
         if (instance == null)
             instance = new GameManager();
@@ -109,14 +109,7 @@ public class GameManager {
 
     public void handleNetworkPackage(final Packet packet) {
 
-        if (packet.equals(Packet.START_GAME)) {
-            newGame();
-        } else if (packet.equals(Packet.CHANGE_COLOR)) {
-            changeColor();
-        } else if (packet.equals(Packet.DISCONNECTED)) {
-            return;//TODO:HANDLE DISCONNECTED
-        } else {
-            //TODO:HANDLE CUSTOM PACKAGE
+        if (packet.getType() == Packet.Type.MOVE) {
             Vector from = new Vector(), to = new Vector();
             String[] values = packet.getBuffer().split("~");
 
@@ -126,8 +119,15 @@ public class GameManager {
             } else
                 throw new IllegalArgumentException("Invalid buffer format");
 
-
             Board.instance.move(from, to);
+        } else if (packet.getType() == Packet.Type.CUSTOM) {
+            return;//TODO:HANDLE CUSTOM
+        } else if (packet.getType() == Packet.Type.START_GAME) {
+            newGame();
+        } else if (packet.getType() == Packet.Type.CHANGE_COLOR) {
+            changeColor();
+        } else if (packet.getType() == Packet.Type.DISCONNECT) {
+            return;//TODO:HANDLE DISCONNECTED
         }
     }
 }

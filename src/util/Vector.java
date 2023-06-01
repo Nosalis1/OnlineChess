@@ -1,5 +1,6 @@
 package util;
 
+import socket.packages.Packet;
 import socket.packages.Streamable;
 
 public class Vector implements Streamable {
@@ -150,7 +151,7 @@ public class Vector implements Streamable {
     }
 
     @Override
-    public String pack() {
+    public String pack(Packet.Type type) {
         return X + "," + Y;
     }
 

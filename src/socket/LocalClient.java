@@ -34,7 +34,7 @@ public class LocalClient extends Client implements Runnable {
         }
 
         try {
-            instance.send(Packet.DISCONNECTED);
+            instance.send(new Packet("",Packet.Type.DISCONNECT));
             instance.getSocket().close();
             instance = null;
         } catch (Exception ex) {

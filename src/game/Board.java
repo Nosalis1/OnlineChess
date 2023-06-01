@@ -221,7 +221,7 @@ public class Board {
         Move move = new Move(from, to);
 
         //Send move over network
-        LocalClient.instance.send(new Packet(move.pack()));
+        LocalClient.instance.send(new Packet(move.pack(Packet.Type.MOVE)));
 
         move(move);
     }

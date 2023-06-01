@@ -34,12 +34,12 @@ public class Stream {
     //TODO: HANDLE SENDING/RECEIVING
 
     public void send(Packet packet) {
-        out.println(packet.getBuffer());
+        out.println(packet.getPackedBuffer());
     }
 
     public Packet receive(Packet packet) {
         try {
-            packet.setBuffer(in.readLine());
+            packet.setReceivedBuffer(in.readLine());
             return packet;
         } catch (Exception ex) {
             ex.printStackTrace();

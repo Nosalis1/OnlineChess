@@ -1,5 +1,6 @@
 package game;
 
+import socket.packages.Packet;
 import socket.packages.Streamable;
 import util.Vector;
 
@@ -24,8 +25,8 @@ public class Move implements Streamable {
     private final String STREAM_TOKEN = "~";
 
     @Override
-    public String pack() {
-        return from.pack() + STREAM_TOKEN + to.pack();
+    public String pack(Packet.Type type) {
+        return type.getCode() + from.pack(type) + STREAM_TOKEN + to.pack(type);
     }
 
     @Override

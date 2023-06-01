@@ -48,9 +48,12 @@ public class RoomManager {
             }
         });
 
-        clients.get(clients.size() - 1).send(Packet.CHANGE_COLOR);
+        Packet packet = new Packet("",Packet.Type.CHANGE_COLOR);
+        clients.get(clients.size() - 1).send(packet);
+        packet.setBuffer("",Packet.Type.START_GAME);
+        Packet finalPacket = packet;
         clients.foreach((Client client) -> {
-            client.send(Packet.START_GAME);
+            client.send(finalPacket);
         });
 
         Client whitePlayer = clients.get(0), blackPlayer = clients.get(1);
@@ -59,8 +62,6 @@ public class RoomManager {
             System.exit(-1);
         }
 
-
-        Packet packet = new Packet("");
         boolean isWhiteTurn = true;
 
         while (true) {
