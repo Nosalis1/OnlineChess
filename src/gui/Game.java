@@ -66,9 +66,8 @@ public class Game extends Window {
         add(tablePanel);
     }
 
-    private JPanel getPlayerInfoPanel(boolean isWhite) {
+    private JPanel getPlayerInfoPanel() {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createLineBorder(isWhite ? Color.LIGHT_GRAY : Color.GRAY, 5));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel label = new JLabel("Player info", SwingConstants.CENTER);
@@ -132,12 +131,16 @@ public class Game extends Window {
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
+
+        Color playColor = ColorGradient.FIELD.getColor(GameManager.instance.canPlay());
+        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.instance.canPlay());
+        playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
+        opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
 
     public void updateMovesTable(Piece piece) {
         if (movesTableModel.getRowCount() <= 10) {
             String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
-            util.Console.message(moveString);
             movesTableModel.addRow(new Object[] { moveString });
         }
         else {
@@ -174,8 +177,8 @@ public class Game extends Window {
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
         timerPanel.setBounds(818, 725, 260, 85);
 
-        playerPanel = getPlayerInfoPanel(true);
-        opponentPanel = getPlayerInfoPanel(false);
+        playerPanel = getPlayerInfoPanel();
+        opponentPanel = getPlayerInfoPanel();
 
         playerPanel.setBounds(818, 10, 260, 225);
         playerPanel.setName("player_panel");
