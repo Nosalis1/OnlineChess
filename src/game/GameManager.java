@@ -1,14 +1,15 @@
 package game;
 
 import audio.AudioManager;
-import gui.ColorGradient;
+import game.users.User;
 import gui.Game;
+import gui.GuiManager;
 import gui.images.Field;
-import gui.images.Image;
 import socket.packages.Packet;
-import util.Array;
 import util.Console;
 import util.Vector;
+
+import java.io.IOException;
 
 public class GameManager {
     public static GameManager instance;
@@ -16,41 +17,27 @@ public class GameManager {
     public static void initialize() {
         if (instance == null)
             instance = new GameManager();
+
+        try {
+            User.loadUsers();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public GameManager() {
         Field.onFieldClicked.add(this::onFieldClicked);
 
-        Board.instance.onPieceEaten.add(this::onPieceEaten);
         Board.instance.onPieceMoved.add(this::onPieceMoved);
-        Board.instance.onPieceMove.add(this::onPieceMove);
+    }
 
+    public void newGame() {
         Board.instance.reset();
-        updateAll();
-    }
-
-    public void updateAll() {
-        util.Array<Piece> allPieces = Board.instance.getAllPieces();
-
-        Game.initialize();
-        allPieces.foreach((Piece piece) -> {
-            util.Vector at = piece.getPosition();
-
-            Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
-        });
-    }
-
-    private void onPieceEaten(Piece piece) {
-        util.Vector at = piece.getPosition();
-
-        Game.instance.getField(at).setImage(null);
+        GuiManager.instance.startGame();
+        //TODO:TELL AUDIO MANAGER TO PLAY SOUND
     }
 
     private void onPieceMoved(Piece piece) {
-        util.Vector at = piece.getPosition();
-
-        Game.instance.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
-
         nextTurn();
 
         if (Board.instance.isCheckmate(Piece.Color.White)) {
@@ -70,45 +57,6 @@ public class GameManager {
                 }
             }
         }
-    }
-
-    private void onPieceMove(Move move) {
-        util.Vector at = move.getFrom();
-        Game.instance.getField(at).setImage(null);
-    }
-
-    private final Array<Field> currentHighlights = new Array<>();
-
-    private void resetHighlights() {
-        currentHighlights.foreach((Field field) -> {
-            field.setColor(ColorGradient.FIELD.getColor(field.isGradient()));
-        });
-        currentHighlights.clear();
-    }
-
-    private void setSelected(Vector at) {
-        resetHighlights();
-
-        Field temp = Game.instance.getField(at);
-        temp.setColor(ColorGradient.HIGHLIGHT.getColor(temp.isGradient()));
-        currentHighlights.add(temp);
-
-        setMoves(at);
-    }
-
-    private void setMoves(Vector at) {
-        Piece piece = Board.instance.get(at);
-        if (piece == null)
-            return;
-
-        Array<Vector> moves = piece.getMoves();
-
-        moves.foreach((Vector position) -> {
-            Field temp = Game.instance.getField(position);
-
-            temp.setColor(Board.instance.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
-            currentHighlights.add(temp);
-        });
     }
 
     private boolean white = true;
@@ -139,24 +87,20 @@ public class GameManager {
 
     Vector selected;
 
-    private void handleClicked(Vector at) {
+    private void onFieldClicked(Vector at) {
         if (!canPlay())
             return;
         if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
-            setSelected(at);
+            GuiManager.instance.onFieldClicked(at);//TODO:FIX THIS IMPLEMENTATION LATER
         } else if (selected == at) {
             selected = null;
-            resetHighlights();
+            GuiManager.instance.resetHighlights();//TODO:FIX THIS IMPLEMENTATION LATER
         } else if (selected != null) {
             Board.instance.tryMove(selected, at);
             selected = null;
-            resetHighlights();
+            GuiManager.instance.resetHighlights();//TODO:FIX THIS IMPLEMENTATION LATER
         }
-    }
-
-    private void onFieldClicked(Vector at) {
-        handleClicked(at);
     }
 
     Move networkMove = new Move(Vector.ZERO, Vector.ZERO);
@@ -164,19 +108,13 @@ public class GameManager {
     public void handleNetworkPackage(final Packet packet) {
 
         if (packet.equals(Packet.START_GAME)) {
-            Game.instance.showWindow();
-            AudioManager.playClip(3);
-
-            System.out.println(isWhite());
+            newGame();
         } else if (packet.equals(Packet.CHANGE_COLOR)) {
             changeColor();
         } else if (packet.equals(Packet.DISCONNECTED)) {
-            //TODO:HANDLE DISCONNECTED
+            return;//TODO:HANDLE DISCONNECTED
         } else {
             //TODO:HANDLE CUSTOM PACKAGE
-            Console.warning(packet.getBuffer());
-            //packet.unpack(networkMove);//TODO:FIX THIS (RETURN CONSTANT VALUE)
-
             Vector from = new Vector(), to = new Vector();
             String[] values = packet.getBuffer().split("~");
 

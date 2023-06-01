@@ -15,6 +15,9 @@ public class AudioManager {
      * Initializes the AudioManager by loading audio clips and creating the instance.
      */
     public static void initialize() {
+        if (instance == null)
+            instance = new AudioManager();
+
         final String[] FILE_PATHS = {
                 "src/audio/sfx/capture.wav",
                 "src/audio/sfx/end.wav",
@@ -25,9 +28,6 @@ public class AudioManager {
         for (String path : FILE_PATHS) {
             clips.add(new AudioClip(path));
         }
-
-        if (instance == null)
-            instance = new AudioManager();
     }
 
     /**

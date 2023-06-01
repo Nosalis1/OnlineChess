@@ -1,4 +1,5 @@
-import socket.*;
+package socket;
+
 import socket.events.ServerEventable;
 
 import java.net.Socket;
@@ -6,18 +7,24 @@ import java.net.Socket;
 public class NetworkManager implements ServerEventable {
     public static NetworkManager instance = null;
 
-    public static boolean initialize() {
+    public static boolean isMaster() {
+        return !Server.isMasterUp();
+    }
+
+    public static void connectClient() {
+        LocalClient.connect();
+    }
+
+    public static void initialize() {
         if (instance != null)
-            return false;
+            return;
 
         instance = new NetworkManager();
 
         if (!Server.isMasterUp()) {
             Server.start();
             Server.startListening();
-            return true;
         }
-        return false;
     }
 
     public NetworkManager() {

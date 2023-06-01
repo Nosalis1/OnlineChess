@@ -1,6 +1,7 @@
 package gui;
 
 import socket.LocalClient;
+import socket.NetworkManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,9 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends Window implements ActionListener {
-
-    public static final Menu instance = new Menu();
-
     public Menu(){
         super("Menu");
         createUserInterface();
@@ -45,7 +43,7 @@ public class Menu extends Window implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         hideWindow();
-        LocalClient.connect();
-       //LocalClient.disconnect();
+        NetworkManager.connectClient();
+        //TODO: DISABLE BUTTONS AND ENABLE "WAITING FOR OPPONENT..." LABEL
     }
 }

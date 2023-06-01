@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Login extends Window implements ActionListener {
-    public static final Login instance = new Login();
-
     public Login() {
         super("Login");
         createUserInterface();
@@ -82,11 +80,13 @@ public class Login extends Window implements ActionListener {
 
         if (game.users.User.login(userName, password)) {
             util.Console.message("Valid User", Console.PrintType.Gui);
-            super.hideWindow();
-            Menu.instance.showWindow();
+            GuiManager.instance.loggedIn();
         } else {
             usernameField.setText("");
             passwordField.setText("");
+
+            JOptionPane.showMessageDialog(null, "Invalid Username/Password! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
+
             util.Console.warning("Invalid User!", Console.PrintType.Gui);
         }
     }

@@ -1,10 +1,7 @@
-import socket.Client;
-import socket.ServerClient;
-import socket.ServerRoom;
+package socket;
+
 import socket.packages.Packet;
 import util.Array;
-
-import java.nio.channels.ClosedByInterruptException;
 
 public class RoomManager {
     public static RoomManager instance;

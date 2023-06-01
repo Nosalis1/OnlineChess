@@ -14,8 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class Game extends Window {
-    public static Game instance;
-
     public Game() {
         super("Game");
         super.setSize(1100, 860);
@@ -24,13 +22,6 @@ public class Game extends Window {
 
         createTable();
         createInfo();
-
-        super.showWindow();
-    }
-
-    public static void initialize() {
-        if (instance == null)
-            instance = new Game();
     }
 
     gui.images.Field[][] fields = null;
@@ -45,6 +36,12 @@ public class Game extends Window {
 
     public gui.images.Field getField(final Vector at) {
         return getField(at.X, at.Y);
+    }
+
+    public void clearFields() {
+        for (gui.images.Field[] fieldRow : fields)
+            for (gui.images.Field field : fieldRow)
+                field.setImage(null);
     }
 
     private void createTable() {
