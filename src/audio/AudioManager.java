@@ -15,6 +15,8 @@ public class AudioManager {
      * Initializes the AudioManager by loading audio clips and creating the instance.
      */
     public static void initialize() {
+        util.Console.message("Initializing AudioManager.", Console.PrintType.Main);
+
         if (instance == null)
             instance = new AudioManager();
 
@@ -24,9 +26,13 @@ public class AudioManager {
                 "src/audio/sfx/move.wav",
                 "src/audio/sfx/start.wav"
         };
-
-        for (String path : FILE_PATHS) {
-            clips.add(new AudioClip(path));
+        try {
+            for (String path : FILE_PATHS) {
+                clips.add(new AudioClip(path));
+            }
+        } catch (Exception ex) {
+            util.Console.error("Failed to load sfx!", Console.PrintType.Audio);
+            ex.printStackTrace();
         }
     }
 

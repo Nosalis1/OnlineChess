@@ -1,5 +1,7 @@
 package gui.images;
 
+import util.Console;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +28,9 @@ public class Image {
                     new Image("src/gui/images/256px/b_pawn_png_shadow_256px.png")
             }
     };
+    public  static  void wakeUp() {
+        return;
+    }
 
     private BufferedImage image;
 
@@ -34,12 +39,16 @@ public class Image {
     }
 
     private void load(final String path) {
+        util.Console.message("Loading new Image : " + path, Console.PrintType.Gui);
+
         File file = new File(path);
         try {
             this.image = ImageIO.read(file);
         } catch (IOException ex) {
+            util.Console.error("Failed to load new Image : " + path, Console.PrintType.Gui);
             ex.printStackTrace();
         }
+        util.Console.message("Image loaded : " + file.getName(), Console.PrintType.Gui);
     }
 
     public Image(String path) {

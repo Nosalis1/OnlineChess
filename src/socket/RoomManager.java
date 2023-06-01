@@ -2,11 +2,14 @@ package socket;
 
 import socket.packages.Packet;
 import util.Array;
+import util.Console;
 
 public class RoomManager {
     public static RoomManager instance;
 
     public static void initialize() {
+        util.Console.message("Initializing RoomManager.", Console.PrintType.Main);
+
         if (instance == null)
             instance = new RoomManager();
     }

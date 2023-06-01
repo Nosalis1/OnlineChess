@@ -1,18 +1,22 @@
 package gui;
 
 import game.Board;
-import game.GameManager;
 import game.Move;
 import game.Piece;
 import gui.images.Field;
 import gui.images.Image;
 import util.Array;
+import util.Console;
 import util.Vector;
 
 public class GuiManager {
     public static GuiManager instance;
 
     public static void initialize() {
+        util.Console.message("Initializing GuiManager.", Console.PrintType.Main);
+
+        Image.wakeUp();
+
         if (instance == null)
             instance = new GuiManager();
     }

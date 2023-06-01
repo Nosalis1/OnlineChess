@@ -1,6 +1,7 @@
 package socket;
 
 import socket.events.ServerEventable;
+import util.Console;
 
 import java.net.Socket;
 
@@ -16,6 +17,8 @@ public class NetworkManager implements ServerEventable {
     }
 
     public static void initialize() {
+        util.Console.message("Initializing NetworkManager.", Console.PrintType.Main);
+
         if (instance != null)
             return;
 
