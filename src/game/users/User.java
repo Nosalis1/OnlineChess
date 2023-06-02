@@ -27,6 +27,7 @@ public class User {
         for (int i = 0; i < existingUsers.size(); i++) {
             User user = existingUsers.get(i);
             if (user.getUserName().equals(userName) && user.isCorrectPassword(password)) {
+                util.Console.message("User logged in");
                 currentUser = user;
                 return true;
             }
@@ -75,6 +76,8 @@ public class User {
         } catch (Exception ignored) {
             return false;
         }
+        loadUsers();
+        currentUser = existingUsers.get(existingUsers.size() - 1);
         return true;
     }
 
@@ -106,7 +109,7 @@ public class User {
             String password = userObject.get("password").getAsString();
             if (userName.equals(this.userName) && password.equals(this.password)) {
                 usersArray.remove(userObject);
-                return true;
+                break;
             }
         }
         try (FileWriter writer = new FileWriter(DATA_PATH)) {
@@ -114,24 +117,23 @@ public class User {
             json.add("users", usersArray);
             writer.write(gsonBuilder.toJson(json));
         }
+        loadUsers();
         return true;
     }
 
     public static boolean removeUser(String userName) throws IOException {
-        User user = null;
         for (int i = 0; i < existingUsers.size(); i++) {
             User dummy = existingUsers.get(i);
-            if (dummy.getUserName().equals(userName)) {
-                user = dummy;
-                break;
-            }
+            if (dummy.getUserName().equals(userName)) return dummy.removeUser();
         }
-        if (user != null) return user.removeUser();
         return false;
     }
 
     public static boolean removeUser(User user) throws IOException {
-        if (existingUsers.contains(user)) return user.removeUser();
+        for (int i = 0; i < existingUsers.size(); i++) {
+            User dummy = existingUsers.get(i);
+            if (dummy.equals(user)) return user.removeUser();
+        }
         return false;
     }
 

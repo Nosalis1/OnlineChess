@@ -17,8 +17,7 @@ public class GuiManager {
 
         Image.wakeUp();
 
-        if (instance == null)
-            instance = new GuiManager();
+        if (instance == null) instance = new GuiManager();
     }
 
     private final Login loginWindow;
@@ -87,7 +86,7 @@ public class GuiManager {
         });
     }
 
-    public void startGame(){
+    public void startGame() {
         updateFields();
         menuWindow.hideWindow();
         gameWindow.showWindow();
@@ -101,6 +100,11 @@ public class GuiManager {
     public void registered() {
         this.registerWindow.hideWindow();
         this.menuWindow.showWindow();
+    }
+
+    public void accountDeleted() {
+        this.getMenuWindow().hideWindow();
+        this.getLoginWindow().showWindow();
     }
 
     //HIGHLIGHTING
@@ -119,7 +123,7 @@ public class GuiManager {
         currentHighlights.add(temp);
     }
 
-    private void setHiglights(util.Array<Vector> at) {
+    private void setHighlights(util.Array<Vector> at) {
         at.foreach((Vector position) -> {
             Field temp = this.gameWindow.getField(position);
 
@@ -134,10 +138,9 @@ public class GuiManager {
 
         Piece piece = Board.instance.get(vector);
 
-        if (piece == null)
-            return;
+        if (piece == null) return;
 
         setHighlight(vector);
-        setHiglights(piece.getMoves());
+        setHighlights(piece.getMoves());
     }
 }

@@ -26,7 +26,6 @@ public class Login extends Window implements ActionListener {
         int y = 70;
 
         JLabel label = new JLabel("LOGIN");
-
         label.setBounds(x, y, 120, 20);
         label.setForeground(Color.WHITE);
 
@@ -34,7 +33,6 @@ public class Login extends Window implements ActionListener {
         y += SPACING;
 
         label = new JLabel("Username:");
-
         label.setBounds(x, y, 120, 20);
         label.setForeground(Color.WHITE);
 
@@ -42,14 +40,12 @@ public class Login extends Window implements ActionListener {
         y += SPACING - 10;
 
         usernameField = new TextField();
-
         usernameField.setBounds(x, y, 120, 20);
 
         add(usernameField);
         y += SPACING;
 
         label = new JLabel("Password:");
-
         label.setBounds(x, y, 120, 20);
         label.setForeground(Color.WHITE);
 
@@ -57,24 +53,25 @@ public class Login extends Window implements ActionListener {
         y += SPACING - 10;
 
         passwordField = new JPasswordField();
-
         passwordField.setBounds(x, y, 120, 20);
 
         add(passwordField);
         y += SPACING;
 
         JButton loginButton = new JButton("Login");
-        loginButton.setBounds(x, y, 58, 20);
+        loginButton.setBounds(x, y, 120, 20);
         loginButton.addActionListener(this);
 
+        add(loginButton);
+        y += SPACING;
+
         JButton registerButton = new JButton("Register");
-        registerButton.setBounds(x + 62, y, 58, 20);
+        registerButton.setBounds(x, y, 120, 20);
         registerButton.addActionListener(e -> {
             this.hideWindow();
             GuiManager.instance.getRegisterWindow().showWindow();
         });
 
-        add(loginButton);
         add(registerButton);
         y += SPACING;
     }
@@ -87,6 +84,10 @@ public class Login extends Window implements ActionListener {
 
         if (game.users.User.login(userName, password)) {
             util.Console.message("Valid User", Console.PrintType.Gui);
+
+            usernameField.setText("");
+            passwordField.setText("");
+
             GuiManager.instance.loggedIn();
         } else {
             usernameField.setText("");

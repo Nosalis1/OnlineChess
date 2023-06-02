@@ -2,10 +2,8 @@ package gui;
 
 import game.Board;
 import game.GameManager;
-import game.Move;
 import game.Piece;
 import gui.images.Field;
-import util.Array;
 import util.Vector;
 
 import javax.swing.*;
@@ -24,14 +22,14 @@ public class Game extends Window {
         createInfo();
     }
 
-        //comment
+    //comment
     gui.images.Field[][] fields = null;
 
     public gui.images.Field[][] getFields() {
         return this.fields;
     }
 
-    public gui.images.Field getField(final int x,final int y) {
+    public gui.images.Field getField(final int x, final int y) {
         return this.fields[x][y];
     }
 
@@ -82,15 +80,15 @@ public class Game extends Window {
 
     public void updateInfoTable(Piece piece) {
         int pawnsWhite = 0, pawnsBlack = 0,
-            rooksWhite = 0, rooksBlack = 0,
-            knightsWhite = 0, knightsBlack = 0,
-            bishopsWhite = 0, bishopsBlack = 0;
+                rooksWhite = 0, rooksBlack = 0,
+                knightsWhite = 0, knightsBlack = 0,
+                bishopsWhite = 0, bishopsBlack = 0;
         boolean queenWhite = false, queenBlack = false,
-            kingWhite = false, kingBlack = false;
+                kingWhite = false, kingBlack = false;
 
         util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(),
-                          piecesBlack = Board.instance.getBlackPieces();
-        for (int i=0; i<Board.instance.getWhitePieces().size(); i++) {
+                piecesBlack = Board.instance.getBlackPieces();
+        for (int i = 0; i < Board.instance.getWhitePieces().size(); i++) {
             switch (piecesWhite.get(i).getType()) {
                 case Pawn -> pawnsWhite++;
                 case Rook -> rooksWhite++;
@@ -100,7 +98,7 @@ public class Game extends Window {
                 case King -> kingWhite = true;
             }
         }
-        for (int i=0; i<Board.instance.getBlackPieces().size(); i++) {
+        for (int i = 0; i < Board.instance.getBlackPieces().size(); i++) {
             switch (piecesBlack.get(i).getType()) {
                 case Pawn -> pawnsBlack++;
                 case Rook -> rooksBlack++;
@@ -111,12 +109,12 @@ public class Game extends Window {
             }
         }
 
-        int whiteScore=GameManager.instance.getWhiteScore(), blackScore=GameManager.instance.getBlackScore();
+        int whiteScore = GameManager.instance.getWhiteScore(), blackScore = GameManager.instance.getBlackScore();
 
         String messageWhite = String.format("<html>Username: %s<br>", "ime") +
                 String.format("ELO: %s<br>", "elo") +
                 String.format("CurrentPiecesCount: %d<br>", piecesWhite.size()) +
-                String.format("CurrentPiecesScore: %d<br>",GameManager.instance.isWhite()?whiteScore:blackScore) +
+                String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) +
                 String.format("Pawns: %d<br>", pawnsWhite) +
                 String.format("Rooks (Castles): %d<br>", rooksWhite) +
                 String.format("Knights: %d<br>", knightsWhite) +
@@ -127,7 +125,7 @@ public class Game extends Window {
         String messageBlack = String.format("<html>Username: %s<br>", "ime") +
                 String.format("ELO: %s<br>", "elo") +
                 String.format("CurrentPiecesCount: %d<br>", piecesBlack.size()) +
-                String.format("CurrentPiecesScore: %d<br>",GameManager.instance.isWhite()?whiteScore:blackScore) +
+                String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) +
                 String.format("Pawns: %d<br>", pawnsBlack) +
                 String.format("Rooks (Castles): %d<br>", rooksBlack) +
                 String.format("Knights: %d<br>", knightsBlack) +
@@ -148,7 +146,7 @@ public class Game extends Window {
         if (movesTableModel.getRowCount() >= 15)
             movesTableModel.removeRow(0);
         String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
-        movesTableModel.addRow(new Object[] { moveString });
+        movesTableModel.addRow(new Object[]{moveString});
     }
 
     private JPanel playerPanel, opponentPanel;
@@ -156,9 +154,11 @@ public class Game extends Window {
     private DefaultTableModel movesTableModel;
 
     private void createInfo() {
-        movesTableModel = new DefaultTableModel(new Object[] { "Column 1" }, 0) {
+        movesTableModel = new DefaultTableModel(new Object[]{"Column 1"}, 0) {
             @Override
-            public boolean isCellEditable(int row, int column) { return false; }
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         };
         JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");

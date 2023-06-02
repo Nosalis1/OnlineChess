@@ -45,6 +45,9 @@ public class Menu extends Window implements ActionListener {
         removeUserButton.addActionListener(e -> {
             try {
                 User.currentUser.removeUser();
+                User.currentUser = null;
+                JOptionPane.showMessageDialog(null, "Your account has successfully been deleted!", "User Removed", JOptionPane.INFORMATION_MESSAGE);
+                GuiManager.instance.accountDeleted();
             } catch (IOException ex) {
                 util.Console.error(String.format("User %s not removed", User.currentUser.getUserName()));
             }

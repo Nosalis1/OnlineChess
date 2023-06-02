@@ -1,6 +1,5 @@
 package gui;
 
-import game.users.User;
 import util.Console;
 
 import javax.swing.*;
@@ -77,11 +76,14 @@ public class Register extends Window implements ActionListener {
         String password = new String(passwordField.getPassword());
 
         try {
-            if (User.addUser(userName, password)) {
+            if (game.users.User.addUser(userName, password)) {
                 util.Console.message("User registered!", Console.PrintType.Gui);
+
+                usernameField.setText("");
+                passwordField.setText("");
+
                 GuiManager.instance.registered();
-            }
-            else {
+            } else {
                 usernameField.setText("");
                 passwordField.setText("");
 
@@ -89,18 +91,7 @@ public class Register extends Window implements ActionListener {
 
                 util.Console.warning("User already exist!", Console.PrintType.Gui);
             }
-        } catch (IOException ignored) {}
-
-//        if (game.users.User.login(userName, password)) {
-//            util.Console.message("Valid User", Console.PrintType.Gui);
-//            GuiManager.instance.loggedIn();
-//        } else {
-//            usernameField.setText("");
-//            passwordField.setText("");
-//
-//            JOptionPane.showMessageDialog(null, "Invalid Username/Password! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
-//
-//            util.Console.warning("Invalid User!", Console.PrintType.Gui);
-//        }
+        } catch (IOException ignored) {
+        }
     }
 }
