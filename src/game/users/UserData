@@ -1,20 +1,24 @@
 {
   "users": [
     {
-        "username": "admin",
-        "password": "81dc9bdb52d04dc20036dbd8313ed055"
+      "username": "admin",
+      "password": "admin"
     },
     {
       "username": "Nosalis",
-      "password": "81dc9bdb52d04dc20036dbd8313ed055"
+      "password": "1234"
     },
     {
       "username": "Hadaror",
-      "password": "01cfcd4f6b8770febfb40cb906715822"
+      "password": "54321"
     },
     {
       "username": "luca",
-      "password": "81dc9bdb52d04dc20036dbd8313ed055"
+      "password": "1234"
+    },
+    {
+      "username": "muca",
+      "password": "1234"
     }
   ]
 }

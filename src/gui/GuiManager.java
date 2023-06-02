@@ -22,11 +22,16 @@ public class GuiManager {
     }
 
     private final Login loginWindow;
+    private final Register registerWindow;
     private final Menu menuWindow;
     private final Game gameWindow;
 
     public Login getLoginWindow() {
         return this.loginWindow;
+    }
+
+    public Register getRegisterWindow() {
+        return this.registerWindow;
     }
 
     public Menu getMenuWindow() {
@@ -39,6 +44,7 @@ public class GuiManager {
 
     public GuiManager() {
         this.loginWindow = new Login();
+        this.registerWindow = new Register();
         this.menuWindow = new Menu();
         this.gameWindow = new Game();
 
@@ -89,6 +95,11 @@ public class GuiManager {
 
     public void loggedIn() {
         this.loginWindow.hideWindow();
+        this.menuWindow.showWindow();
+    }
+
+    public void registered() {
+        this.registerWindow.hideWindow();
         this.menuWindow.showWindow();
     }
 

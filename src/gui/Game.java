@@ -145,13 +145,10 @@ public class Game extends Window {
     }
 
     public void updateMovesTable(Piece piece) {
-        if (movesTableModel.getRowCount() <= 10) {
-            String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
-            movesTableModel.addRow(new Object[] { moveString });
-        }
-        else {
-
-        }
+        if (movesTableModel.getRowCount() >= 15)
+            movesTableModel.removeRow(0);
+        String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
+        movesTableModel.addRow(new Object[] { moveString });
     }
 
     private JPanel playerPanel, opponentPanel;
@@ -168,11 +165,11 @@ public class Game extends Window {
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
         movesPanel.setTableHeader(null);
         movesPanel.setBounds(823, 475, 251, 240);
-        JPanel panel = new JPanel();
-        panel.add(movesPanel);
-        panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
-        panel.setBounds(818, 470, 260, 250);
-        add(panel);
+        JPanel movesPanelWrapper = new JPanel();
+        movesPanelWrapper.add(movesPanel);
+        movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+        movesPanelWrapper.setBounds(818, 470, 260, 250);
+        add(movesPanelWrapper);
 
         Board.instance.onPieceMoved.add(this::updateMovesTable);
 
@@ -204,4 +201,5 @@ public class Game extends Window {
         add(movesPanel);
         add(timerPanel);
     }
+    // TODO: Dodaj metodu za odbrojavanje vremena
 }

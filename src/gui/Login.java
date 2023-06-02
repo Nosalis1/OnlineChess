@@ -63,38 +63,19 @@ public class Login extends Window implements ActionListener {
         add(passwordField);
         y += SPACING;
 
-        JButton button = new JButton("Login");
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(x, y, 58, 20);
+        loginButton.addActionListener(this);
 
-        button.setBounds(x, y, 120, 20);
-        button.addActionListener(this);
-
-        add(button);
-        y += SPACING;
-
-        button = new JButton("Register");
-
-        button.setBounds(x, y, 120, 20);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String userName = usernameField.getText();
-                String password = new String(passwordField.getPassword());
-
-                if(game.users.User.register(userName,password)){
-                    util.Console.message("User registered!", Console.PrintType.Gui);
-                    GuiManager.instance.loggedIn();
-                }else{
-                    usernameField.setText("");
-                    passwordField.setText("");
-
-                    JOptionPane.showMessageDialog(null, "Username taken! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
-
-                    util.Console.warning("User already exist!", Console.PrintType.Gui);
-                }
-            }
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(x + 62, y, 58, 20);
+        registerButton.addActionListener(e -> {
+            this.hideWindow();
+            GuiManager.instance.getRegisterWindow().showWindow();
         });
 
-        add(button);
+        add(loginButton);
+        add(registerButton);
         y += SPACING;
     }
 
