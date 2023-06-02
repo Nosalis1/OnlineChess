@@ -1,7 +1,6 @@
 package socket;
 
 import util.Array;
-import util.Console;
 import util.events.ArgEvent;
 
 public class ServerRoom implements Runnable {
@@ -21,6 +20,7 @@ public class ServerRoom implements Runnable {
 
     private boolean inProgress = false;
 
+    @SuppressWarnings("unused")
     public final boolean isInProgress() {
         return this.inProgress;
     }

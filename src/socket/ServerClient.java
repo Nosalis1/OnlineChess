@@ -1,11 +1,12 @@
 package socket;
 
 import socket.packages.Packet;
-import util.Console;
 
 import java.net.Socket;
 
+@SuppressWarnings("unused")
 public class ServerClient extends Client {
+    @SuppressWarnings("unused")
     public ServerClient(Socket socket) {
         super(socket);
     }

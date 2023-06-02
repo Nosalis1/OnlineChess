@@ -1,9 +1,6 @@
 package audio;
 
-import util.Console;
-
 import java.io.File;
-import java.io.IOException;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,6 +21,7 @@ public class AudioClip {
      *
      * @return the Clip object of the audio clip
      */
+    @SuppressWarnings("unused")
     public final Clip getClip() {
         return this.clip;
     }
@@ -75,7 +73,7 @@ public class AudioClip {
 
         try {
             File file = new File(fileName);
-            this.name = file.getName();
+            this.setName(file.getName());
 
             this.clip = AudioSystem.getClip();
             this.clip.open(AudioSystem.getAudioInputStream(file));

@@ -11,7 +11,6 @@ public class Board {
     public static final Board instance = new Board();
 
     public static final int SIZE = 8;
-    public static final int HALF_SIZE = SIZE / 2;
     public static final int LAST = SIZE - 1;
 
     private Piece[][] pieces = new Piece[SIZE][SIZE];
@@ -35,6 +34,10 @@ public class Board {
     public Board(Board other) {
         this.pieces = other.getPiecesCopy();
         this.updatePieces();
+
+        this.onPieceEaten.clear();
+        this.onPieceMove.clear();
+        this.onPieceMoved.clear();
     }
 
     private final util.Array<Piece> whitePieces = new Array<>();
@@ -179,6 +182,7 @@ public class Board {
         return inPath(from, to.X, to.Y, ddx, ddy);
     }
 
+    @SuppressWarnings("unused")
     public boolean inPath(final Vector from, final Vector to, Vector step) {
         return inPath(from, to, step.X, step.Y);
     }
@@ -192,7 +196,7 @@ public class Board {
     private final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
     private String convertVector(final Vector vector) {
-        return (vector.X + 1) + "" + labels[vector.Y];
+        return (vector.X + 1) + labels[vector.Y];
     }
 
     private String convertMove(final Move move) {
@@ -230,6 +234,7 @@ public class Board {
         move(move.getFrom(), move.getTo());
     }
 
+    @SuppressWarnings("unused")
     public void networkMove(final Move move) {
         networkMove(move.getFrom(), move.getTo());
     }
@@ -244,6 +249,7 @@ public class Board {
         return false;
     }
 
+    @SuppressWarnings("unused")
     public boolean tryMove(final Move move) {
         return tryMove(move.getFrom(), move.getTo());
     }
@@ -269,9 +275,7 @@ public class Board {
         util.Array<Move> legalMoves = new Array<>();
         tempPieces.foreach((Piece piece) -> {
             util.Array<Vector> moves = piece.getMoves();
-            moves.foreach((Vector destination) -> {
-                legalMoves.add(new Move(piece.getPosition(), destination));
-            });
+            moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
         });
 
         for(int i =0;i<legalMoves.size();i++) {

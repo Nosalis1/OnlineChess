@@ -6,16 +6,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.Buffer;
 
 public class Stream {
     protected PrintWriter out;
     protected BufferedReader in;
 
+    @SuppressWarnings("unused")
     public PrintWriter getOutStream() {
         return this.out;
     }
 
+    @SuppressWarnings("unused")
     public BufferedReader getInStream() {
         return this.in;
     }
@@ -30,8 +31,6 @@ public class Stream {
             ex.printStackTrace();
         }
     }
-
-    //TODO: HANDLE SENDING/RECEIVING
 
     public void send(Packet packet) {
         out.println(packet.getPackedBuffer());

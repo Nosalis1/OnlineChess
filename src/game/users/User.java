@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class User {
     public static User currentUser = null;
-    public static User opponent = null;
     private static final com.google.gson.Gson gson = new com.google.gson.Gson();
     private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
     private static final util.Array<User> existingUsers = new Array<>();
@@ -86,6 +85,7 @@ public class User {
         return new User(userName, password).addUser();
     }
 
+    @SuppressWarnings("unused")
     public static boolean addUser(User user) throws IOException {
         return user.addUser();
     }
@@ -122,6 +122,7 @@ public class User {
         return true;
     }
 
+    @SuppressWarnings("unused")
     public static boolean removeUser(String userName) throws IOException {
         for (int i = 0; i < existingUsers.size(); i++) {
             User dummy = existingUsers.get(i);
@@ -130,6 +131,7 @@ public class User {
         return false;
     }
 
+    @SuppressWarnings("unused")
     public static boolean removeUser(User user) throws IOException {
         for (int i = 0; i < existingUsers.size(); i++) {
             User dummy = existingUsers.get(i);

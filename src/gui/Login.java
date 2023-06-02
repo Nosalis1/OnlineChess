@@ -1,7 +1,5 @@
 package gui;
 
-import util.Console;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -73,7 +71,6 @@ public class Login extends Window implements ActionListener {
         });
 
         add(registerButton);
-        y += SPACING;
     }
 
     @Override

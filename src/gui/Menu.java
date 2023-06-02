@@ -61,7 +61,6 @@ public class Menu extends Window implements ActionListener {
 
         add(info);
         info.setVisible(false);
-        y += SPACING;
     }
 
     @Override

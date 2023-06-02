@@ -4,13 +4,12 @@ import util.Vector;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class ImagePanel extends JPanel {
 
     private Image image;
 
+    @SuppressWarnings("unused")
     public Image getImage() {
         return this.image;
     }
@@ -40,8 +39,9 @@ public class ImagePanel extends JPanel {
         jLabel.setPreferredSize(new Dimension(x, y));
     }
 
-    private String label = null;
+    private String label;
 
+    @SuppressWarnings("unused")
     public String getLabel() {
         return this.label;
     }
@@ -61,6 +61,7 @@ public class ImagePanel extends JPanel {
         initialize();
     }
 
+    @SuppressWarnings("unused")
     public ImagePanel(String label) {
         super();
 
@@ -70,6 +71,7 @@ public class ImagePanel extends JPanel {
         initialize();
     }
 
+    @SuppressWarnings("unused")
     public ImagePanel(Image image) {
         super();
 
@@ -79,6 +81,7 @@ public class ImagePanel extends JPanel {
         initialize();
     }
 
+    @SuppressWarnings("unused")
     public ImagePanel(Image image, String label) {
         super();
 
@@ -123,10 +126,12 @@ public class ImagePanel extends JPanel {
 
     private int imageScale = 30;
 
+    @SuppressWarnings("unused")
     public int getImageScale() {
         return this.imageScale;
     }
 
+    @SuppressWarnings("unused")
     public void setImageScale(int imageScale) {
         this.imageScale = imageScale;
     }

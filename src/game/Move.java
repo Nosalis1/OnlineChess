@@ -6,8 +6,8 @@ import util.Vector;
 
 public class Move implements Streamable {
 
-    private  Vector from;
-    private  Vector to;
+    private final Vector from;
+    private final Vector to;
 
     public Vector getFrom() {
         return this.from;
@@ -36,13 +36,13 @@ public class Move implements Streamable {
             System.out.println(str);
         if (values.length == 2) {
             this.from.unapck(values[0]);
-            System.out.println("CONVERTED FROM : " + this.from.toString());
+            System.out.println("CONVERTED FROM : " + this.from);
             this.to.unapck(values[1]);
-            System.out.println("CONVERTED TO : " + this.to.toString());
+            System.out.println("CONVERTED TO : " + this.to);
         } else
             throw new IllegalArgumentException("Invalid buffer format");
 
-        System.out.println(this.from.toString());
-        System.out.println(this.to.toString());
+        System.out.println(this.from);
+        System.out.println(this.to);
     }
 }

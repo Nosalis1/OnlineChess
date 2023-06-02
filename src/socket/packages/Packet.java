@@ -1,7 +1,5 @@
 package socket.packages;
 
-import game.Piece;
-
 public class Packet {
     public enum Type {
         START_GAME("$0000!"),
@@ -62,14 +60,17 @@ public class Packet {
         setBuffer(buffer, type);
     }
 
+    @SuppressWarnings("unused")
     public boolean equals(Packet other) {
         return getType() == other.getType();
     }
 
+    @SuppressWarnings("unused")
     public void pack(Streamable streamable, Type type) {
         this.buffer = streamable.pack(type);
     }
 
+    @SuppressWarnings("unused")
     public void unapck(Streamable streamable) {
         streamable.unapck(getBuffer());
     }

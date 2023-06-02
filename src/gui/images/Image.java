@@ -1,7 +1,5 @@
 package gui.images;
 
-import util.Console;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +27,6 @@ public class Image {
             }
     };
     public  static  void wakeUp() {
-        return;
     }
 
     private BufferedImage image;

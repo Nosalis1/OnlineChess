@@ -1,7 +1,6 @@
 package socket;
 
 import socket.events.ServerEventable;
-import util.Console;
 
 import java.net.Socket;
 

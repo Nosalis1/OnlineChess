@@ -6,7 +6,6 @@ import game.Piece;
 import gui.images.Field;
 import gui.images.Image;
 import util.Array;
-import util.Console;
 import util.Vector;
 
 public class GuiManager {
@@ -36,6 +35,7 @@ public class GuiManager {
         return this.menuWindow;
     }
 
+    @SuppressWarnings("unused")
     public Game getGameWindow() {
         return this.gameWindow;
     }
@@ -110,9 +110,7 @@ public class GuiManager {
     private final Array<Field> currentHighlights = new Array<>();
 
     public void resetHighlights() {
-        currentHighlights.foreach((Field field) -> {
-            field.setColor(ColorGradient.FIELD.getColor(field.isGradient()));
-        });
+        currentHighlights.foreach((Field field) -> field.setColor(ColorGradient.FIELD.getColor(field.isGradient())));
         currentHighlights.clear();
     }
 

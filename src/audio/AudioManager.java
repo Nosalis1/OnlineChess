@@ -3,7 +3,6 @@ package audio;
 import game.Board;
 import game.Piece;
 import util.Array;
-import util.Console;
 
 public class AudioManager {
     /**
@@ -86,6 +85,7 @@ public class AudioManager {
      *
      * @param name the name of the audio clip to play
      */
+    @SuppressWarnings("unused")
     public static void playClip(final String name) {
         AudioClip clip = findClip(name);
         if (clip == null) {

@@ -2,7 +2,6 @@ package socket;
 
 import socket.packages.Packet;
 import util.Array;
-import util.Console;
 
 public class RoomManager {
     public static RoomManager instance;
@@ -52,9 +51,7 @@ public class RoomManager {
         clients.get(clients.size() - 1).send(packet);
         packet.setBuffer("",Packet.Type.START_GAME);
         Packet finalPacket = packet;
-        clients.foreach((Client client) -> {
-            client.send(finalPacket);
-        });
+        clients.foreach((Client client) -> client.send(finalPacket));
 
         Client whitePlayer = clients.get(0), blackPlayer = clients.get(1);
 

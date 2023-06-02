@@ -1,12 +1,9 @@
 package game;
 
-import audio.AudioManager;
 import game.users.User;
-import gui.Game;
 import gui.GuiManager;
 import gui.images.Field;
 import socket.packages.Packet;
-import util.Console;
 import util.Vector;
 
 import java.io.IOException;
@@ -128,8 +125,6 @@ public class GameManager {
             GuiManager.instance.resetHighlights();//TODO:FIX THIS IMPLEMENTATION LATER
         }
     }
-
-    Move networkMove = new Move(Vector.ZERO, Vector.ZERO);
 
     public void handleNetworkPackage(final Packet packet) {
 
