@@ -83,7 +83,7 @@ public class Login extends Window implements ActionListener {
         String password = new String(passwordField.getPassword());
 
         if (game.users.User.login(userName, password)) {
-            util.Console.message("Valid User", Console.PrintType.Gui);
+            util.Console.message("Valid User", this);
 
             usernameField.setText("");
             passwordField.setText("");
@@ -95,7 +95,7 @@ public class Login extends Window implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Invalid Username/Password! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
 
-            util.Console.warning("Invalid User!", Console.PrintType.Gui);
+            util.Console.warning("Invalid User!", this);
         }
     }
 }

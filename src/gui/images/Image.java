@@ -39,16 +39,16 @@ public class Image {
     }
 
     private void load(final String path) {
-        util.Console.message("Loading new Image : " + path, Console.PrintType.Gui);
+        util.Console.message("Loading new Image : " + path, this);
 
         File file = new File(path);
         try {
             this.image = ImageIO.read(file);
         } catch (IOException ex) {
-            util.Console.error("Failed to load new Image : " + path, Console.PrintType.Gui);
+            util.Console.error("Failed to load new Image : " + path, this);
             ex.printStackTrace();
         }
-        util.Console.message("Image loaded : " + file.getName(), Console.PrintType.Gui);
+        util.Console.message("Image loaded : " + file.getName(), this);
     }
 
     public Image(String path) {

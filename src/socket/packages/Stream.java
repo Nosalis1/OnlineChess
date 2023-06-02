@@ -26,7 +26,7 @@ public class Stream {
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
             this.in = new BufferedReader(isr);
         } catch (Exception ex) {
-            Console.error("Failed to initialize IN/OUT Streams!", Console.PrintType.Socket);
+            Console.error("Failed to initialize IN/OUT Streams!", this);
             ex.printStackTrace();
         }
     }

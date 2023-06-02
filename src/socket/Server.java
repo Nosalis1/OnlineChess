@@ -21,20 +21,20 @@ public class Server {
 
     // TODO : MAIN
     public static void start() {
-        Console.message("Trying to start the Server on port " + PORT, Console.PrintType.Socket);
+        Console.message("Trying to start the Server on port " + PORT, null);
         if (isMasterUp() || isMasterActive()) {
-            Console.error("Failed to start the Server.Server is already UP!", Console.PrintType.Socket);
+            Console.error("Failed to start the Server.Server is already UP!", null);
             return;
         }
 
-        Console.message("Trying to initialize ServerSocket", Console.PrintType.Socket);
+        Console.message("Trying to initialize ServerSocket", null);
         try {
             serverSocket = new ServerSocket(PORT);
 
-            Console.message("ServerSocket initialized.Server started", Console.PrintType.Socket);
+            Console.message("ServerSocket initialized.Server started", null);
             eventHandler.onServerStarted();
         } catch (Exception ex) {
-            Console.error("Failed to initialize ServerSocket!", Console.PrintType.Socket);
+            Console.error("Failed to initialize ServerSocket!", null);
             ex.printStackTrace();
         }
     }
@@ -43,20 +43,20 @@ public class Server {
         if (isListening())
             stopListening();
 
-        Console.message("Trying to stop the Server on port " + PORT, Console.PrintType.Socket);
+        Console.message("Trying to stop the Server on port " + PORT, null);
         if (isClosed()) {
-            Console.error("Failed to stop the Server.Server is already CLOSED!", Console.PrintType.Socket);
+            Console.error("Failed to stop the Server.Server is already CLOSED!", null);
             return;
         }
 
-        Console.message("Trying to stop ServerSocket", Console.PrintType.Socket);
+        Console.message("Trying to stop ServerSocket", null);
         try {
             serverSocket.close();
 
-            Console.message("ServerSocket stopped.Server stopped", Console.PrintType.Socket);
+            Console.message("ServerSocket stopped.Server stopped", null);
             eventHandler.onServerStopped();
         } catch (Exception ex) {
-            Console.error("Failed to stop ServerSocket!", Console.PrintType.Socket);
+            Console.error("Failed to stop ServerSocket!", null);
             ex.printStackTrace();
         }
     }
@@ -98,20 +98,20 @@ public class Server {
     }
 
     public static void startListening() {
-        Console.message("Trying to start the Server Listening process", Console.PrintType.Socket);
+        Console.message("Trying to start the Server Listening process", null);
         if (isListening()) {
-            Console.error("Failed to start the Server Listening process.Server is already Listening!", Console.PrintType.Socket);
+            Console.error("Failed to start the Server Listening process.Server is already Listening!", null);
             return;
         }
 
         listening = true;
 
-        Console.message("Server started Listening", Console.PrintType.Socket);
+        Console.message("Server started Listening", null);
         eventHandler.onServerStartListening();
 
         while (isListening()) {
 
-            Console.message("Waiting for new connection...", Console.PrintType.Socket);
+            Console.message("Waiting for new connection...", null);
             try {
                 Socket clientSocket = serverSocket.accept();
                 handleNewConnection(clientSocket);
@@ -120,36 +120,36 @@ public class Server {
                     stopListening();
 
             } catch (Exception ex) {
-                Console.error("Failed to accept connection from ClientSocket!", Console.PrintType.Socket);
+                Console.error("Failed to accept connection from ClientSocket!",null);
                 ex.printStackTrace();
                 break;
             }
 
         }
 
-        Console.message("Server stopped Listening", Console.PrintType.Socket);
+        Console.message("Server stopped Listening", null);
         eventHandler.onServerStopListening();
     }
 
     public static void stopListening() {
         if (!isListening()) {
-            Console.error("Failed to stop Listening process.Server is already not Listening!", Console.PrintType.Socket);
+            Console.error("Failed to stop Listening process.Server is already not Listening!", null);
             return;
         }
-        Console.message("Trying to stop Listening process", Console.PrintType.Socket);
+        Console.message("Trying to stop Listening process", null);
         listening = false;
     }
 
     private static void handleNewConnection(Socket clientSocket) {
-        Console.message("New connection received IP_ADDER " + clientSocket.getInetAddress(), Console.PrintType.Socket);
+        Console.message("New connection received IP_ADDER " + clientSocket.getInetAddress(), null);
         if (connectedSockets.contains(clientSocket)) {
-            Console.error("Failed to register new Socket.Socket is already registered!", Console.PrintType.Socket);
+            Console.error("Failed to register new Socket.Socket is already registered!", null);
             return;
         }
 
         connectedSockets.add(clientSocket);
 
-        Console.message("New connection Socket successfully registered", Console.PrintType.Socket);
+        Console.message("New connection Socket successfully registered", null);
         eventHandler.onSocketConnected(clientSocket);
     }
 

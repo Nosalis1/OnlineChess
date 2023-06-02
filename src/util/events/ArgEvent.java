@@ -12,7 +12,7 @@ public class ArgEvent<T> extends util.Array<Action<T>> {
     @Override
     public void add(Action<T> action) {
         if (contains(action)) {
-            Console.warning("Action you are trying to add already exists in the list!", Console.PrintType.Util);
+            Console.warning("Action you are trying to add already exists in the list!", this);
             return;
         }
         super.add(action);

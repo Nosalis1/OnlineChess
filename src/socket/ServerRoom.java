@@ -26,34 +26,34 @@ public class ServerRoom implements Runnable {
     }
 
     public void clientTryJoin(Client client) {
-        util.Console.message("Client is trying to join a room", Console.PrintType.Socket);
+        util.Console.message("Client is trying to join a room", null);
         if (!isOpen()) {
-            util.Console.warning("Client failed to join a room.Room is closed", Console.PrintType.Socket);
+            util.Console.warning("Client failed to join a room.Room is closed", null);
             return;
         }
 
         if (clients.contains(client)) {
-            util.Console.warning("Client failed to join a room.Client is already in this room", Console.PrintType.Socket);
+            util.Console.warning("Client failed to join a room.Client is already in this room", null);
             return;
         }
 
         clients.add(client);
-        util.Console.message("Client joined the room", Console.PrintType.Socket);
+        util.Console.message("Client joined the room", null);
 
         if (clients.size() >= MAX_CLIENTS) {
-            util.Console.warning("ROOM MAX_CLIENT_SIZE exceeded!", Console.PrintType.Socket);
-            util.Console.message("Closing the room", Console.PrintType.Socket);
+            util.Console.warning("ROOM MAX_CLIENT_SIZE exceeded!", null);
+            util.Console.message("Closing the room", null);
             open = false;
-            util.Console.message("Room closed", Console.PrintType.Socket);
-            util.Console.message("Creating room thread", Console.PrintType.Socket);
+            util.Console.message("Room closed", null);
+            util.Console.message("Creating room thread", null);
             Thread roomThread = new Thread(this);
-            util.Console.message("Starting room thread", Console.PrintType.Socket);
+            util.Console.message("Starting room thread", null);
             roomThread.start();
         }
     }
 
     public ServerRoom() {
-        util.Console.message("New Server Room created", Console.PrintType.Socket);
+        util.Console.message("New Server Room created", null);
     }
 
     public static util.events.ArgEvent<ServerRoom> onRoomStarted = new ArgEvent<>();
@@ -62,11 +62,11 @@ public class ServerRoom implements Runnable {
     public void run() {
         inProgress = true;
 
-        util.Console.message("Room process started", Console.PrintType.Socket);
+        util.Console.message("Room process started", null);
 
         onRoomStarted.run(this);
 
-        util.Console.message("Room process finished", Console.PrintType.Socket);
+        util.Console.message("Room process finished", null);
         inProgress = false;
     }
 }

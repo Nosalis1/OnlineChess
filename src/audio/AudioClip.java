@@ -70,7 +70,7 @@ public class AudioClip {
      * @param fileName the name of the audio file
      */
     private void load(String fileName) {
-        util.Console.message("Loading new AudioClip : " + fileName, Console.PrintType.Audio);
+        util.Console.message("Loading new AudioClip : " + fileName, this);
         this.clip = null;
 
         try {
@@ -80,10 +80,10 @@ public class AudioClip {
             this.clip = AudioSystem.getClip();
             this.clip.open(AudioSystem.getAudioInputStream(file));
         } catch (Exception ex) {
-            util.Console.error("Failed to load new AudioClip : " + fileName, Console.PrintType.Audio);
+            util.Console.error("Failed to load new AudioClip : " + fileName, this);
             ex.printStackTrace();
         }
-        util.Console.message("AudioClip loaded : " + this.name, Console.PrintType.Audio);
+        util.Console.message("AudioClip loaded : " + this.name,this);
     }
 
     /**
@@ -92,7 +92,7 @@ public class AudioClip {
      */
     public void play() {
         if (this.clip == null) {
-            util.Console.error("Failed to play AudioClip", Console.PrintType.Audio);
+            util.Console.error("Failed to play AudioClip", this);
             throw new NullPointerException();
         }
 
@@ -108,7 +108,7 @@ public class AudioClip {
      */
     public void stop() {
         if (!isRunning()) {
-            util.Console.warning("Trying to stop already stopped AudioClip", Console.PrintType.Audio);
+            util.Console.warning("Trying to stop already stopped AudioClip", this);
             return;
         }
 
@@ -120,7 +120,7 @@ public class AudioClip {
      */
     public void restart() {
         if (this.clip == null) {
-            util.Console.error("Trying to restart non existing clip", Console.PrintType.Audio);
+            util.Console.error("Trying to restart non existing clip", this);
             throw new NullPointerException();
         }
 

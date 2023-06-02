@@ -8,7 +8,7 @@ public class RoomManager {
     public static RoomManager instance;
 
     public static void initialize() {
-        util.Console.message("Initializing RoomManager.", Console.PrintType.Main);
+        util.Console.message("Initializing RoomManager.", instance);
 
         if (instance == null)
             instance = new RoomManager();

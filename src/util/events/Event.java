@@ -12,7 +12,7 @@ public class Event extends util.Array<Runnable> {
     @Override
     public void add(Runnable action) {
         if (contains(action)) {
-            Console.warning("Action you are trying to add already exists in the list!", Console.PrintType.Util);
+            Console.warning("Action you are trying to add already exists in the list!", this);
             return;
         }
         super.add(action);

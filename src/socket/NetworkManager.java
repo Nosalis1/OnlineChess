@@ -17,7 +17,7 @@ public class NetworkManager implements ServerEventable {
     }
 
     public static void initialize() {
-        util.Console.message("Initializing NetworkManager.", Console.PrintType.Main);
+        util.Console.message("Initializing NetworkManager.", instance);
 
         if (instance != null)
             return;

@@ -5,14 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/users/UserData" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/UserData" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio/AudioClip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioClip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/GuiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GuiManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/images/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/images/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/LocalClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/LocalClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/NetworkManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/RoomManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/RoomManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/ServerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/ServerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/ServerRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/ServerRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/events/ServerEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/events/ServerEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/packages/Stream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/packages/Stream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Console.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/events/ArgEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/events/ArgEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/events/Event.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,29 +58,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "12",
-    "last_opened_file_path": "C:/Users/Aleksa/Desktop/CS120-IspitnaPitanja.docx",
-    "onboarding.tips.debug.path": "C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;12&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aleksa/Desktop/CS120-IspitnaPitanja.docx&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Aleksa\IdeaProjects\OnlineChess\src" />
@@ -256,14 +269,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685607183694</updated>
     </task>
-    <task id="LOCAL-00024" summary="Fixed">
-      <created>1685722261655</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1685722261655</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -13,11 +13,10 @@ public class GuiManager {
     public static GuiManager instance;
 
     public static void initialize() {
-        util.Console.message("Initializing GuiManager.", Console.PrintType.Main);
-
         Image.wakeUp();
 
         if (instance == null) instance = new GuiManager();
+        util.Console.message("Initializing GuiManager.", instance);
     }
 
     private final Login loginWindow;

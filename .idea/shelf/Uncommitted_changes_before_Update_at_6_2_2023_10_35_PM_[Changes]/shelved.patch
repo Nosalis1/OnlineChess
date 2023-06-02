@@ -1,0 +1,695 @@
+Index: src/util/Array.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package util;\r\n\r\n/**\r\n * An array data structure implementation.\r\n * @param <T> The type of elements stored in the array.\r\n */\r\npublic class Array<T> {\r\n\r\n    /**\r\n     * The internal array to store elements.\r\n     */\r\n    private T[] array;\r\n\r\n    /**\r\n     * Constructs a new Array object with an initial size of 0.\r\n     */\r\n    public Array() {\r\n        this.array = createNew(0);\r\n    }\r\n\r\n    /**\r\n     * Constructs a new Array object with arbitrary size set by the user.\r\n     *\r\n     * @param size The size of the new array.\r\n     */\r\n    public Array(final int size) {\r\n        this.array = createNew(size);\r\n    }\r\n\r\n    /**\r\n     * Returns the internal array.\r\n     *\r\n     * @return The internal array.\r\n     */\r\n    public final T[] getArray() {\r\n        return this.array;\r\n    }\r\n\r\n    /**\r\n     * Creates a new array of the specified size.\r\n     *\r\n     * @param size The size of the new array.\r\n     * @return The newly created array.\r\n     */\r\n    @SuppressWarnings(\"unchecked\")\r\n    private T[] createNew(final int size) {\r\n        return (T[]) new Object[size];\r\n    }\r\n\r\n    /**\r\n     * Resizes the internal array to the specified size.\r\n     *\r\n     * @param newSize The new size of the array.\r\n     */\r\n    private void resize(final int newSize) {\r\n        T[] newArray = createNew(newSize);\r\n\r\n        final int SHORT_SIZE = Math.min(array.length, newSize);\r\n\r\n        if (SHORT_SIZE >= 0) System.arraycopy(this.array, 0, newArray, 0, SHORT_SIZE);\r\n\r\n        this.array = newArray;\r\n    }\r\n\r\n    /**\r\n     * Returns the current size of the array.\r\n     *\r\n     * @return The size of the array.\r\n     */\r\n    public final int size() {\r\n        return this.array.length;\r\n    }\r\n\r\n    /**\r\n     * Checks if the array is empty.\r\n     *\r\n     * @return True if the array is empty, false otherwise.\r\n     */\r\n    public final boolean isEmpty() {\r\n        return size() == 0;\r\n    }\r\n\r\n    /**\r\n     * Replaces the internal array with the provided array.\r\n     *\r\n     * @param array The array to replace the internal array with.\r\n     */\r\n    public void replace(T[] array) {\r\n        this.array = array;\r\n    }\r\n\r\n    /**\r\n     * Sets the element at the specified index in the array.\r\n     *\r\n     * @param index The index at which to set the element.\r\n     * @param item  The item to be set at the specified index.\r\n     * @throws IndexOutOfBoundsException if the index is out of range.\r\n     */\r\n    public void set(final int index, T item) {\r\n        if (index < 0 || index > size())\r\n            throw new IndexOutOfBoundsException(index);\r\n        this.array[index] = item;\r\n    }\r\n\r\n    /**\r\n     * Adds an item to the end of the array.\r\n     *\r\n     * @param item The item to be added.\r\n     */\r\n    public void add(T item) {\r\n        resize(size() + 1);\r\n        this.array[size() - 1] = item;\r\n    }\r\n\r\n    /**\r\n     * Adds multiple items to the end of the array.\r\n     *\r\n     * @param items The array of items to be added.\r\n     */\r\n    public void add(T[] items) {\r\n        for (T item : items) {\r\n            add(item);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Retrieves the element at the specified index in the array.\r\n     *\r\n     * @param index The index of the element to retrieve.\r\n     * @return The element at the specified index.\r\n     * @throws IndexOutOfBoundsException if the index is out of range.\r\n     */\r\n    public T get(final int index) {\r\n        if (index < 0 || index >= size())\r\n            throw new IndexOutOfBoundsException(index);\r\n        return this.array[index];\r\n    }\r\n\r\n    /**\r\n     * Checks if the array contains the specified item.\r\n     *\r\n     * @param item The item to search for in the array.\r\n     * @return True if the item is found in the array, false otherwise.\r\n     */\r\n    public final boolean contains(T item) {\r\n        for (T arrayItem : this.array) {\r\n            if (arrayItem == item)\r\n                return true;\r\n        }\r\n        return false;\r\n    }\r\n\r\n    /**\r\n     * Finds the index of the specified item in the array.\r\n     *\r\n     * @param item The item to find the index of.\r\n     * @return The index of the item in the array, or -1 if the item is not found.\r\n     */\r\n    public final int findIndexOf(T item) {\r\n        if (contains(item)) {\r\n            for (int i = 0; i < size(); i++) {\r\n                if (this.array[i] == item)\r\n                    return i;\r\n            }\r\n        }\r\n        return -1;\r\n    }\r\n\r\n    /**\r\n     * Removes the element at the specified index from the array.\r\n     *\r\n     * @param index The index of the element to remove.\r\n     * @throws IndexOutOfBoundsException if the index is out of range.\r\n     */\r\n    public void remove(final int index) {\r\n        if (index < 0 || index >= size())\r\n            throw new IndexOutOfBoundsException(index);\r\n\r\n        this.array[index] = null;\r\n\r\n        for (int i = index; i < size() - 1; i++)\r\n            this.array[i] = this.array[i + 1];\r\n\r\n        resize(size() - 1);\r\n    }\r\n\r\n    /**\r\n     * Removes the specified item from the array.\r\n     *\r\n     * @param item The item to remove from the array.\r\n     */\r\n    public void remove(T item) {\r\n        remove(findIndexOf(item));\r\n    }\r\n\r\n    /**\r\n     * Clears the array by resizing it to size 0.\r\n     */\r\n    public void clear() {\r\n        resize(0);\r\n    }\r\n\r\n    /**\r\n     * Executes the specified action for each item in the array.\r\n     * @param action the action to execute for each item\r\n     */\r\n    public void foreach(util.events.Action<T> action) {\r\n        for (T item : this.array)\r\n            action.run(item);\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        StringBuilder str = new StringBuilder();\r\n\r\n        str.append(\"GenericArray:\\n\");\r\n        for (int i = 0; i < size(); i++) {\r\n            str.append(this.array[i]).append(\"\\n\");\r\n        }\r\n\r\n        return str.toString();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/util/Array.java b/src/util/Array.java
+--- a/src/util/Array.java	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/src/util/Array.java	(date 1685737729835)
+@@ -1,71 +1,66 @@
+ package util;
+ 
+ /**
+- * An array data structure implementation.
+- * @param <T> The type of elements stored in the array.
++
++ An array data structure implementation.
++
++ @param <T> The type of elements stored in the array
+  */
+ public class Array<T> {
+ 
+     /**
+-     * The internal array to store elements.
+-     */
+-    private T[] array;
+-
+-    /**
+-     * Constructs a new Array object with an initial size of 0.
++     * Constructs an empty array.
+      */
+     public Array() {
+-        this.array = createNew(0);
++        clear();
+     }
+ 
+     /**
+-     * Constructs a new Array object with arbitrary size set by the user.
++     * Constructs an array with the specified size.
+      *
+-     * @param size The size of the new array.
++     * @param size The size of the array
+      */
+     public Array(final int size) {
+-        this.array = createNew(size);
++        this.recreate(size);
++    }
++
++    /**
++     * Constructs an array from the given array.
++     *
++     * @param array The array to be used
++     */
++    public Array(T[] array) {
++        this.setArray(array);
+     }
+ 
+     /**
+-     * Returns the internal array.
++     * Constructs a copy of the given array.
+      *
+-     * @return The internal array.
++     * @param array The array to be copied
+      */
+-    public final T[] getArray() {
++    public Array(Array<T> array) {
++        this.setArray(array.copy());
++    }
++
++    private T[] array;
++
++    /**
++     * Returns the underlying array.
++     *
++     * @return The array
++     */
++    public T[] getArray() {
+         return this.array;
+     }
+ 
+-    /**
+-     * Creates a new array of the specified size.
+-     *
+-     * @param size The size of the new array.
+-     * @return The newly created array.
+-     */
+-    @SuppressWarnings("unchecked")
+-    private T[] createNew(final int size) {
+-        return (T[]) new Object[size];
++    private void setArray(T[] array) {
++        this.array = array;
+     }
+ 
+     /**
+-     * Resizes the internal array to the specified size.
++     * Returns the size of the array.
+      *
+-     * @param newSize The new size of the array.
+-     */
+-    private void resize(final int newSize) {
+-        T[] newArray = createNew(newSize);
+-
+-        final int SHORT_SIZE = Math.min(array.length, newSize);
+-
+-        if (SHORT_SIZE >= 0) System.arraycopy(this.array, 0, newArray, 0, SHORT_SIZE);
+-
+-        this.array = newArray;
+-    }
+-
+-    /**
+-     * Returns the current size of the array.
+-     *
+-     * @return The size of the array.
++     * @return The size of the array
+      */
+     public final int size() {
+         return this.array.length;
+@@ -74,150 +69,279 @@
+     /**
+      * Checks if the array is empty.
+      *
+-     * @return True if the array is empty, false otherwise.
++     * @return true if the array is empty, false otherwise
+      */
+     public final boolean isEmpty() {
+-        return size() == 0;
++        return this.array == null || this.array.length == 0;
+     }
+ 
+     /**
+-     * Replaces the internal array with the provided array.
++     * Replaces the array with the given array.
+      *
+-     * @param array The array to replace the internal array with.
++     * @param array The new array to replace the existing one
+      */
+     public void replace(T[] array) {
+-        this.array = array;
++        this.setArray(array);
++    }
++
++    /**
++     * Creates a copy of the array.
++     *
++     * @return A copy of the array
++     */
++    @SuppressWarnings("unchecked")
++    public T[] copy() {
++        T[] copy = (T[]) new Object[this.array.length];
++        for (int i = 0; i < this.array.length; i++)
++            copy[i] = this.get(i);
++
++        return copy;
++    }
++
++    @SuppressWarnings("unchecked")
++    private void recreate(final int size) {
++        this.array = (T[]) new Object[size];
++    }
++
++    /**
++     * Resizes the array to the specified size.
++     *
++     * @param newSize The new size of the array
++     */
++    public void resize(final int newSize) {
++        T[] oldArray = this.copy();
++
++        this.recreate(newSize);
++
++        System.arraycopy(oldArray, 0, this.array, 0, Math.min(oldArray.length, newSize));
++    }
++
++    /**
++     * Shifts all elements in the array one position to the left.
++     */
++    public void shiftLeft() {
++        T temp = this.get(0);
++
++        for (int i = 0; i < this.array.length - 1; i++)
++            this.set(i, this.get(i + 1));
++
++        this.set(this.array.length - 1, temp);
++    }
++
++    /**
++     * Shifts all elements in the array one position to the right.
++     */
++    public void shiftRight() {
++        T temp = this.get(this.array.length - 1);
++
++        for (int i = this.array.length - 1; i > 0; i--)
++            this.set(i, this.get(i - 1));
++
++        this.set(0, temp);
++    }
++
++    private boolean checkIndex(final int index) {
++        return index < 0 || index >= this.array.length;
+     }
+ 
+     /**
+      * Sets the element at the specified index in the array.
+      *
+-     * @param index The index at which to set the element.
+-     * @param item  The item to be set at the specified index.
+-     * @throws IndexOutOfBoundsException if the index is out of range.
++     * @param index The index of the element to be set
++     * @param item  The item to be set at the specified index
++     * @throws IndexOutOfBoundsException if the index is out of range
+      */
+     public void set(final int index, T item) {
+-        if (index < 0 || index > size())
++        if (checkIndex(index))
+             throw new IndexOutOfBoundsException(index);
++
+         this.array[index] = item;
+     }
+ 
++    /**
++     * Adds an item at the specified index in the array.
++     *
++     * @param index The index at which the item should be added
++     * @param item  The item to be added
++     * @throws IndexOutOfBoundsException if the index is out of range
++     */
++    public void add(final int index, T item) {
++        this.resize(this.array.length + 1);
++        if (checkIndex(index))
++            throw new IndexOutOfBoundsException(index);
++        this.set(this.array.length - 1, item);
++        this.swap(this.array.length - 1, index);
++    }
++
+     /**
+      * Adds an item to the end of the array.
+      *
+-     * @param item The item to be added.
++     * @param item The item to be added
+      */
+     public void add(T item) {
+-        resize(size() + 1);
+-        this.array[size() - 1] = item;
++        this.add(this.array.length, item);
++    }
++
++    /**
++     * Adds all the items from the given array to the end of the array.
++     *
++     * @param array The array of items to be added
++     */
++    public void add(T[] array) {
++        this.resize(this.array.length + array.length);
++        for (int i = this.array.length - array.length, j = 0; i < this.array.length; i++, j++) {
++            this.set(i, array[j]);
++        }
+     }
+ 
+     /**
+-     * Adds multiple items to the end of the array.
++     * Inserts an item at the specified index in the array, shifting the existing elements to the right.
+      *
+-     * @param items The array of items to be added.
++     * @param index The index at which the item should be inserted
++     * @param item  The item to be inserted
++     * @throws IndexOutOfBoundsException if the index is out of range
+      */
+-    public void add(T[] items) {
+-        for (T item : items) {
+-            add(item);
+-        }
++    public void insert(final int index, T item) {
++        if (checkIndex(index))
++            throw new IndexOutOfBoundsException(index);
++        this.resize(this.array.length + 1);
++        for (int i = this.array.length - 1; i > index; i--)
++            this.set(i, this.array[i - 1]);
++
++        this.set(index, item);
++    }
++
++    /**
++     * Inserts all the items from the given array at the specified index in the array,
++     * <p>
++     * shifting the existing elements to the right.
++     *
++     * @param index The index at which the items should be inserted
++     * @param array The array of items to be inserted
++     * @throws IndexOutOfBoundsException if the index is out of range
++     */
++    public void insert(final int index, T[] array) {
++        if (checkIndex(index))
++            throw new IndexOutOfBoundsException(index);
++
++        this.resize(this.array.length + array.length);
++        for (int n = 0; n < array.length; n++)
++            for (int i = this.array.length - 1; i > index; i--)
++                this.set(i, this.array[i - 1]);
++        for (int i = 0; i < array.length; i++)
++            this.set(index + i, array[i]);
+     }
+ 
+     /**
+-     * Retrieves the element at the specified index in the array.
++     * Returns the item at the specified index in the array.
+      *
+-     * @param index The index of the element to retrieve.
+-     * @return The element at the specified index.
+-     * @throws IndexOutOfBoundsException if the index is out of range.
++     * @param index The index of the item to be retrieved
++     * @return The item at the specified index
++     * @throws IndexOutOfBoundsException if the index is out of range
+      */
+     public T get(final int index) {
+-        if (index < 0 || index >= size())
++        if (checkIndex(index))
+             throw new IndexOutOfBoundsException(index);
+         return this.array[index];
+     }
+ 
++    /**
++     * Returns the last item in the array.
++     * @return The last item in array
++     */
++    public T getLast() {
++        if (this.isEmpty())
++            return null;
++        return this.get(this.array.length - 1);
++    }
++
++    /**
++     * Removes the item at the specified index from the array, shifting the remaining elements to the left.
++     *
++     * @param index The index of the item to be removed
++     * @throws IndexOutOfBoundsException if the index is out of range
++     */
++    public void remove(final int index) {
++        if (checkIndex(index))
++            throw new IndexOutOfBoundsException(index);
++
++        this.set(index, null);
++
++        for (int i = index; i < this.array.length - 1; i++)
++            this.set(i, this.get(i + 1));
++
++        this.resize(this.array.length - 1);
++    }
++
++    /**
++     * Removes the first occurrence of the specified item from the array, shifting the remaining elements to the left.
++     *
++     * @param item The item to be removed
++     */
++    public void remove(T item) {
++        this.remove(findIndexOf(item));
++    }
++
++    /**
++     * Clears the array, removing all elements.
++     */
++    public void clear() {
++        this.recreate(0);
++    }
++
++    /**
++     * Returns the index of the first occurrence of the specified item in the array.
++     *
++     * @param item The item to search for
++     * @return The index of the item, or -1 if the item is not found
++     */
++    public final int findIndexOf(T item) {
++        if (this.contains(item))
++            for (int i = 0; i < this.array.length; i++)
++                if (this.get(i) == item)
++                    return i;
++        return -1;
++    }
++
+     /**
+      * Checks if the array contains the specified item.
+      *
+-     * @param item The item to search for in the array.
+-     * @return True if the item is found in the array, false otherwise.
++     * @param item The item to be checked
++     * @return true if the item is found in the array, false otherwise
+      */
+     public final boolean contains(T item) {
+-        for (T arrayItem : this.array) {
+-            if (arrayItem == item)
++        for (T tempItem : this.array)
++            if (tempItem == item)
+                 return true;
+-        }
+         return false;
+     }
+ 
+     /**
+-     * Finds the index of the specified item in the array.
+-     *
+-     * @param item The item to find the index of.
+-     * @return The index of the item in the array, or -1 if the item is not found.
+-     */
+-    public final int findIndexOf(T item) {
+-        if (contains(item)) {
+-            for (int i = 0; i < size(); i++) {
+-                if (this.array[i] == item)
+-                    return i;
+-            }
+-        }
+-        return -1;
+-    }
+-
+-    /**
+-     * Removes the element at the specified index from the array.
++     * Swaps the positions of two elements in the array.
+      *
+-     * @param index The index of the element to remove.
+-     * @throws IndexOutOfBoundsException if the index is out of range.
++     * @param index       The index of the first element to be swapped
++     * @param destination The index of the second element to be swapped
++     * @throws IndexOutOfBoundsException if the index or destination is out of range
+      */
+-    public void remove(final int index) {
+-        if (index < 0 || index >= size())
++    public void swap(final int index, final int destination) {
++        if (checkIndex(index) || checkIndex(destination))
+             throw new IndexOutOfBoundsException(index);
+ 
+-        this.array[index] = null;
+-
+-        for (int i = index; i < size() - 1; i++)
+-            this.array[i] = this.array[i + 1];
++        if (index == destination)
++            return;
+ 
+-        resize(size() - 1);
++        T temp = this.get(index);
++        this.set(index, get(destination));
++        this.set(destination, temp);
+     }
+ 
+     /**
+-     * Removes the specified item from the array.
++     * Performs the specified action on each element of the array.
+      *
+-     * @param item The item to remove from the array.
+-     */
+-    public void remove(T item) {
+-        remove(findIndexOf(item));
+-    }
+-
+-    /**
+-     * Clears the array by resizing it to size 0.
+-     */
+-    public void clear() {
+-        resize(0);
+-    }
+-
+-    /**
+-     * Executes the specified action for each item in the array.
+-     * @param action the action to execute for each item
++     * @param action The action to be performed on each element
+      */
+     public void foreach(util.events.Action<T> action) {
+         for (T item : this.array)
+             action.run(item);
+     }
+-
+-    @Override
+-    public String toString() {
+-        StringBuilder str = new StringBuilder();
+-
+-        str.append("GenericArray:\n");
+-        for (int i = 0; i < size(); i++) {
+-            str.append(this.array[i]).append("\n");
+-        }
+-
+-        return str.toString();
+-    }
+ }
+\ No newline at end of file
+Index: src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import audio.AudioManager;\r\nimport game.GameManager;\r\nimport gui.GuiManager;\r\nimport gui.Login;\r\nimport gui.Menu;\r\nimport socket.NetworkManager;\r\nimport socket.RoomManager;\r\nimport util.Console;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        if (NetworkManager.isMaster()) {\r\n            //Initializing Server\r\n            util.Console.message(\"No active Master Server.Initializing Master Server.\", Console.PrintType.Main);\r\n            RoomManager.initialize();\r\n            NetworkManager.initialize();\r\n        } else {\r\n            //Initializing Client\r\n            util.Console.message(\"Initializing Client.\", Console.PrintType.Main);\r\n            AudioManager.initialize();\r\n            GameManager.initialize();\r\n\r\n            GuiManager.initialize();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main.java b/src/Main.java
+--- a/src/Main.java	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/src/Main.java	(date 1685736998178)
+@@ -5,8 +5,12 @@
+ import gui.Menu;
+ import socket.NetworkManager;
+ import socket.RoomManager;
++import util.Array;
+ import util.Console;
+ 
++import java.util.ArrayList;
++import java.util.List;
++
+ public class Main {
+     public static void main(String[] args) {
+         if (NetworkManager.isMaster()) {
+Index: src/gui/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package gui;\r\n\r\nimport game.Board;\r\nimport game.GameManager;\r\nimport game.Move;\r\nimport game.Piece;\r\nimport gui.images.Field;\r\nimport util.Array;\r\nimport util.Vector;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.border.Border;\r\nimport javax.swing.table.DefaultTableModel;\r\nimport java.awt.*;\r\n\r\npublic class Game extends Window {\r\n    public Game() {\r\n        super(\"Game\");\r\n        super.setSize(1100, 860);\r\n        super.setLayout(null);\r\n        super.setLocationRelativeTo(null);\r\n\r\n        createTable();\r\n        createInfo();\r\n    }\r\n\r\n        //comment\r\n    gui.images.Field[][] fields = null;\r\n\r\n    public gui.images.Field[][] getFields() {\r\n        return this.fields;\r\n    }\r\n\r\n    public gui.images.Field getField(final int x,final int y) {\r\n        return this.fields[x][y];\r\n    }\r\n\r\n    public gui.images.Field getField(final Vector at) {\r\n        return getField(at.X, at.Y);\r\n    }\r\n\r\n    public void clearFields() {\r\n        for (gui.images.Field[] fieldRow : fields)\r\n            for (gui.images.Field field : fieldRow)\r\n                field.setImage(null);\r\n    }\r\n\r\n    private void createTable() {\r\n        JPanel tablePanel = new JPanel();\r\n\r\n        tablePanel.setLayout(new GridLayout(Board.SIZE, Board.SIZE));\r\n        tablePanel.setBounds(10, 10, 800, 800);\r\n        tablePanel.setName(\"table\");\r\n\r\n        fields = new Field[Board.SIZE][Board.SIZE];\r\n\r\n        boolean ws = false;\r\n        for (int i = 0; i < Board.SIZE; i++) {\r\n            for (int j = 0; j < Board.SIZE; j++) {\r\n                fields[i][j] = new Field(new Vector(i, j), new Vector(100, 100), ws = !ws);\r\n                tablePanel.add(fields[i][j]);\r\n            }\r\n            ws = !ws;\r\n        }\r\n\r\n        add(tablePanel);\r\n    }\r\n\r\n    private JPanel getPlayerInfoPanel() {\r\n        JPanel panel = new JPanel();\r\n        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));\r\n        panel.setBackground(ColorGradient.DARK.getColor(false));\r\n\r\n        JLabel label = new JLabel(\"Player info\", SwingConstants.CENTER);\r\n        label.setForeground(Color.WHITE);\r\n        panel.setPreferredSize(new Dimension(260, label.getPreferredSize().height));\r\n        panel.setFont(label.getFont().deriveFont(Font.BOLD, 20F));\r\n        panel.add(label);\r\n        panel.add(new JLabel());\r\n        return panel;\r\n    }\r\n\r\n    public void updateInfoTable(Piece piece) {\r\n        int pawnsWhite = 0, pawnsBlack = 0,\r\n            rooksWhite = 0, rooksBlack = 0,\r\n            knightsWhite = 0, knightsBlack = 0,\r\n            bishopsWhite = 0, bishopsBlack = 0;\r\n        boolean queenWhite = false, queenBlack = false,\r\n            kingWhite = false, kingBlack = false;\r\n\r\n        util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(),\r\n                          piecesBlack = Board.instance.getBlackPieces();\r\n        for (int i=0; i<Board.instance.getWhitePieces().size(); i++) {\r\n            switch (piecesWhite.get(i).getType()) {\r\n                case Pawn -> pawnsWhite++;\r\n                case Rook -> rooksWhite++;\r\n                case Knight -> knightsWhite++;\r\n                case Bishop -> bishopsWhite++;\r\n                case Queen -> queenWhite = true;\r\n                case King -> kingWhite = true;\r\n            }\r\n        }\r\n        for (int i=0; i<Board.instance.getBlackPieces().size(); i++) {\r\n            switch (piecesBlack.get(i).getType()) {\r\n                case Pawn -> pawnsBlack++;\r\n                case Rook -> rooksBlack++;\r\n                case Knight -> knightsBlack++;\r\n                case Bishop -> bishopsBlack++;\r\n                case Queen -> queenBlack = true;\r\n                case King -> kingBlack = true;\r\n            }\r\n        }\r\n\r\n        int whiteScore=GameManager.instance.getWhiteScore(), blackScore=GameManager.instance.getBlackScore();\r\n\r\n        String messageWhite = String.format(\"<html>Username: %s<br>\", \"ime\") +\r\n                String.format(\"ELO: %s<br>\", \"elo\") +\r\n                String.format(\"CurrentPiecesCount: %d<br>\", piecesWhite.size()) +\r\n                String.format(\"CurrentPiecesScore: %d<br>\",GameManager.instance.isWhite()?whiteScore:blackScore) +\r\n                String.format(\"Pawns: %d<br>\", pawnsWhite) +\r\n                String.format(\"Rooks (Castles): %d<br>\", rooksWhite) +\r\n                String.format(\"Knights: %d<br>\", knightsWhite) +\r\n                String.format(\"Bishops: %d<br>\", bishopsWhite) +\r\n                String.format(\"Have Queen: %s<br>\", queenWhite ? \"true\" : \"false\") +\r\n                String.format(\"Have King: %s</html>\", kingWhite ? \"true\" : \"false\");\r\n\r\n        String messageBlack = String.format(\"<html>Username: %s<br>\", \"ime\") +\r\n                String.format(\"ELO: %s<br>\", \"elo\") +\r\n                String.format(\"CurrentPiecesCount: %d<br>\", piecesBlack.size()) +\r\n                String.format(\"CurrentPiecesScore: %d<br>\",GameManager.instance.isWhite()?whiteScore:blackScore) +\r\n                String.format(\"Pawns: %d<br>\", pawnsBlack) +\r\n                String.format(\"Rooks (Castles): %d<br>\", rooksBlack) +\r\n                String.format(\"Knights: %d<br>\", knightsBlack) +\r\n                String.format(\"Bishops: %d<br>\", bishopsBlack) +\r\n                String.format(\"Have Queen: %s<br>\", queenBlack ? \"true\" : \"false\") +\r\n                String.format(\"Have King: %s</html>\", kingBlack ? \"true\" : \"false\");\r\n\r\n        playerLabel.setText(messageWhite);\r\n        opponentLabel.setText(messageBlack);\r\n\r\n        Color playColor = ColorGradient.FIELD.getColor(!GameManager.instance.canPlay());\r\n        Color opponentColor = ColorGradient.FIELD.getColor(GameManager.instance.canPlay());\r\n        playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));\r\n        opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));\r\n    }\r\n\r\n    public void updateMovesTable(Piece piece) {\r\n        if (movesTableModel.getRowCount() >= 15)\r\n            movesTableModel.removeRow(0);\r\n        String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);\r\n        movesTableModel.addRow(new Object[] { moveString });\r\n    }\r\n\r\n    private JPanel playerPanel, opponentPanel;\r\n    private JLabel playerLabel, opponentLabel;\r\n    private DefaultTableModel movesTableModel;\r\n\r\n    private void createInfo() {\r\n        movesTableModel = new DefaultTableModel(new Object[] { \"Column 1\" }, 0) {\r\n            @Override\r\n            public boolean isCellEditable(int row, int column) { return false; }\r\n        };\r\n        JTable movesPanel = new JTable(movesTableModel);\r\n        movesPanel.setName(\"moves_panel\");\r\n        movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));\r\n        movesPanel.setTableHeader(null);\r\n        movesPanel.setBounds(823, 475, 251, 240);\r\n        JPanel movesPanelWrapper = new JPanel();\r\n        movesPanelWrapper.add(movesPanel);\r\n        movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));\r\n        movesPanelWrapper.setBounds(818, 470, 260, 250);\r\n        add(movesPanelWrapper);\r\n\r\n        Board.instance.onPieceMoved.add(this::updateMovesTable);\r\n\r\n        JPanel timerPanel = new JPanel();\r\n        timerPanel.setName(\"timer_panel\");\r\n        Border timerBorder = BorderFactory.createLineBorder(Color.GRAY, 5);\r\n        timerPanel.setBorder(timerBorder);\r\n        timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));\r\n        timerPanel.setBounds(818, 725, 260, 85);\r\n\r\n        playerPanel = getPlayerInfoPanel();\r\n        opponentPanel = getPlayerInfoPanel();\r\n\r\n        playerPanel.setBounds(818, 10, 260, 225);\r\n        playerPanel.setName(\"player_panel\");\r\n        opponentPanel.setBounds(818, 240, 260, 225);\r\n        opponentPanel.setName(\"opponent_panel\");\r\n\r\n        playerLabel = (JLabel) playerPanel.getComponents()[1];\r\n        playerLabel.setForeground(Color.white);\r\n        opponentLabel = (JLabel) opponentPanel.getComponents()[1];\r\n        opponentLabel.setForeground(Color.white);\r\n\r\n        updateInfoTable(null);\r\n        Board.instance.onPieceMoved.add(this::updateInfoTable);\r\n\r\n        add(playerPanel);\r\n        add(opponentPanel);\r\n        add(movesPanel);\r\n        add(timerPanel);\r\n    }\r\n    // TODO: Dodaj metodu za odbrojavanje vremena\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/gui/Game.java b/src/gui/Game.java
+--- a/src/gui/Game.java	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/src/gui/Game.java	(date 1685725849803)
+@@ -163,10 +163,13 @@
+         JTable movesPanel = new JTable(movesTableModel);
+         movesPanel.setName("moves_panel");
+         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
++        movesPanel.setBackground(ColorGradient.DARK.getColor(true));
++        movesPanel.setForeground(Color.white);
+         movesPanel.setTableHeader(null);
+         movesPanel.setBounds(823, 475, 251, 240);
+         JPanel movesPanelWrapper = new JPanel();
+         movesPanelWrapper.add(movesPanel);
++        movesPanelWrapper.setBackground(ColorGradient.DARK.getColor(false));
+         movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
+         movesPanelWrapper.setBounds(818, 470, 260, 250);
+         add(movesPanelWrapper);
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0026f5f2-a006-4a9c-9f3f-a83d0059bec4\" name=\"Changes\" comment=\"Fixed\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/gui/Register.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/game/users/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/game/users/User.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/game/users/UserData\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/game/users/UserData\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/gui/Game.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/gui/Game.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/gui/GuiManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/gui/GuiManager.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/gui/Login.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/gui/Login.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/gui/Menu.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/gui/Menu.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2QMoiVsCVgGjgSev7aJ1d5PId8K\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <OptionsSetting value=\"false\" id=\"Update\" />\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"Downloaded.Files.Path.Enabled\": \"false\",\r\n    \"Repository.Attach.Annotations\": \"false\",\r\n    \"Repository.Attach.JavaDocs\": \"false\",\r\n    \"Repository.Attach.Sources\": \"false\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"jdk.selected.JAVA_MODULE\": \"12\",\r\n    \"last_opened_file_path\": \"C:/Users/Aleksa/Desktop/CS120-IspitnaPitanja.docx\",\r\n    \"onboarding.tips.debug.path\": \"C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java\",\r\n    \"project.structure.last.edited\": \"Project\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"run.code.analysis.last.selected.profile\": \"pProject Default\",\r\n    \"settings.editor.selected.configurable\": \"preferences.keymap\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Aleksa\\IdeaProjects\\OnlineChess\\src\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" singleton=\"false\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Main\" />\r\n      <module name=\"OnlineChess\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0026f5f2-a006-4a9c-9f3f-a83d0059bec4\" name=\"Changes\" comment=\"\" />\r\n      <created>1685172942860</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1685172942860</updated>\r\n      <workItem from=\"1685305074441\" duration=\"15046000\" />\r\n      <workItem from=\"1685364113165\" duration=\"384000\" />\r\n      <workItem from=\"1685364512410\" duration=\"58000\" />\r\n      <workItem from=\"1685364581139\" duration=\"3526000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Setup\">\r\n      <created>1685172992366</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685172992366</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Server/Client setup\">\r\n      <created>1685269788259</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685269788259</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Server/Client setup\">\r\n      <created>1685274797705</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685274797705</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Server/Client setup\">\r\n      <created>1685275832983</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685275832983</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Server/Client setup\">\r\n      <created>1685275988816</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685275988816</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Quick Fix\">\r\n      <created>1685276024887</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685276024887</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Quick Fix\">\r\n      <created>1685277126581</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685277126581</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Foreach in Array\">\r\n      <created>1685371437023</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685371437023</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Foreach in Array\">\r\n      <created>1685379051695</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685379051695</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Foreach in Array\">\r\n      <created>1685380334047</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685380334047</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Game GUI\">\r\n      <created>1685384925452</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685384925452</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Game GUI\">\r\n      <created>1685386881575</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685386881575</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Board Initialization\">\r\n      <created>1685390526513</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685390526513</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Pieces Move\">\r\n      <created>1685392740090</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685392740090</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"QuickFix\">\r\n      <created>1685395325023</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685395325024</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"QuickFix\">\r\n      <created>1685395942872</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685395942872</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"QuickFix\">\r\n      <created>1685435834634</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685435834634</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"Fixed\">\r\n      <created>1685436366774</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685436366774</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"Added Fixed Movement\">\r\n      <created>1685458352412</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685458352412</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"Added Fixed Movement\">\r\n      <created>1685514249595</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685514249595</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00021\" summary=\"Main Fix\">\r\n      <created>1685601250344</created>\r\n      <option name=\"number\" value=\"00021\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685601250344</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00022\" summary=\"Fixed\">\r\n      <created>1685607165596</created>\r\n      <option name=\"number\" value=\"00022\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685607165596</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00023\" summary=\"Fixed\">\r\n      <created>1685607183694</created>\r\n      <option name=\"number\" value=\"00023\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685607183694</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"24\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"Setup\" />\r\n    <MESSAGE value=\"Server/Client setup\" />\r\n    <MESSAGE value=\"Quick Fix\" />\r\n    <MESSAGE value=\"Editing users\" />\r\n    <MESSAGE value=\"Foreach in Array\" />\r\n    <MESSAGE value=\"Game GUI\" />\r\n    <MESSAGE value=\"Board Initialization\" />\r\n    <MESSAGE value=\"Pieces Move\" />\r\n    <MESSAGE value=\"QuickFix\" />\r\n    <MESSAGE value=\"Added Fixed Movement\" />\r\n    <MESSAGE value=\"Main Fix\" />\r\n    <MESSAGE value=\"Fixed\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Fixed\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/OnlineChess$Main.ic\" NAME=\"Main Coverage Results\" MODIFIED=\"1685403185032\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/.idea/workspace.xml	(date 1685727787498)
+@@ -4,17 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Fixed">
+-      <change afterPath="$PROJECT_DIR$/src/gui/Register.java" afterDir="false" />
++    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Main Fix">
+       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/game/users/UserData" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/UserData" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Game.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/gui/GuiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GuiManager.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Menu.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/util/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Array.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -40,36 +36,35 @@
+   </component>
+   <component name="ProjectId" id="2QMoiVsCVgGjgSev7aJ1d5PId8K" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+-    <OptionsSetting value="false" id="Update" />
+     <ConfirmationsSetting value="2" id="Add" />
+   </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "Downloaded.Files.Path.Enabled": "false",
+-    "Repository.Attach.Annotations": "false",
+-    "Repository.Attach.JavaDocs": "false",
+-    "Repository.Attach.Sources": "false",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "master",
+-    "ignore.virus.scanning.warn.message": "true",
+-    "jdk.selected.JAVA_MODULE": "12",
+-    "last_opened_file_path": "C:/Users/Aleksa/Desktop/CS120-IspitnaPitanja.docx",
+-    "onboarding.tips.debug.path": "C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java",
+-    "project.structure.last.edited": "Project",
+-    "project.structure.proportion": "0.15",
+-    "project.structure.side.proportion": "0.2",
+-    "run.code.analysis.last.selected.profile": "pProject Default",
+-    "settings.editor.selected.configurable": "preferences.keymap"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
++    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;12&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aleksa/Desktop/CS120-IspitnaPitanja.docx&quot;,
++    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/Aleksa/IdeaProjects/OnlineChess/src/Main.java&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="C:\Users\Aleksa\IdeaProjects\OnlineChess\src" />
+@@ -244,21 +239,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1685601250344</updated>
+     </task>
+-    <task id="LOCAL-00022" summary="Fixed">
+-      <created>1685607165596</created>
+-      <option name="number" value="00022" />
+-      <option name="presentableId" value="LOCAL-00022" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1685607165596</updated>
+-    </task>
+-    <task id="LOCAL-00023" summary="Fixed">
+-      <created>1685607183694</created>
+-      <option name="number" value="00023" />
+-      <option name="presentableId" value="LOCAL-00023" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1685607183694</updated>
+-    </task>
+-    <option name="localTasksCounter" value="24" />
++    <option name="localTasksCounter" value="22" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -286,12 +267,9 @@
+     <MESSAGE value="Board Initialization" />
+     <MESSAGE value="Pieces Move" />
+     <MESSAGE value="QuickFix" />
++    <MESSAGE value="Fixed" />
+     <MESSAGE value="Added Fixed Movement" />
+     <MESSAGE value="Main Fix" />
+-    <MESSAGE value="Fixed" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Fixed" />
+-  </component>
+-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/OnlineChess$Main.ic" NAME="Main Coverage Results" MODIFIED="1685403185032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
++    <option name="LAST_COMMIT_MESSAGE" value="Main Fix" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/game/users/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package game.users;\r\n\r\nimport com.google.gson.JsonArray;\r\nimport com.google.gson.JsonElement;\r\nimport com.google.gson.JsonObject;\r\nimport util.Array;\r\n\r\nimport java.io.FileReader;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\n\r\npublic class User {\r\n    public static User currentUser = null;\r\n    private static final com.google.gson.Gson gson = new com.google.gson.Gson();\r\n    private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();\r\n    private static final util.Array<User> existingUsers = new Array<>();\r\n\r\n    private final String userName;\r\n    private final String password;\r\n\r\n    public User(String userName, String password) {\r\n        this.userName = userName;\r\n        this.password = password;\r\n    }\r\n\r\n    public static boolean login(String userName, String password) {\r\n        for (int i = 0; i < existingUsers.size(); i++) {\r\n            User user = existingUsers.get(i);\r\n            if (user.getUserName().equals(userName) && user.isCorrectPassword(password)) {\r\n                currentUser = user;\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n    private static final String DATA_PATH = \"src/game/users/UserData\";\r\n\r\n    public static void loadUsers() throws IOException {\r\n        existingUsers.clear();\r\n        try (FileReader fileReader = new FileReader(DATA_PATH)) {\r\n            JsonObject json = gson.fromJson(fileReader, JsonObject.class);\r\n            JsonArray usersArray = json.getAsJsonArray(\"users\");\r\n\r\n            for (JsonElement userElement : usersArray) {\r\n                JsonObject userObject = userElement.getAsJsonObject();\r\n                String userName = userObject.get(\"username\").getAsString();\r\n                String password = userObject.get(\"password\").getAsString();\r\n\r\n                existingUsers.add(new User(userName, password));\r\n            }\r\n        }\r\n    }\r\n\r\n    public boolean addUser() throws IOException {\r\n        loadUsers();\r\n        for (int i = 0; i < existingUsers.size(); i++)\r\n            if (existingUsers.get(i).equals(this)) return false;\r\n        JsonArray usersArray;\r\n        try (FileReader fileReader = new FileReader(DATA_PATH)) {\r\n            JsonObject json = gson.fromJson(fileReader, JsonObject.class);\r\n            usersArray = json.getAsJsonArray(\"users\");\r\n\r\n            JsonObject obj = new JsonObject();\r\n            obj.addProperty(\"username\", this.userName);\r\n            obj.addProperty(\"password\", this.password);\r\n            usersArray.add(obj);\r\n        } catch (Exception ignored) {\r\n            return false;\r\n        }\r\n        try (FileWriter writer = new FileWriter(DATA_PATH)) {\r\n            JsonObject json = new JsonObject();\r\n            json.add(\"users\", usersArray);\r\n            writer.write(gsonBuilder.toJson(json));\r\n        } catch (Exception ignored) {\r\n            return false;\r\n        }\r\n        return true;\r\n    }\r\n\r\n    public static boolean addUser(String userName, String password) throws IOException {\r\n        return new User(userName, password).addUser();\r\n    }\r\n\r\n    public static boolean addUser(User user) throws IOException {\r\n        return user.addUser();\r\n    }\r\n\r\n    public boolean removeUser() throws IOException {\r\n        loadUsers();\r\n        boolean userExist = false;\r\n        for (int i = 0; i < existingUsers.size(); i++)\r\n            if (existingUsers.get(i).equals(this)) {\r\n                userExist = true;\r\n                break;\r\n            }\r\n        if (!userExist) return false;\r\n        JsonArray usersArray;\r\n        try (FileReader fileReader = new FileReader(DATA_PATH)) {\r\n            JsonObject json = gson.fromJson(fileReader, JsonObject.class);\r\n            usersArray = json.getAsJsonArray(\"users\");\r\n        }\r\n        for (JsonElement userElement : usersArray) {\r\n            JsonObject userObject = userElement.getAsJsonObject();\r\n            String userName = userObject.get(\"username\").getAsString();\r\n            String password = userObject.get(\"password\").getAsString();\r\n            if (userName.equals(this.userName) && password.equals(this.password)) {\r\n                usersArray.remove(userObject);\r\n                return true;\r\n            }\r\n        }\r\n        try (FileWriter writer = new FileWriter(DATA_PATH)) {\r\n            JsonObject json = new JsonObject();\r\n            json.add(\"users\", usersArray);\r\n            writer.write(gsonBuilder.toJson(json));\r\n        }\r\n        return true;\r\n    }\r\n\r\n    public static boolean removeUser(String userName) throws IOException {\r\n        User user = null;\r\n        for (int i = 0; i < existingUsers.size(); i++) {\r\n            User dummy = existingUsers.get(i);\r\n            if (dummy.getUserName().equals(userName)) {\r\n                user = dummy;\r\n                break;\r\n            }\r\n        }\r\n        if (user != null) return user.removeUser();\r\n        return false;\r\n    }\r\n\r\n    public static boolean removeUser(User user) throws IOException {\r\n        if (existingUsers.contains(user)) return user.removeUser();\r\n        return false;\r\n    }\r\n\r\n    public final String getUserName() {\r\n        return this.userName;\r\n    }\r\n\r\n    public final boolean isCorrectPassword(String password) {\r\n        return this.password.equals(password);\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        return String.format(\"User(%s, %s)\", userName, password);\r\n    }\r\n\r\n    @Override\r\n    public boolean equals(Object obj) {\r\n        if (obj == null || getClass() != obj.getClass()) return false;\r\n        User objUser = (User) obj;\r\n        return this.userName.equals(objUser.getUserName()) && objUser.isCorrectPassword(this.password);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/game/users/User.java b/src/game/users/User.java
+--- a/src/game/users/User.java	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/src/game/users/User.java	(date 1685725969959)
+@@ -11,6 +11,7 @@
+ 
+ public class User {
+     public static User currentUser = null;
++    public static User opponent = null;
+     private static final com.google.gson.Gson gson = new com.google.gson.Gson();
+     private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
+     private static final util.Array<User> existingUsers = new Array<>();
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"openjdk-20\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 58726feb4ac70b35629710975231101fc292d6be)
++++ b/.idea/misc.xml	(date 1685725426609)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_20" default="true" project-jdk-name="openjdk-20" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

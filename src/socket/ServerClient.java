@@ -12,13 +12,13 @@ public class ServerClient extends Client {
 
     @Override
     public Packet receive(Packet packet){
-        util.Console.message("Server received packet from client.", Console.PrintType.Socket);
+        util.Console.message("Server received packet from client.", this);
         return super.receive(packet);
     }
 
     @Override
     public void send(Packet packet) {
-        util.Console.message("Server sent packet to client.", Console.PrintType.Socket);
+        util.Console.message("Server sent packet to client.", this);
         super.send(packet);
     }
 }

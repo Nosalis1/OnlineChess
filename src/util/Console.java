@@ -3,77 +3,117 @@ package util;
 import java.time.LocalTime;
 
 public class Console {
-    public enum PrintType {
-        Log, Audio, Game, Gui, Socket, Util, Main
+    public enum Color {
+        RESET("\u001B[0m"),
+        GREEN("\u001B[32m"),
+        YELLOW("\u001B[33m"),
+        RED("\u001B[31m"),
+        BLACK("\u001B[30m"),
+        BLUE("\u001B[34m"),
+        CYAN("\u001B[36m"),
+        PURPLE("\u001B[35m"),
+        WHITE("\u001B[37m"),
+        BRIGHT_BLACK("\u001B[90m"),
+        BRIGHT_BLUE("\u001B[94m"),
+        BRIGHT_CYAN("\u001B[96m"),
+        BRIGHT_PURPLE("\u001B[95m"),
+        BRIGHT_WHITE("\u001B[97m");
+
+        private final String code;
+
+        Color(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
     }
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_BLACK = "\u001B[30m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_WHITE = "\u001B[37m";
-    private static final String ANSI_BRIGHT_BLACK = "\u001B[90m";
-    private static final String ANSI_BRIGHT_BLUE = "\u001B[94m";
-    private static final String ANSI_BRIGHT_CYAN = "\u001B[96m";
-    private static final String ANSI_BRIGHT_PURPLE = "\u001B[95m";
-    private static final String ANSI_BRIGHT_WHITE = "\u001B[97m";
+    public static void println(String message) {
+        System.out.println(message);
+    }
+
+    public static void print(String message) {
+        System.out.print(message);
+    }
+
+    public static void println(String message, Color color) {
+        System.out.println(color.getCode() + message + Color.RESET.getCode());
+    }
+
+    public static void print(String message, Color color) {
+        System.out.print(color.getCode() + message + Color.RESET.getCode());
+    }
 
     private static void printTime() {
         System.out.print("[" + LocalTime.now().toString() + "]");
     }
 
-    private static void printType(PrintType type) {
-        System.out.print("[");
-        switch (type) {
-            case Log -> System.out.print(ANSI_WHITE + " [Log] " + ANSI_RESET);
-            case Game -> System.out.print(ANSI_BRIGHT_BLUE + " [Game] " + ANSI_RESET);
-            case Audio -> System.out.print(ANSI_PURPLE + " [Audio] " + ANSI_RESET);
-            case Gui -> System.out.print(ANSI_BRIGHT_PURPLE + " [Gui] " + ANSI_RESET);
-            case Socket -> System.out.print(ANSI_CYAN + " [Socket] " + ANSI_RESET);
-            case Util -> System.out.print(ANSI_BRIGHT_BLACK + " [Util] " + ANSI_RESET);
-            default -> System.out.print(ANSI_BLUE + " [Main] " + ANSI_RESET);
-        }
-        System.out.print("]");
+    private static String getColorCode(String packageName) {
+        return switch (packageName) {
+            case "audio", "audio.sfx" -> Color.BLUE.getCode();
+            case "game", "game.users" -> Color.YELLOW.getCode();
+            case "gui", "gui.images" -> Color.PURPLE.getCode();
+            case "socket", "socket.events", "socket.packages" -> Color.CYAN.getCode();
+            case "util", "util.events" -> Color.BRIGHT_BLACK.getCode();
+            default -> Color.RED.getCode();
+        };
     }
 
-    public static void message(String message, PrintType type) {
+    private static void printSender(Object sender) {
+        System.out.print("[ " + getColorCode(sender.getClass().getPackageName()) + sender.getClass().getName() + Color.RESET.getCode() + " ]");
+    }
+
+    public static void message(String message, Object sender) {
         printTime();
-        printType(type);
-        System.out.println(ANSI_GREEN + " [MSG] " + ANSI_RESET + " #" + message);
+        if (sender != null) printSender(sender);
+        print("[ MSG ]", Color.GREEN);
+        println("# " + message);
     }
 
-    public static void warning(String message, PrintType type) {
+    public static <T> void staticMessage(String message,T sender) {
         printTime();
-        printType(type);
-        System.out.println(ANSI_YELLOW + " [WRN] " + ANSI_RESET + " #" + message);
+        if (sender != null) printSender(sender);
+        print("[ MSG ]", Color.GREEN);
+        println("# " + message);
     }
-
-    public static void error(String message, PrintType type) {
-        printTime();
-        printType(type);
-        System.out.println(ANSI_RED + " [ERR] " + ANSI_RESET + " #" + message);
-    }
-
     public static void message(String message) {
-        message(message, PrintType.Log);
+        message(message, null);
     }
-    public static void message(int message) {
-        message(String.valueOf(message), PrintType.Log);
+
+    public static void warning(String message, Object sender) {
+        printTime();
+        if (sender != null) printSender(sender);
+        print("[ WRN ]", Color.YELLOW);
+        println("# " + message);
+    }
+    public static <T> void staticWarning(String message, T sender) {
+        printTime();
+        if (sender != null) printSender(sender);
+        print("[ WRN ]", Color.YELLOW);
+        println("# " + message);
     }
 
     public static void warning(String message) {
-        warning(message, PrintType.Log);
+        warning(message, null);
     }
-    public static void warning(int message) {
-        warning(String.valueOf(message), PrintType.Log);
+
+    public static void error(String message, Object sender) {
+        printTime();
+        if (sender != null) printSender(sender);
+        print("[ ERR ]", Color.RED);
+        println("# " + message);
+    }
+
+    public static <T> void staticError(String message, T sender) {
+        printTime();
+        if (sender != null) printSender(sender);
+        print("[ ERR ]", Color.RED);
+        println("# " + message);
     }
 
     public static void error(String message) {
-        error(message, PrintType.Log);
+        error(message, null);
     }
-    public static void error(int message) { error(String.valueOf(message), PrintType.Log); }
 }

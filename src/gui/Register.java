@@ -77,7 +77,7 @@ public class Register extends Window implements ActionListener {
 
         try {
             if (game.users.User.addUser(userName, password)) {
-                util.Console.message("User registered!", Console.PrintType.Gui);
+                util.Console.message("User registered!", this);
 
                 usernameField.setText("");
                 passwordField.setText("");
@@ -89,7 +89,7 @@ public class Register extends Window implements ActionListener {
 
                 JOptionPane.showMessageDialog(null, "Username taken! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
 
-                util.Console.warning("User already exist!", Console.PrintType.Gui);
+                util.Console.warning("User already exist!", this);
             }
         } catch (IOException ignored) {
         }

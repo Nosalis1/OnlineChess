@@ -10,7 +10,7 @@ public class ServerEventHandler extends util.Array<ServerEventable> implements S
     @Override
     public void add(ServerEventable actions) {
         if (contains(actions)) {
-            util.Console.warning("Action you are trying to add already exist to list!", Console.PrintType.Socket);
+            util.Console.warning("Action you are trying to add already exist to list!", this);
             return;
         }
 

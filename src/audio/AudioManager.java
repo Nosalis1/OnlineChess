@@ -15,10 +15,11 @@ public class AudioManager {
      * Initializes the AudioManager by loading audio clips and creating the instance.
      */
     public static void initialize() {
-        util.Console.message("Initializing AudioManager.", Console.PrintType.Main);
 
         if (instance == null)
             instance = new AudioManager();
+
+        util.Console.message("Initializing AudioManager.",instance);
 
         final String[] FILE_PATHS = {
                 "src/audio/sfx/capture.wav",
@@ -31,7 +32,7 @@ public class AudioManager {
                 clips.add(new AudioClip(path));
             }
         } catch (Exception ex) {
-            util.Console.error("Failed to load sfx!", Console.PrintType.Audio);
+            util.Console.error("Failed to load sfx!",instance);
             ex.printStackTrace();
         }
     }
@@ -74,7 +75,7 @@ public class AudioManager {
     public static void playClip(final int index) {
         AudioClip clip = findClip(index);
         if (clip == null) {
-            util.Console.error("Failed to play AudioClip : " + index, Console.PrintType.Audio);
+            util.Console.error("Failed to play AudioClip : " + index, instance);
             throw new NullPointerException();
         }
         clip.play();
@@ -88,7 +89,7 @@ public class AudioManager {
     public static void playClip(final String name) {
         AudioClip clip = findClip(name);
         if (clip == null) {
-            util.Console.error("Failed to play AudioClip : " + name, Console.PrintType.Audio);
+            util.Console.error("Failed to play AudioClip : " + name, instance);
             throw new NullPointerException();
         }
 

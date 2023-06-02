@@ -15,10 +15,11 @@ public class GameManager {
     public static GameManager instance;
 
     public static void initialize() {
-        util.Console.message("Initializing GameManager.", Console.PrintType.Main);
 
         if (instance == null)
             instance = new GameManager();
+
+        util.Console.message("Initializing GameManager.", instance);
 
         try {
             User.loadUsers();
