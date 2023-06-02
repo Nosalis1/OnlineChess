@@ -22,7 +22,6 @@ public class Game extends Window {
         createInfo();
     }
 
-    //comment
     gui.images.Field[][] fields = null;
 
     public gui.images.Field[][] getFields() {
@@ -79,15 +78,10 @@ public class Game extends Window {
     }
 
     public void updateInfoTable(Piece piece) {
-        int pawnsWhite = 0, pawnsBlack = 0,
-                rooksWhite = 0, rooksBlack = 0,
-                knightsWhite = 0, knightsBlack = 0,
-                bishopsWhite = 0, bishopsBlack = 0;
-        boolean queenWhite = false, queenBlack = false,
-                kingWhite = false, kingBlack = false;
+        int pawnsWhite = 0, pawnsBlack = 0, rooksWhite = 0, rooksBlack = 0, knightsWhite = 0, knightsBlack = 0, bishopsWhite = 0, bishopsBlack = 0;
+        boolean queenWhite = false, queenBlack = false, kingWhite = false, kingBlack = false;
 
-        util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(),
-                piecesBlack = Board.instance.getBlackPieces();
+        util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(), piecesBlack = Board.instance.getBlackPieces();
         for (int i = 0; i < Board.instance.getWhitePieces().size(); i++) {
             switch (piecesWhite.get(i).getType()) {
                 case Pawn -> pawnsWhite++;
@@ -111,27 +105,9 @@ public class Game extends Window {
 
         int whiteScore = GameManager.instance.getWhiteScore(), blackScore = GameManager.instance.getBlackScore();
 
-        String messageWhite = String.format("<html>Username: %s<br>", "ime") +
-                String.format("ELO: %s<br>", "elo") +
-                String.format("CurrentPiecesCount: %d<br>", piecesWhite.size()) +
-                String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) +
-                String.format("Pawns: %d<br>", pawnsWhite) +
-                String.format("Rooks (Castles): %d<br>", rooksWhite) +
-                String.format("Knights: %d<br>", knightsWhite) +
-                String.format("Bishops: %d<br>", bishopsWhite) +
-                String.format("Have Queen: %s<br>", queenWhite ? "true" : "false") +
-                String.format("Have King: %s</html>", kingWhite ? "true" : "false");
+        String messageWhite = String.format("<html>Username: %s<br>", "ime") + String.format("ELO: %s<br>", "elo") + String.format("CurrentPiecesCount: %d<br>", piecesWhite.size()) + String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) + String.format("Pawns: %d<br>", pawnsWhite) + String.format("Rooks (Castles): %d<br>", rooksWhite) + String.format("Knights: %d<br>", knightsWhite) + String.format("Bishops: %d<br>", bishopsWhite) + String.format("Have Queen: %s<br>", queenWhite ? "true" : "false") + String.format("Have King: %s</html>", kingWhite ? "true" : "false");
 
-        String messageBlack = String.format("<html>Username: %s<br>", "ime") +
-                String.format("ELO: %s<br>", "elo") +
-                String.format("CurrentPiecesCount: %d<br>", piecesBlack.size()) +
-                String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) +
-                String.format("Pawns: %d<br>", pawnsBlack) +
-                String.format("Rooks (Castles): %d<br>", rooksBlack) +
-                String.format("Knights: %d<br>", knightsBlack) +
-                String.format("Bishops: %d<br>", bishopsBlack) +
-                String.format("Have Queen: %s<br>", queenBlack ? "true" : "false") +
-                String.format("Have King: %s</html>", kingBlack ? "true" : "false");
+        String messageBlack = String.format("<html>Username: %s<br>", "ime") + String.format("ELO: %s<br>", "elo") + String.format("CurrentPiecesCount: %d<br>", piecesBlack.size()) + String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) + String.format("Pawns: %d<br>", pawnsBlack) + String.format("Rooks (Castles): %d<br>", rooksBlack) + String.format("Knights: %d<br>", knightsBlack) + String.format("Bishops: %d<br>", bishopsBlack) + String.format("Have Queen: %s<br>", queenBlack ? "true" : "false") + String.format("Have King: %s</html>", kingBlack ? "true" : "false");
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
@@ -143,8 +119,7 @@ public class Game extends Window {
     }
 
     public void updateMovesTable(Piece piece) {
-        if (movesTableModel.getRowCount() >= 15)
-            movesTableModel.removeRow(0);
+        if (movesTableModel.getRowCount() >= 15) movesTableModel.removeRow(0);
         String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
         movesTableModel.addRow(new Object[]{moveString});
     }
