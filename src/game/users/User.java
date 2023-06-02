@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class User {
     public static User currentUser = null;
+    public static User opponent = null;
     private static final com.google.gson.Gson gson = new com.google.gson.Gson();
     private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
     private static final util.Array<User> existingUsers = new Array<>();

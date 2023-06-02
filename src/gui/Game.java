@@ -163,10 +163,13 @@ public class Game extends Window {
         JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
+        movesPanel.setBackground(ColorGradient.DARK.getColor(true));
+        movesPanel.setForeground(Color.white);
         movesPanel.setTableHeader(null);
         movesPanel.setBounds(823, 475, 251, 240);
         JPanel movesPanelWrapper = new JPanel();
         movesPanelWrapper.add(movesPanel);
+        movesPanelWrapper.setBackground(ColorGradient.DARK.getColor(false));
         movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
         movesPanelWrapper.setBounds(818, 470, 260, 250);
         add(movesPanelWrapper);
