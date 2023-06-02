@@ -69,8 +69,10 @@ public class Game extends Window {
     private JPanel getPlayerInfoPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(ColorGradient.DARK.getColor(false));
 
         JLabel label = new JLabel("Player info", SwingConstants.CENTER);
+        label.setForeground(Color.WHITE);
         panel.setPreferredSize(new Dimension(260, label.getPreferredSize().height));
         panel.setFont(label.getFont().deriveFont(Font.BOLD, 20F));
         panel.add(label);
@@ -109,9 +111,12 @@ public class Game extends Window {
             }
         }
 
+        int whiteScore=GameManager.instance.getWhiteScore(), blackScore=GameManager.instance.getBlackScore();
+
         String messageWhite = String.format("<html>Username: %s<br>", "ime") +
                 String.format("ELO: %s<br>", "elo") +
                 String.format("CurrentPiecesCount: %d<br>", piecesWhite.size()) +
+                String.format("CurrentPiecesScore: %d<br>",GameManager.instance.isWhite()?whiteScore:blackScore) +
                 String.format("Pawns: %d<br>", pawnsWhite) +
                 String.format("Rooks (Castles): %d<br>", rooksWhite) +
                 String.format("Knights: %d<br>", knightsWhite) +
@@ -122,6 +127,7 @@ public class Game extends Window {
         String messageBlack = String.format("<html>Username: %s<br>", "ime") +
                 String.format("ELO: %s<br>", "elo") +
                 String.format("CurrentPiecesCount: %d<br>", piecesBlack.size()) +
+                String.format("CurrentPiecesScore: %d<br>",GameManager.instance.isWhite()?whiteScore:blackScore) +
                 String.format("Pawns: %d<br>", pawnsBlack) +
                 String.format("Rooks (Castles): %d<br>", rooksBlack) +
                 String.format("Knights: %d<br>", knightsBlack) +
@@ -132,8 +138,8 @@ public class Game extends Window {
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
 
-        Color playColor = ColorGradient.FIELD.getColor(GameManager.instance.canPlay());
-        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.instance.canPlay());
+        Color playColor = ColorGradient.FIELD.getColor(!GameManager.instance.canPlay());
+        Color opponentColor = ColorGradient.FIELD.getColor(GameManager.instance.canPlay());
         playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
@@ -186,7 +192,9 @@ public class Game extends Window {
         opponentPanel.setName("opponent_panel");
 
         playerLabel = (JLabel) playerPanel.getComponents()[1];
+        playerLabel.setForeground(Color.white);
         opponentLabel = (JLabel) opponentPanel.getComponents()[1];
+        opponentLabel.setForeground(Color.white);
 
         updateInfoTable(null);
         Board.instance.onPieceMoved.add(this::updateInfoTable);

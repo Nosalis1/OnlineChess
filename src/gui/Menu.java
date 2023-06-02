@@ -13,6 +13,8 @@ public class Menu extends Window implements ActionListener {
         super("Menu");
         createUserInterface();
     }
+    JButton button = null;
+    JLabel info = null;
 
     private void createUserInterface(){
         setLayout(null);
@@ -30,20 +32,28 @@ public class Menu extends Window implements ActionListener {
         add(label);
         y += SPACING;
 
-        JButton button = new JButton();
+        button = new JButton();
 
         button.setText("Play");
         button.setBounds(x, y, 120, 20);
         button.addActionListener(this);
 
         add(button);
+
+        info = new JLabel("Waiting for opponent...");
+
+        info.setBounds(x,y,120,20);
+        info.setForeground(Color.WHITE);
+
+        add(info);
+        info.setVisible(false);
         y += SPACING;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        hideWindow();
         NetworkManager.connectClient();
-        //TODO: DISABLE BUTTONS AND ENABLE "WAITING FOR OPPONENT..." LABEL
+        button.setVisible(false);
+        info.setVisible(true);
     }
 }

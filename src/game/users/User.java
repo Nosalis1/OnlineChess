@@ -31,6 +31,16 @@ public class User {
         return false;
     }
 
+    public static boolean register(String userName,String password) {
+        for (int i = 0; i < existingUsers.size(); i++) {
+            if (existingUsers.get(i).userName.equals(userName))
+                return false;
+        }
+        currentUser = new User(userName, getMD5StringHash(password));
+        //TODO:LUKA FIX THIS PLEASE
+        return true;
+    }
+
     private static final String DATA_PATH = "src/game/users/UserData";
     public static void loadUsers() throws IOException {
         try (FileReader fileReader = new FileReader(DATA_PATH)) {
