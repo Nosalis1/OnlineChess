@@ -3,10 +3,10 @@ package socket.events;
 import java.net.Socket;
 
 /**
- * The ServerEventHandler class extends the util.Array class and implements the ServerEventable interface.
+ * The ServerEventHandler class extends the util.Array class and implements the iServerEvents interface.
  * It provides functionality to handle server events and manage a list of server event actions.
  */
-public class ServerEventHandler extends util.Array<ServerEventable> implements ServerEventable {
+public class ServerEventHandler extends util.Array<iServerEvents> implements iServerEvents {
 
     /**
      * Adds a server event action to the list.
@@ -15,7 +15,7 @@ public class ServerEventHandler extends util.Array<ServerEventable> implements S
      * @param actions The server event action to be added
      */
     @Override
-    public void add(ServerEventable actions) {
+    public void add(iServerEvents actions) {
         if (contains(actions)) {
             util.Console.warning("Action you are trying to add already exists in the list!", this);
             return;

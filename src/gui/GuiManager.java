@@ -6,6 +6,7 @@ import game.Piece;
 import gui.images.Field;
 import gui.images.Image;
 import util.Array;
+import util.ColorGradient;
 import util.Vector;
 
 public class GuiManager {

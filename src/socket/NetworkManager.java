@@ -1,10 +1,10 @@
 package socket;
 
-import socket.events.ServerEventable;
+import socket.events.iServerEvents;
 
 import java.net.Socket;
 
-public class NetworkManager implements ServerEventable {
+public class NetworkManager implements iServerEvents {
     public static NetworkManager instance = null;
 
     public static boolean isMaster() {

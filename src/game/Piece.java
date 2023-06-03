@@ -3,37 +3,75 @@ package game;
 import util.Array;
 import util.Vector;
 
+/**
+
+ The Piece class represents a chess piece with a color and a type.
+
+ It also manages the piece's position on the chessboard and provides methods for updating the position and calculating valid moves.
+ */
 public class Piece {
 
+    /**
+     * Enumeration for the color of the piece (White or Black).
+     */
     public enum Color {
         White(0),
         Black(1);
 
         private final int code;
 
-        public final int getCode() {
-            return this.code;
-        }
-
+        /**
+         * Constructs a Color enum with the given code.
+         *
+         * @param code the code representing the color
+         */
         Color(final int code) {
             this.code = code;
+        }
+
+        /**
+         * Returns the code representing the color.
+         *
+         * @return the code of the color
+         */
+        public final int getCode() {
+            return this.code;
         }
     }
 
     private final Color color;
 
+    /**
+     * Retrieves the color of the piece.
+     *
+     * @return the color of the piece
+     */
     public final Color getColor() {
         return this.color;
     }
 
+    /**
+     * Retrieves the code representing the color of the piece.
+     *
+     * @return the code of the color
+     */
     public final int getColorCode() {
         return this.color.getCode();
     }
 
+    /**
+     * Checks if the piece has the specified color.
+     *
+     * @param color the color to check
+     * @return true if the piece has the specified color, false otherwise
+     */
     public final boolean isColor(final Color color) {
         return this.color == color;
     }
 
+    /**
+     * Enumeration for the type of the piece (Rook, Knight, Bishop, Queen, King, Pawn).
+     */
     public enum Type {
         Rook(1),
         Knight(2),
@@ -44,14 +82,32 @@ public class Piece {
 
         private final int code;
 
+        /**
+         * Constructs a Type enum with the given code.
+         *
+         * @param code the code representing the type
+         */
         Type(int code) {
             this.code = code;
         }
 
+        /**
+         * Returns the code representing the type.
+         *
+         * @return the code of the type
+         */
+        @SuppressWarnings("unused")
         public int getCode() {
             return this.code;
         }
 
+        /**
+         * Returns the Type enum corresponding to the given code.
+         *
+         * @param code the code of the type
+         * @return the Type enum corresponding to the code
+         * @throws IllegalArgumentException if the code is invalid
+         */
         public static Type fromCode(int code) {
             for (Type type : Type.values()) {
                 if (type.code == code) {
@@ -64,45 +120,95 @@ public class Piece {
 
     private final Type type;
 
+    /**
+     * Retrieves the type of the piece.
+     *
+     * @return the type of the piece
+     */
     public final Type getType() {
         return this.type;
     }
 
+    /**
+     * Retrieves the code representing the type of the piece.
+     *
+     * @return the code of the type
+     */
     public final int getTypeCode() {
         return this.type.code;
     }
 
+    /**
+     * Checks if the piece has the specified type.
+     *
+     * @param type the type to check
+     * @return true if the piece has the specified type, false otherwise
+     */
     public final boolean isType(final Type type) {
         return this.type == type;
     }
 
+    /**
+     * Checks if the piece has the specified color and type.
+     *
+     * @param color the color to check
+     * @param type  the type to check
+     * @return true if the piece has the specified color and type, false otherwise
+     */
+    @SuppressWarnings("unused")
     public final boolean isPiece(final Color color, final Type type) {
         return isColor(color) && isType(type);
     }
 
     private Vector position = null;
 
+    /**
+     * Retrieves the position of the piece on the chessboard.
+     *
+     * @return the position of the piece
+     */
     public final Vector getPosition() {
         return this.position;
     }
 
+    /**
+     * Sets the position of the piece on the chessboard.
+     *
+     * @param position the new position of the piece
+     */
     public void setPosition(Vector position) {
         if (!position.inBounds(-1, 8))
             return;
         this.position = position;
     }
 
+    /**
+     * Updates the position of the piece on the chessboard using the given coordinates.
+     *
+     * @param x the x-coordinate of the new position
+     * @param y the y-coordinate of the new position
+     */
     public void updatePosition(int x, int y) {
         this.position.X = x;
         this.position.Y = y;
     }
 
+    /**
+     * Updates the position of the piece on the chessboard using the given vector.
+     *
+     * @param newPosition the new position as a vector
+     */
     public void updatePosition(final Vector newPosition) {
         updatePosition(newPosition.X, newPosition.Y);
     }
 
     private final util.Array<Vector> moves = new Array<>();
 
+    /**
+     * Retrieves the valid moves for the piece.
+     *
+     * @return an array of valid moves
+     */
     public util.Array<Vector> getMoves() {
         updateMoves();
         return this.moves;
@@ -113,6 +219,9 @@ public class Piece {
             moves.add(new Vector(x, y));
     }
 
+    /**
+     * Updates the valid moves for the piece based on its current position and type.
+     */
     public void updateMoves() {
         moves.clear();
 
@@ -247,16 +356,36 @@ public class Piece {
         tryAddMove(x, y);
     }
 
+    /**
+     * Creates a new instance of the Piece class with the specified color, type, and position.
+     *
+     * @param color    the color of the piece
+     * @param type     the type of the piece
+     * @param position the position of the piece on the chessboard
+     */
     public Piece(final Color color, final Type type, final Vector position) {
         this.color = color;
         this.type = type;
         setPosition(position);
     }
 
+    /**
+     * Checks if the piece can move to the specified destination.
+     *
+     * @param destination the destination position
+     * @return true if the move is valid, false otherwise
+     */
     public boolean canMove(final Vector destination) {
         return canMove(destination.X, destination.Y);
     }
 
+    /**
+     * Checks if the piece can move to the specified coordinates.
+     *
+     * @param x the x-coordinate of the destination
+     * @param y the y-coordinate of the destination
+     * @return true if the move is valid, false otherwise
+     */
     public boolean canMove(final int x, final int y) {
 
         if ((x <= -1 || x >= 8) || (y <= -1 || y >= 8))

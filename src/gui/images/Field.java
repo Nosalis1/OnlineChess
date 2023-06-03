@@ -1,7 +1,7 @@
 package gui.images;
 
 import game.Board;
-import gui.ColorGradient;
+import util.ColorGradient;
 import util.Vector;
 import util.events.ArgEvent;
 
@@ -10,19 +10,43 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+
+ The Field class represents a chessboard field with a specific position and appearance.
+
+ It extends the ImagePanel class and implements the MouseListener interface.
+ */
 public class Field extends ImagePanel implements MouseListener {
     private final Vector boardPosition;
 
+    /**
+     * Gets the position of the field on the chessboard.
+     *
+     * @return the board position vector
+     */
+    @SuppressWarnings("unused")
     public final Vector getBoardPosition() {
         return this.boardPosition;
     }
 
     private final boolean isGradient;
 
+    /**
+     * Checks if the field has a gradient appearance.
+     *
+     * @return true if the field has a gradient, false otherwise
+     */
     public final boolean isGradient() {
         return this.isGradient;
     }
 
+    /**
+     * Creates a new instance of the Field class with the specified board position, size, and gradient flag.
+     *
+     * @param boardPosition the position of the field on the chessboard
+     * @param size          the size of the field
+     * @param isGradient    the flag indicating if the field has a gradient appearance
+     */
     public Field(final Vector boardPosition, final Vector size, final boolean isGradient) {
         super();
 
@@ -62,8 +86,18 @@ public class Field extends ImagePanel implements MouseListener {
         }
     }
 
+    /**
+     * The onFieldClicked event is an ArgEvent that represents the event of a chessboard field being clicked.
+     * It provides the board position of the clicked field as an argument.
+     */
     public static util.events.ArgEvent<Vector> onFieldClicked = new ArgEvent<>();
 
+    /**
+     * Event handler for the mouseClicked event.
+     * Invokes the onFieldClicked event with the board position as the argument.
+     *
+     * @param e the MouseEvent object
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         onFieldClicked.run(boardPosition);

@@ -2,32 +2,32 @@ package socket.events;
 
 import java.net.Socket;
 
-public interface ServerEventable {
+public interface iServerEvents {
     /**
      * Called when the server has started.
      */
-    public void onServerStarted();
+    void onServerStarted();
 
     /**
      * Called when the server has stopped.
      */
-    public void onServerStopped();
+    void onServerStopped();
 
     /**
      * Called when the server starts listening for incoming connections.
      */
-    public void onServerStartListening();
+    void onServerStartListening();
 
     /**
      * Called when the server stops listening for incoming connections.
      */
-    public void onServerStopListening();
+    void onServerStopListening();
 
     /**
      * Called when a socket is connected to the server.
      *
      * @param clientSocket the connected client socket
      */
-    public void onSocketConnected(Socket clientSocket);
+    void onSocketConnected(Socket clientSocket);
 
 }

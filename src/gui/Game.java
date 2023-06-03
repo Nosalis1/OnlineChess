@@ -4,6 +4,7 @@ import game.Board;
 import game.GameManager;
 import game.Piece;
 import gui.images.Field;
+import util.ColorGradient;
 import util.Vector;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class Game extends Window {
 
     gui.images.Field[][] fields = null;
 
+    @SuppressWarnings("unused")
     public gui.images.Field[][] getFields() {
         return this.fields;
     }
