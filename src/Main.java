@@ -6,10 +6,12 @@ import socket.RoomManager;
 
 public class Main {
     public static void main(String[] args) {
-//        GameManager.initialize();
-//        GuiManager.initialize();
-//        GuiManager.instance.getChosePieceWindow().showWindow();
-//        if (true) return;
+        // OVAJ DEO KODA JE SAMO ZA TESTIRANJE
+        GameManager.initialize();
+        GuiManager.initialize();
+        GuiManager.instance.getChosePieceWindow().showWindow();
+        if (true) return;
+        // OVAJ DEO KODA JE SAMO ZA TESTIRANJE
 
         if (NetworkManager.isMaster()) {
             //Initializing Server
