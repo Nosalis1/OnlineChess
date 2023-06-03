@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Stream {
     protected PrintWriter out;
@@ -40,6 +41,8 @@ public class Stream {
         try {
             packet.setReceivedBuffer(in.readLine());
             return packet;
+        } catch (SocketException ex) {
+            return null;
         } catch (Exception ex) {
             ex.printStackTrace();
             System.exit(-1);

@@ -41,21 +41,21 @@ public class RoomManager {
         //TODO : DO GAME LOGIC
         util.Array<Client> clients = room.getClients();
 
-        clients.foreach((Client client)->{
-            if(client.getSocket().isClosed()){
+        clients.foreach((Client client) -> {
+            if (client.getSocket().isClosed()) {
                 System.out.println("CLOSED SERVER CLIENT");
             }
         });
 
-        Packet packet = new Packet("",Packet.Type.CHANGE_COLOR);
+        Packet packet = new Packet("", Packet.Type.CHANGE_COLOR);
         clients.get(clients.size() - 1).send(packet);
-        packet.setBuffer("",Packet.Type.START_GAME);
+        packet.setBuffer("", Packet.Type.START_GAME);
         Packet finalPacket = packet;
         clients.foreach((Client client) -> client.send(finalPacket));
 
         Client whitePlayer = clients.get(0), blackPlayer = clients.get(1);
 
-        if(whitePlayer.getSocket().isClosed() || blackPlayer.getSocket().isClosed()) {
+        if (whitePlayer.getSocket().isClosed() || blackPlayer.getSocket().isClosed()) {
             System.exit(-1);
         }
 
@@ -65,6 +65,9 @@ public class RoomManager {
 
             try {
                 packet = isWhiteTurn ? whitePlayer.receive(packet) : blackPlayer.receive(packet);
+
+                if (packet == null)
+                    break;
 
                 if (isWhiteTurn)
                     blackPlayer.send(packet);
