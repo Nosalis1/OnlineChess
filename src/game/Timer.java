@@ -38,8 +38,8 @@ public class Timer {
         public void run() {
             while (isRunning) {
                 try {
-                    if (playerTimeSeconds <= 0) GameManager.instance.endGame();
-                    else if (opponentTimeSeconds <= 0) GameManager.instance.endGame();
+//                    if (playerTimeSeconds <= 0) GameManager.instance.endGame();
+//                    else if (opponentTimeSeconds <= 0) GameManager.instance.endGame();
 
                     if (GameManager.instance.canPlay()) playerTimeSeconds--;
                     else opponentTimeSeconds--;
