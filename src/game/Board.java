@@ -20,7 +20,7 @@ public class Board {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 Piece piece = pieces[i][j];
-                copy[i][j] = new Piece(
+                copy[i][j] = piece == null ? null : new Piece(
                         piece.getColor(), piece.getType(), new Vector(i, j)
                 );
             }
@@ -28,9 +28,10 @@ public class Board {
         return copy;
     }
 
-    // TODO: resi sah mat exception
-
-    public Board(){}
+    public Board(){
+        this.data = new BoardData(this);
+        this.data.updateData(this);
+    }
     public Board(Board other) {
         this.pieces = other.getPiecesCopy();
         this.updatePieces();
@@ -38,6 +39,9 @@ public class Board {
         this.onPieceEaten.clear();
         this.onPieceMove.clear();
         this.onPieceMoved.clear();
+
+        this.data = new BoardData(this);
+        this.data.updateData(this);
     }
 
     private final util.Array<Piece> whitePieces = new Array<>();
@@ -97,6 +101,8 @@ public class Board {
             addPiece(new Piece(Piece.Color.Black, Piece.Type.fromCode(order[i]), new util.Vector(LAST, i)));
             addPiece(new Piece(Piece.Color.Black, Piece.Type.Pawn, new util.Vector(LAST - 1, i)));
         }
+
+        this.data.updateData(this);
     }
 
     private void onPieceEaten(Piece piece) {
@@ -191,16 +197,9 @@ public class Board {
     public util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
     public util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
-    public final util.Array<String> moves = new Array<>();
-
-    private final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
-
-    private String convertVector(final Vector vector) {
-        return (vector.X + 1) + labels[vector.Y];
-    }
-
-    private String convertMove(final Move move) {
-        return (moves.size() + 1) + " - " + convertVector(move.getFrom()) + " : " + convertVector(move.getTo());
+    private final BoardData data;
+    public final BoardData getData() {
+        return this.data;
     }
 
     public void move(final Vector from, final Vector to) {
@@ -216,7 +215,6 @@ public class Board {
         pieces[to.X][to.Y] = temp;
 
         temp.updatePosition(to);
-        moves.add(convertMove(move));
 
         onPieceMoved.run(temp);
     }
@@ -256,6 +254,8 @@ public class Board {
 
     public boolean isCheck(Piece.Color color) {
         Piece king = get(color, Piece.Type.King);
+        if (king == null)
+            return true;//TODO:ENDGAME
 
         util.Array<Piece> opponentPieces = color == Piece.Color.White ? blackPieces : whitePieces;
         for (int i = 0; i < opponentPieces.size(); i++) {

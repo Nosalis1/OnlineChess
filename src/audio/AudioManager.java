@@ -105,6 +105,11 @@ public class AudioManager {
     }
 
     /**
+     * Plays the start sound effect when a game starts.
+     */
+    public void startGame(){ playClip(3); }
+
+    /**
      * Plays the capture sound effect when a piece is eaten.
      *
      * @param piece the piece that was eaten

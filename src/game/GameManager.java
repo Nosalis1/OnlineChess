@@ -1,5 +1,6 @@
 package game;
 
+import audio.AudioManager;
 import game.users.User;
 import gui.GuiManager;
 import gui.images.Field;
@@ -29,35 +30,12 @@ public class GameManager {
         Field.onFieldClicked.add(this::onFieldClicked);
 
         Board.instance.onPieceMoved.add(this::onPieceMoved);
-        Board.instance.onPieceEaten.add(this::onPieceEaten);
-    }
-
-    private int blackScore,whiteScore;
-    public int getBlackScore(){
-        return blackScore;
-    }
-    public  int getWhiteScore() {
-        return whiteScore;
-    }
-    final int[] PIECE_SCORES = {
-            5, 3, 3, 9, 0, 1
-    };
-
-    private void onPieceEaten(Piece piece) {
-        if (piece.isColor(Piece.Color.White)) {
-            whiteScore -= PIECE_SCORES[piece.getTypeCode() - 1];
-        } else {
-            blackScore -= PIECE_SCORES[piece.getTypeCode() - 1];
-        }
     }
 
     public void newGame() {
         Board.instance.reset();
         GuiManager.instance.startGame();
-
-        blackScore = 39;
-        whiteScore = 39;
-        //TODO:TELL AUDIO MANAGER TO PLAY SOUND
+        AudioManager.instance.startGame();
     }
 
     private void onPieceMoved(Piece piece) {
@@ -127,6 +105,9 @@ public class GameManager {
     }
 
     public void handleNetworkPackage(final Packet packet) {
+
+        if(packet == null)
+            return;
 
         if (packet.getType() == Packet.Type.MOVE) {
             Vector from = new Vector(), to = new Vector();
