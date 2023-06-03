@@ -80,10 +80,10 @@ public class Login extends Window implements ActionListener {
         String password = new String(passwordField.getPassword());
 
         if (game.users.User.login(userName, password)) {
-            util.Console.message("Valid User", this);
-
             usernameField.setText("");
             passwordField.setText("");
+
+            util.Console.message("Valid User", this);
 
             GuiManager.instance.loggedIn();
         } else {
