@@ -90,6 +90,7 @@ public class GuiManager {
         updateFields();
         menuWindow.hideWindow();
         gameWindow.showWindow();
+        gameWindow.updateInfoTable(null);
     }
 
     public void loggedIn() {

@@ -1,6 +1,7 @@
 package gui;
 
 import game.Board;
+import game.BoardData;
 import game.GameManager;
 import game.Piece;
 import gui.images.Field;
@@ -79,37 +80,51 @@ public class Game extends Window {
         return panel;
     }
 
+    private String createInfoMessage(final String name,final int elo,
+                                     final int piecesCount,final int piecesScore,
+                                     final int pawnsCount,
+                                     final int rooksCount,
+                                     final int knightsCount,
+                                     final int bishopsCount,
+                                     final int queensCount,
+                                     final int kingsCount) {
+        return String.format("<html>Username: %s<br>", name)
+                + String.format("ELO: %s<br>", elo)
+                + String.format("CurrentPiecesCount: %d<br>", piecesCount)
+                + String.format("CurrentPiecesScore: %d<br>", piecesScore)
+                + String.format("Pawns: %d<br>", pawnsCount)
+                + String.format("Rooks (Castles): %d<br>", rooksCount)
+                + String.format("Knights: %d<br>", knightsCount)
+                + String.format("Bishops: %d<br>", bishopsCount)
+                + String.format("Have Queen: %s<br>", queensCount != 0 ? "true" : "false")
+                + String.format("Have King: %s</html>", kingsCount != 0 ? "true" : "false");
+    }
+
+    private String createInfoMessage(final String name,final int elo,final int piecesCount,final int piecesScore,util.Array<Integer> data) {
+        return createInfoMessage(name, elo,
+                piecesCount, piecesScore,
+                data.get(Piece.Type.Pawn.getCode()-1),
+                data.get(Piece.Type.Rook.getCode()-1),
+                data.get(Piece.Type.Knight.getCode()-1),
+                data.get(Piece.Type.Bishop.getCode()-1),
+                data.get(Piece.Type.Queen.getCode()-1),
+                data.get(Piece.Type.King.getCode()-1)
+        );
+    }
+
     public void updateInfoTable(Piece piece) {
-        int pawnsWhite = 0, pawnsBlack = 0, rooksWhite = 0, rooksBlack = 0, knightsWhite = 0, knightsBlack = 0, bishopsWhite = 0, bishopsBlack = 0;
-        boolean queenWhite = false, queenBlack = false, kingWhite = false, kingBlack = false;
+        final BoardData data = Board.instance.getData();
 
-        util.Array<Piece> piecesWhite = Board.instance.getWhitePieces(), piecesBlack = Board.instance.getBlackPieces();
-        for (int i = 0; i < Board.instance.getWhitePieces().size(); i++) {
-            switch (piecesWhite.get(i).getType()) {
-                case Pawn -> pawnsWhite++;
-                case Rook -> rooksWhite++;
-                case Knight -> knightsWhite++;
-                case Bishop -> bishopsWhite++;
-                case Queen -> queenWhite = true;
-                case King -> kingWhite = true;
-            }
-        }
-        for (int i = 0; i < Board.instance.getBlackPieces().size(); i++) {
-            switch (piecesBlack.get(i).getType()) {
-                case Pawn -> pawnsBlack++;
-                case Rook -> rooksBlack++;
-                case Knight -> knightsBlack++;
-                case Bishop -> bishopsBlack++;
-                case Queen -> queenBlack = true;
-                case King -> kingBlack = true;
-            }
-        }
-
-        int whiteScore = GameManager.instance.getWhiteScore(), blackScore = GameManager.instance.getBlackScore();
-
-        String messageWhite = String.format("<html>Username: %s<br>", "ime") + String.format("ELO: %s<br>", "elo") + String.format("CurrentPiecesCount: %d<br>", piecesWhite.size()) + String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) + String.format("Pawns: %d<br>", pawnsWhite) + String.format("Rooks (Castles): %d<br>", rooksWhite) + String.format("Knights: %d<br>", knightsWhite) + String.format("Bishops: %d<br>", bishopsWhite) + String.format("Have Queen: %s<br>", queenWhite ? "true" : "false") + String.format("Have King: %s</html>", kingWhite ? "true" : "false");
-
-        String messageBlack = String.format("<html>Username: %s<br>", "ime") + String.format("ELO: %s<br>", "elo") + String.format("CurrentPiecesCount: %d<br>", piecesBlack.size()) + String.format("CurrentPiecesScore: %d<br>", GameManager.instance.isWhite() ? whiteScore : blackScore) + String.format("Pawns: %d<br>", pawnsBlack) + String.format("Rooks (Castles): %d<br>", rooksBlack) + String.format("Knights: %d<br>", knightsBlack) + String.format("Bishops: %d<br>", bishopsBlack) + String.format("Have Queen: %s<br>", queenBlack ? "true" : "false") + String.format("Have King: %s</html>", kingBlack ? "true" : "false");
+        String messageWhite = createInfoMessage("TODO:NAME",1,
+                Board.instance.getWhitePieces().size(),
+                data.getWhitePieceScore(),
+                data.getWhiteData()
+                );
+        String messageBlack = createInfoMessage("TODO:OPPONENT NAME",-1,
+                Board.instance.getBlackPieces().size(),
+                data.getBlackPieceScore(),
+                data.getBlackData()
+        );
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
@@ -121,8 +136,11 @@ public class Game extends Window {
     }
 
     public void updateMovesTable(Piece piece) {
+        BoardData data = Board.instance.getData();
+        util.Array<String> movesData = data.getMoves();
+
         if (movesTableModel.getRowCount() >= 15) movesTableModel.removeRow(0);
-        String moveString = Board.instance.moves.get(Board.instance.moves.size() - 1);
+        String moveString = movesData.get(movesData.size() - 1);
         movesTableModel.addRow(new Object[]{moveString});
     }
 
