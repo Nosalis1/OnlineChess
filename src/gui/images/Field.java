@@ -11,10 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
-
- The Field class represents a chessboard field with a specific position and appearance.
-
- It extends the ImagePanel class and implements the MouseListener interface.
+ * The Field class represents a chessboard field with a specific position and appearance.
+ * <p>
+ * It extends the ImagePanel class and implements the MouseListener interface.
  */
 public class Field extends ImagePanel implements MouseListener {
     private final Vector boardPosition;
@@ -76,7 +75,6 @@ public class Field extends ImagePanel implements MouseListener {
             super.setLabel(Integer.toString(boardPosition.X + 1));
             super.getjLabel().setForeground(ColorGradient.FIELD.getColor(!isGradient));
         }
-
 
         if (boardPosition.X == Board.LAST && boardPosition.Y == 0) {
             JLabel lab = new JLabel(Integer.toString(boardPosition.X + 1));

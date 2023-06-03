@@ -80,51 +80,19 @@ public class Game extends Window {
         return panel;
     }
 
-    private String createInfoMessage(final String name,final int elo,
-                                     final int piecesCount,final int piecesScore,
-                                     final int pawnsCount,
-                                     final int rooksCount,
-                                     final int knightsCount,
-                                     final int bishopsCount,
-                                     final int queensCount,
-                                     final int kingsCount) {
-        return String.format("<html>Username: %s<br>", name)
-                + String.format("ELO: %s<br>", elo)
-                + String.format("CurrentPiecesCount: %d<br>", piecesCount)
-                + String.format("CurrentPiecesScore: %d<br>", piecesScore)
-                + String.format("Pawns: %d<br>", pawnsCount)
-                + String.format("Rooks (Castles): %d<br>", rooksCount)
-                + String.format("Knights: %d<br>", knightsCount)
-                + String.format("Bishops: %d<br>", bishopsCount)
-                + String.format("Have Queen: %s<br>", queensCount != 0 ? "true" : "false")
-                + String.format("Have King: %s</html>", kingsCount != 0 ? "true" : "false");
+    private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, final int pawnsCount, final int rooksCount, final int knightsCount, final int bishopsCount, final int queensCount, final int kingsCount) {
+        return String.format("<html>Username: %s<br>", name) + String.format("ELO: %s<br>", elo) + String.format("CurrentPiecesCount: %d<br>", piecesCount) + String.format("CurrentPiecesScore: %d<br>", piecesScore) + String.format("Pawns: %d<br>", pawnsCount) + String.format("Rooks (Castles): %d<br>", rooksCount) + String.format("Knights: %d<br>", knightsCount) + String.format("Bishops: %d<br>", bishopsCount) + String.format("Have Queen: %s<br>", queensCount != 0 ? "true" : "false") + String.format("Have King: %s</html>", kingsCount != 0 ? "true" : "false");
     }
 
-    private String createInfoMessage(final String name,final int elo,final int piecesCount,final int piecesScore,util.Array<Integer> data) {
-        return createInfoMessage(name, elo,
-                piecesCount, piecesScore,
-                data.get(Piece.Type.Pawn.getCode()-1),
-                data.get(Piece.Type.Rook.getCode()-1),
-                data.get(Piece.Type.Knight.getCode()-1),
-                data.get(Piece.Type.Bishop.getCode()-1),
-                data.get(Piece.Type.Queen.getCode()-1),
-                data.get(Piece.Type.King.getCode()-1)
-        );
+    private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, util.Array<Integer> data) {
+        return createInfoMessage(name, elo, piecesCount, piecesScore, data.get(Piece.Type.Pawn.getCode() - 1), data.get(Piece.Type.Rook.getCode() - 1), data.get(Piece.Type.Knight.getCode() - 1), data.get(Piece.Type.Bishop.getCode() - 1), data.get(Piece.Type.Queen.getCode() - 1), data.get(Piece.Type.King.getCode() - 1));
     }
 
     public void updateInfoTable(Piece piece) {
         final BoardData data = Board.instance.getData();
 
-        String messageWhite = createInfoMessage("TODO:NAME",1,
-                Board.instance.getWhitePieces().size(),
-                data.getWhitePieceScore(),
-                data.getWhiteData()
-                );
-        String messageBlack = createInfoMessage("TODO:OPPONENT NAME",-1,
-                Board.instance.getBlackPieces().size(),
-                data.getBlackPieceScore(),
-                data.getBlackData()
-        );
+        String messageWhite = createInfoMessage("TODO:NAME", 1, Board.instance.getWhitePieces().size(), data.getWhitePieceScore(), data.getWhiteData());
+        String messageBlack = createInfoMessage("TODO:OPPONENT NAME", -1, Board.instance.getBlackPieces().size(), data.getBlackPieceScore(), data.getBlackData());
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);

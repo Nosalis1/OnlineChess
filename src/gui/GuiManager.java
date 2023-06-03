@@ -23,6 +23,7 @@ public class GuiManager {
     private final Register registerWindow;
     private final Menu menuWindow;
     private final Game gameWindow;
+    private final ChosePiece chosePieceWindow;
 
     public Login getLoginWindow() {
         return this.loginWindow;
@@ -36,8 +37,17 @@ public class GuiManager {
         return this.menuWindow;
     }
 
-    @SuppressWarnings("unused")
     public Game getGameWindow() {
+        return this.gameWindow;
+    }
+
+    @SuppressWarnings("unused")
+    public ChosePiece getChosePieceWindow() {
+        return this.chosePieceWindow;
+    }
+
+    @SuppressWarnings("unused")
+    public Game get() {
         return this.gameWindow;
     }
 
@@ -46,6 +56,7 @@ public class GuiManager {
         this.registerWindow = new Register();
         this.menuWindow = new Menu();
         this.gameWindow = new Game();
+        this.chosePieceWindow = new ChosePiece();
 
         this.loginWindow.showWindow();
 
