@@ -1,5 +1,6 @@
 package game;
 
+import audio.AudioManager;
 import game.users.User;
 import gui.GuiManager;
 import gui.images.Field;
@@ -57,7 +58,7 @@ public class GameManager {
 
         blackScore = 39;
         whiteScore = 39;
-        //TODO:TELL AUDIO MANAGER TO PLAY SOUND
+        AudioManager.instance.startGame();
     }
 
     private void onPieceMoved(Piece piece) {

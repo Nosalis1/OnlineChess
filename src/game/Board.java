@@ -20,15 +20,13 @@ public class Board {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 Piece piece = pieces[i][j];
-                copy[i][j] = new Piece(
+                copy[i][j] = piece == null ? null : new Piece(
                         piece.getColor(), piece.getType(), new Vector(i, j)
                 );
             }
         }
         return copy;
     }
-
-    // TODO: resi sah mat exception
 
     public Board(){}
     public Board(Board other) {

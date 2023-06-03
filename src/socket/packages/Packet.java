@@ -49,6 +49,10 @@ public class Packet {
         this.buffer = type.getCode() + buffer;
     }
 
+    public void setBuffer(Type type) {
+        this.buffer = type.getCode();
+    }
+
     public void setReceivedBuffer(String buffer) {
         this.buffer = buffer;
     }
@@ -56,8 +60,13 @@ public class Packet {
     public Packet(String buffer) {
         this.buffer = buffer;
     }
+
     public Packet(String buffer, Type type) {
         setBuffer(buffer, type);
+    }
+
+    public Packet(Type type) {
+        setBuffer(type);
     }
 
     @SuppressWarnings("unused")

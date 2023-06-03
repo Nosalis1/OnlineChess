@@ -37,8 +37,6 @@ public class RoomManager {
     }
 
     private void handleRoomProcess(ServerRoom room) {
-
-        //TODO : DO GAME LOGIC
         util.Array<Client> clients = room.getClients();
 
         clients.foreach((Client client) -> {
@@ -47,9 +45,9 @@ public class RoomManager {
             }
         });
 
-        Packet packet = new Packet("", Packet.Type.CHANGE_COLOR);
+        Packet packet = new Packet(Packet.Type.CHANGE_COLOR);
         clients.get(clients.size() - 1).send(packet);
-        packet.setBuffer("", Packet.Type.START_GAME);
+        packet.setBuffer(Packet.Type.START_GAME);
         Packet finalPacket = packet;
         clients.foreach((Client client) -> client.send(finalPacket));
 
