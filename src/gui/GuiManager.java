@@ -97,6 +97,17 @@ public class GuiManager {
         });
     }
 
+    public void updateField(final Vector at) {
+        Field tempField = this.gameWindow.getField(at);
+
+        if (Board.instance.isNull(at)) {
+            tempField.setImage(null);
+        } else {
+            Piece tempPiece = Board.instance.get(at);
+            tempField.setImage(Image.IMAGES[tempPiece.getColorCode()][tempPiece.getTypeCode() - 1]);
+        }
+    }
+
     public void startGame() {
         updateFields();
         menuWindow.hideWindow();

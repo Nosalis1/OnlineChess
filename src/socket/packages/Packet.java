@@ -6,7 +6,8 @@ public class Packet {
         CHANGE_COLOR("$0001!"),
         DISCONNECT("$0010!"),
         MOVE("$0011!"),
-        CUSTOM("$0100!");
+        CHANGE_TYPE("$0100!"),
+        CUSTOM("$0101!");
 
         private final String code;
         public static final int CODE_LENGTH = 6;

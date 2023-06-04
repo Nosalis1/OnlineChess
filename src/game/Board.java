@@ -28,10 +28,11 @@ public class Board {
         return copy;
     }
 
-    public Board(){
+    public Board() {
         this.data = new BoardData(this);
         this.data.updateData(this);
     }
+
     public Board(Board other) {
         this.pieces = other.getPiecesCopy();
         this.updatePieces();
@@ -198,6 +199,7 @@ public class Board {
     public util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
 
     private final BoardData data;
+
     public final BoardData getData() {
         return this.data;
     }
@@ -252,6 +254,30 @@ public class Board {
         return tryMove(move.getFrom(), move.getTo());
     }
 
+    public void changePiece(Piece current, final Piece.Type toType) {
+        Vector position = current.getPosition();
+        pieces[position.X][position.Y] = new Piece(current.getColor(), toType, position);
+    }
+
+    public void networkChangePiece(Piece current,final Piece.Type toType) {
+        Vector position = current.getPosition();
+        String buffer = position.pack(null);
+        buffer += "~" + Integer.toString(toType.getCode());
+
+        //Send change over network
+        LocalClient.instance.send(new Packet(buffer, Packet.Type.CHANGE_TYPE));
+        System.out.println("CHANGE TYPE SENT");
+        changePiece(current, toType);
+    }
+
+    public boolean tryChangePiece(Piece current, final Piece.Type toType) {
+        if (data.getMissingPieces(current.getColor(), toType) > 0) {
+            changePiece(current, toType);
+            return true;
+        }
+        return false;
+    }
+
     public boolean isCheck(Piece.Color color) {
         Piece king = get(color, Piece.Type.King);
         if (king == null)
@@ -278,7 +304,7 @@ public class Board {
             moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
         });
 
-        for(int i =0;i<legalMoves.size();i++) {
+        for (int i = 0; i < legalMoves.size(); i++) {
             Move legalMove = legalMoves.get(i);
             Board tempBoard = new Board(this);
             tempBoard.move(legalMove);

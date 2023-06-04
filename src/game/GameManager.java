@@ -2,8 +2,10 @@ package game;
 
 import audio.AudioManager;
 import game.users.User;
+import gui.ChosePiece;
 import gui.GuiManager;
 import gui.images.Field;
+import gui.images.Image;
 import socket.packages.Packet;
 import util.Vector;
 
@@ -30,6 +32,8 @@ public class GameManager {
         Field.onFieldClicked.add(this::onFieldClicked);
 
         Board.instance.onPieceMoved.add(this::onPieceMoved);
+
+        ChosePiece.onTypeSelected.add(this::onTypeSelected);
     }
 
     public void newGame() {
@@ -39,6 +43,19 @@ public class GameManager {
     }
 
     private void onPieceMoved(Piece piece) {
+        lastMovedPiece = piece;
+
+        if (lastMovedPiece.isPiece(isWhite() ? Piece.Color.White : Piece.Color.Black, Piece.Type.Pawn)) {
+            final Vector position = piece.getPosition();
+            if (piece.isColor(Piece.Color.White)) {
+                if (isWhite() && position.X == Board.LAST)
+                    GuiManager.instance.getChosePieceWindow().showWindow();
+            } else {
+                if (!isWhite() && position.X == 0)
+                    GuiManager.instance.getChosePieceWindow().showWindow();
+            }
+        }
+
         nextTurn();
 
         if (Board.instance.isCheckmate(Piece.Color.White)) {
@@ -58,6 +75,17 @@ public class GameManager {
                 }
             }
         }
+    }
+
+    private Piece lastMovedPiece = null;
+
+    private void onTypeSelected(Piece.Type type) {
+        if (lastMovedPiece == null || !lastMovedPiece.isType(Piece.Type.Pawn))
+            return;
+        final util.Vector position = lastMovedPiece.getPosition();
+
+        Board.instance.networkChangePiece(lastMovedPiece, type);
+        GuiManager.instance.updateField(position);
     }
 
     private boolean white = true;
@@ -106,8 +134,10 @@ public class GameManager {
 
     public void handleNetworkPackage(final Packet packet) {
 
-        if(packet == null)
+        if (packet == null)
             return;
+
+        System.out.println(packet.getPackedBuffer());
 
         if (packet.getType() == Packet.Type.MOVE) {
             Vector from = new Vector(), to = new Vector();
@@ -120,6 +150,21 @@ public class GameManager {
                 throw new IllegalArgumentException("Invalid buffer format");
 
             Board.instance.move(from, to);
+        } else if (packet.getType() == Packet.Type.CHANGE_TYPE) {
+            System.out.println("CHANGE TYPE RECEIVED");
+            Vector at = new Vector();
+            Piece.Type newType = null;
+            String[] values = packet.getBuffer().split("~");
+
+            if (values.length == 2) {
+                at.unapck(values[0]);
+                newType = Piece.Type.fromCode(Integer.parseInt(values[1]));
+            } else
+                throw new IllegalArgumentException("Invalid buffer format");
+
+            System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
+            Board.instance.changePiece(Board.instance.get(at), newType);
+            GuiManager.instance.updateField(at);
         } else if (packet.getType() == Packet.Type.CUSTOM) {
             return;//TODO:HANDLE CUSTOM
         } else if (packet.getType() == Packet.Type.START_GAME) {

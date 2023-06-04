@@ -44,6 +44,16 @@ public class BoardData {
         this.updatePieceScore();
     }
 
+    public final int[] MAX_PIECES = {
+            2, 2, 2, 1, 1, 8
+    };
+
+    public final int getMissingPieces(final Piece.Color color,final Piece.Type type) {
+        util.Array<Integer> tempData = color == Piece.Color.White ? whiteData : blackData;
+        final int CODE = type.getCode() - 1;
+        return MAX_PIECES[CODE] - tempData.get(CODE);
+    }
+
     public final int[] PIECE_SCORES = {
             5, 3, 3, 9, 0, 1
     };
