@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="FixedGameplay">
+    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="A LOT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/ChosePiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/ChosePiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/GuiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GuiManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/RoomManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/RoomManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket/packages/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/socket/packages/Packet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,21 +319,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685950486689</updated>
     </task>
-    <task id="LOCAL-00032" summary="FixedGameplay">
-      <created>1685959657997</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1685959657997</updated>
-    </task>
-    <task id="LOCAL-00033" summary="FixedGameplay">
-      <created>1685961959337</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1685961959337</updated>
-    </task>
-    <option name="localTasksCounter" value="34" />
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,15 +355,14 @@
     <MESSAGE value="Fixed" />
     <MESSAGE value="Exceptions" />
     <MESSAGE value="A LOT" />
-    <MESSAGE value="FixedGameplay" />
-    <option name="LAST_COMMIT_MESSAGE" value="FixedGameplay" />
+    <option name="LAST_COMMIT_MESSAGE" value="A LOT" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/game/Board.java</url>
-          <line>359</line>
+          <line>353</line>
           <properties class="game.Board" method="networkChangePiece">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

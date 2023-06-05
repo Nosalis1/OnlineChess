@@ -1,8 +1,6 @@
 package game;
 
 import game.users.User;
-import gui.ChosePiece;
-import gui.Game;
 import gui.GuiManager;
 import gui.images.Field;
 import socket.LocalClient;
