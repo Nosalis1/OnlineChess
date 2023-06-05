@@ -2,6 +2,7 @@ package game;
 
 import game.users.User;
 import gui.ChosePiece;
+import gui.Game;
 import gui.GuiManager;
 import gui.images.Field;
 import socket.packages.Packet;
@@ -11,104 +12,55 @@ import util.events.Event;
 import java.io.IOException;
 
 public class GameManager {
-    public static GameManager instance;
+    private static boolean initialized = false;
+
+    public static boolean isInitialized() {
+        return initialized;
+    }
 
     public static void initialize() {
-
-        if (instance == null)
-            instance = new GameManager();
-
-        util.Console.message("Initializing GameManager.", instance);
+        if (initialized)
+            return;
 
         try {
             User.loadUsers();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
 
-    public static util.events.Event onGameStarted = new Event();
+        Field.onFieldClicked.add(GameManager::onFieldClicked);
 
-    public GameManager() {
-        Field.onFieldClicked.add(this::onFieldClicked);
-
-        Board.instance.onMoved.add(this::onPieceMoved);
         Board.instance.onCheck.add((Piece.Color color) -> {
             System.out.println(color.toString() + " in check!");
         });
         Board.instance.onCheckMate.add((Piece.Color color) -> {
             System.out.println(color.toString() + " in checkMate!");
+            onGameEnded.run();
         });
 
-        ChosePiece.onTypeSelected.add(this::onTypeSelected);
+        initialized = true;
     }
 
-    public void newGame() {
+    public static util.events.Event onGameStarted = new Event();
+    public static util.events.Event onGameEnded = new Event();
+
+    public static void newGame() {
         Board.instance.reset();
         GuiManager.instance.startGame();
+
         onGameStarted.run();
     }
 
-    private void onPieceMoved(Piece piece) {
-        lastMovedPiece = piece;
+    public static User localUser = null;//TODO:ASSIGN LOCALUSER
+    public static User opponent = null;//TODO:ASSIGN OPPONENT
 
-        if (lastMovedPiece.isPiece(isWhite() ? Piece.Color.White : Piece.Color.Black, Piece.Type.Pawn)) {
-            final Vector position = piece.getPosition();
-            if (piece.isColor(Piece.Color.White)) {
-                if (isWhite() && position.X == Board.LAST)
-                    GuiManager.instance.getChosePieceWindow().showWindow();
-            } else {
-                if (!isWhite() && position.X == 0)
-                    GuiManager.instance.getChosePieceWindow().showWindow();
-            }
-        }
 
-        nextTurn();
-    }
+    static Vector selected;
 
-    private Piece lastMovedPiece = null;
-
-    private void onTypeSelected(Piece.Type type) {
-        if (lastMovedPiece == null || !lastMovedPiece.isType(Piece.Type.Pawn))
+    private static void onFieldClicked(Vector at) {
+        if (!localUser.canPlay())
             return;
-        final util.Vector position = lastMovedPiece.getPosition();
-
-        Board.instance.networkChangePiece(lastMovedPiece, type);
-        GuiManager.instance.updateField(position);
-    }
-
-    private boolean white = true;
-
-    public void changeColor() {
-        this.white = !this.white;
-    }
-
-    public boolean isWhite() {
-        return this.white;
-    }
-
-    private boolean whiteTurn = true;
-
-    public boolean isWhiteTurn() {
-        return this.whiteTurn;
-    }
-
-    public void nextTurn() {
-        whiteTurn = !whiteTurn;
-    }
-
-    public boolean canPlay() {
-        return (isWhite() && isWhiteTurn()) || (!isWhite() && !isWhiteTurn());
-    }
-
-    // TODO: add getUsername
-
-    Vector selected;
-
-    private void onFieldClicked(Vector at) {
-        if (!canPlay())
-            return;
-        if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(isWhite() ? Piece.Color.White : Piece.Color.Black))) {
+        if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(localUser.isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
             GuiManager.instance.onFieldClicked(at);//TODO:FIX THIS IMPLEMENTATION LATER
         } else if (selected == at) {
@@ -159,7 +111,7 @@ public class GameManager {
         } else if (packet.getType() == Packet.Type.START_GAME) {
             newGame();
         } else if (packet.getType() == Packet.Type.CHANGE_COLOR) {
-            changeColor();
+            localUser.changeSide();
         } else if (packet.getType() == Packet.Type.DISCONNECT) {
             return;//TODO:HANDLE DISCONNECTED
         }

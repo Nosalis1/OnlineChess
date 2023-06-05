@@ -39,7 +39,7 @@ public class ChosePiece extends Window implements ActionListener {
     private void createUserInterface() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        boolean isWhite = GameManager.instance.isWhite();
+        boolean isWhite = GameManager.localUser.isWhite();
 
         JButton rookButton = getStylizedButton(10, gui.images.Image.IMAGES[isWhite ? 0 : 1][0].getImage(), e -> {
             onTypeSelected.run(Piece.Type.Rook);

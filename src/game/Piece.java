@@ -118,7 +118,7 @@ public class Piece {
         }
     }
 
-    private final Type type;
+    private Type type;
 
     /**
      * Retrieves the type of the piece.
@@ -146,6 +146,14 @@ public class Piece {
      */
     public final boolean isType(final Type type) {
         return this.type == type;
+    }
+
+    /**
+     * Change the type of piece.
+     * @param toType type of piece we want to change to
+     */
+    public void promote(final Type toType) {
+        this.type = toType;
     }
 
     /**

@@ -7,6 +7,9 @@ import util.Vector;
 import util.events.ArgEvent;
 import util.events.Event;
 
+import java.nio.IntBuffer;
+import java.time.Period;
+
 public class Board {
 
     public static final Board instance = new Board();
@@ -145,6 +148,16 @@ public class Board {
         return inPath(from, to, step.X, step.Y);
     }
 
+    private boolean whiteTurn = true;
+
+    public final boolean isWhiteTurn() {
+        return this.whiteTurn;
+    }
+
+    private void skipTurn() {
+        this.whiteTurn = !this.whiteTurn;
+    }
+
     private final BoardData data;
 
     public final BoardData getData() {
@@ -159,6 +172,10 @@ public class Board {
 
     public util.events.ArgEvent<Piece.Color> onCheck = new ArgEvent<>();
     public util.events.ArgEvent<Piece.Color> onCheckMate = new ArgEvent<>();
+
+    public util.events.Event onPromotion = new Event();
+    public util.events.ArgEvent<Piece> onPiecePromotion = new ArgEvent<>();
+    public util.events.ArgEvent<Piece> onPiecePromoted = new ArgEvent<>();
 
     public void move(final Vector from, final Vector to) {
         onMove.run();
@@ -177,6 +194,9 @@ public class Board {
         onMoved.run(temp);
 
         onMoveDone.run(new Move(from, to));
+
+        if (!checkPromotion(temp))
+            skipTurn();
 
         checkCheckMate();
     }
@@ -309,6 +329,26 @@ public class Board {
             if (data.black.isInCheckMate())
                 onCheckMate.run(Piece.Color.Black);
         }
+    }
+
+    private boolean checkPromotion(Piece piece) {
+        if (piece == null || !piece.isType(Piece.Type.Pawn))
+            return false;
+
+        final int y = piece.getPosition().Y;
+        if (y == 0 || y == LAST) {
+            onPromotion.run();
+            onPiecePromotion.run(piece);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void promotePiece(Piece piece, Piece.Type toType) {
+        piece.promote(toType);
+        onPiecePromoted.run(piece);
+        skipTurn();
     }
 
     public void changePiece(Piece current, final Piece.Type toType) {

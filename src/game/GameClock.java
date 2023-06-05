@@ -62,7 +62,7 @@ public class GameClock implements java.awt.event.ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (GameManager.instance.canPlay()) playerTimeSeconds--;
+        if (GameManager.localUser.canPlay()) playerTimeSeconds--;
         else opponentTimeSeconds--;
 
         if (playerTimeSeconds <= 0)

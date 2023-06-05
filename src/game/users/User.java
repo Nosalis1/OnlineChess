@@ -3,6 +3,7 @@ package game.users;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import game.Board;
 import util.Array;
 
 import java.io.FileReader;
@@ -21,6 +22,24 @@ public class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    private boolean white = true;
+
+    public boolean isWhite() {
+        return this.white;
+    }
+
+    public void setWhite(final boolean white) {
+        this.white = white;
+    }
+
+    public void changeSide() {
+        this.white = !this.white;
+    }
+
+    public final boolean canPlay() {
+        return (isWhite() && Board.instance.isWhiteTurn()) || (!isWhite() && !Board.instance.isWhiteTurn());
     }
 
     public static boolean login(String userName, String password) {
