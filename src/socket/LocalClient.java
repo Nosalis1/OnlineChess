@@ -106,7 +106,7 @@ public class LocalClient extends Client implements Runnable {
      */
     private boolean handlePacket() {
         Console.message("LocalClient received packet from Server", this);
-        GameManager.instance.handleNetworkPackage(packet);
+        GameManager.handleNetworkPackage(packet);
         return true;
     }
 }

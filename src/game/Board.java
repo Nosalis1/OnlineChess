@@ -351,11 +351,6 @@ public class Board {
         skipTurn();
     }
 
-    public void changePiece(Piece current, final Piece.Type toType) {
-        Vector position = current.getPosition();
-        pieces[position.X][position.Y] = new Piece(current.getColor(), toType, position);
-    }
-
     public void networkChangePiece(Piece current, final Piece.Type toType) {
         Vector position = current.getPosition();
         String buffer = position.pack(null);
@@ -364,6 +359,6 @@ public class Board {
         //Send change over network
         LocalClient.instance.send(new Packet(buffer, Packet.Type.CHANGE_TYPE));
         System.out.println("CHANGE TYPE SENT");
-        changePiece(current, toType);
+        promotePiece(current,toType);
     }
 }

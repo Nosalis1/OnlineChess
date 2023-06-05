@@ -62,18 +62,18 @@ public class GameManager {
             return;
         if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(localUser.isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
-            GuiManager.instance.onFieldClicked(at);//TODO:FIX THIS IMPLEMENTATION LATER
+            GuiManager.instance.onFieldClicked(at);
         } else if (selected == at) {
             selected = null;
-            GuiManager.instance.resetHighlights();//TODO:FIX THIS IMPLEMENTATION LATER
+            GuiManager.instance.resetHighlights();
         } else if (selected != null) {
             Board.instance.tryMove(selected, at);
             selected = null;
-            GuiManager.instance.resetHighlights();//TODO:FIX THIS IMPLEMENTATION LATER
+            GuiManager.instance.resetHighlights();
         }
     }
 
-    public void handleNetworkPackage(final Packet packet) {
+    public static void handleNetworkPackage(final Packet packet) {
 
         if (packet == null)
             return;
@@ -104,7 +104,7 @@ public class GameManager {
                 throw new IllegalArgumentException("Invalid buffer format");
 
             System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
-            Board.instance.changePiece(Board.instance.get(at), newType);
+            Board.instance.networkChangePiece(Board.instance.get(at), newType);//TODO:FIX THIS
             GuiManager.instance.updateField(at);
         } else if (packet.getType() == Packet.Type.CUSTOM) {
             return;//TODO:HANDLE CUSTOM

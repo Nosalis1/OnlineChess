@@ -150,7 +150,6 @@ public class GuiManager {
         });
     }
 
-    //TODO:IMPLEMENT THIS LATER
     public void onFieldClicked(Vector vector) {
         resetHighlights();
 
