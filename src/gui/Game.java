@@ -94,8 +94,8 @@ public class Game extends Window {
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
 
-        Color playColor = ColorGradient.FIELD.getColor(!GameManager.localUser.canPlay());
-        Color opponentColor = ColorGradient.FIELD.getColor(GameManager.localUser.canPlay());
+        Color playColor = ColorGradient.FIELD.getColor(GameManager.localUser.canPlay());
+        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.localUser.canPlay());
         playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
@@ -163,6 +163,13 @@ public class Game extends Window {
         timerPanel.add(opponentTimeLabel);
 
         // TODO: NAPRAVI TAJMER OBJEKAT I DODAJ "TIMER.SETTIMERSTATE(TRUE);" ZA STARTOVANJE TAJMERA) timer = new GameClock(playerTimeLabel, opponentTimeLabel);
+        GameClock clock = new GameClock(playerTimeLabel,opponentTimeLabel);
+        GameManager.onGameStarted.add(()->{
+            clock.setTimerState(true);
+        });
+        GameManager.onGameEnded.add(()->{
+            clock.setTimerState(false);
+        });
 
         playerPanel = getPlayerInfoPanel();
         opponentPanel = getPlayerInfoPanel();

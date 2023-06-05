@@ -1,6 +1,7 @@
 package socket.packages;
 
 public interface Streamable {
-    String pack(Packet.Type type);
+    String pack();
+
     void unapck(String buffer);
 }

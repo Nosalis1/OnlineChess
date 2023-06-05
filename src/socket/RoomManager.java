@@ -1,6 +1,7 @@
 package socket;
 
 import socket.packages.Packet;
+import socket.packages.PacketType;
 import util.Array;
 
 public class RoomManager {
@@ -45,22 +46,17 @@ public class RoomManager {
             }
         });
 
-        Packet packet = new Packet(Packet.Type.CHANGE_COLOR);
-        clients.get(clients.size() - 1).send(packet);
+        clients.get(clients.size() - 1).send(new Packet(PacketType.CHANGE_COLOR));
 
-        packet.setBuffer(Packet.Type.SEND_PLAYER);
-        clients.get(0).send(packet);
-        packet = clients.get(0).receive(packet);
+        clients.get(0).send(new Packet(PacketType.SEND_PLAYER));
+        Packet packet = clients.get(0).receive();
         clients.get(1).send(packet);
 
-        packet.setBuffer(Packet.Type.SEND_PLAYER);
-        clients.get(1).send(packet);
-        packet = clients.get(1).receive(packet);
+        clients.get(1).send(new Packet(PacketType.SEND_PLAYER));
+        packet = clients.get(1).receive();
         clients.get(0).send(packet);
 
-        packet.setBuffer(Packet.Type.START_GAME);
-        Packet finalPacket = packet;
-        clients.foreach((Client client) -> client.send(finalPacket));
+        clients.foreach((Client client) -> client.send(new Packet(PacketType.START_GAME)));
 
         Client whitePlayer = clients.get(0), blackPlayer = clients.get(1);
 
@@ -73,7 +69,7 @@ public class RoomManager {
         while (true) {
 
             try {
-                packet = isWhiteTurn ? whitePlayer.receive(packet) : blackPlayer.receive(packet);
+                packet = isWhiteTurn ? whitePlayer.receive() : blackPlayer.receive();
 
                 if (packet == null)
                     break;

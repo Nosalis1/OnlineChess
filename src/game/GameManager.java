@@ -5,6 +5,7 @@ import gui.GuiManager;
 import gui.images.Field;
 import socket.LocalClient;
 import socket.packages.Packet;
+import socket.packages.PacketType;
 import util.Vector;
 import util.events.Event;
 
@@ -38,7 +39,7 @@ public abstract class GameManager {
         });
 
         Board.instance.onPromotion.add(() -> {
-            if(localUser.canPlay()){
+            if (localUser.canPlay()) {
                 GuiManager.getGameWindow().setEnabled(false);
                 GuiManager.getChosePieceWindow().showWindow();
             }
@@ -81,44 +82,49 @@ public abstract class GameManager {
         if (packet == null)
             return;
 
-        if (packet.getType() == Packet.Type.MOVE) {
-            Vector from = new Vector(), to = new Vector();
-            String[] values = packet.getBuffer().split("~");
+        PacketType type = PacketType.fromCode(packet.getPackedBuffer());
 
-            if (values.length == 2) {
-                from.unapck(values[0]);
-                to.unapck(values[1]);
-            } else
-                throw new IllegalArgumentException("Invalid buffer format");
+        String[] values;
+        switch (type) {
+            case MOVE:
+                Move move = new Move(new Vector(), new Vector());
+                move.unapck(packet.getBuffer());
+                Board.instance.move(move);
+                break;
+            case CHANGE_TYPE:
+                System.out.println("CHANGE TYPE RECEIVED");
+                Vector at = new Vector();
+                Piece.Type newType = null;
+                values = packet.getBuffer().split("~");
 
-            Board.instance.move(from, to);
-        } else if (packet.getType() == Packet.Type.CHANGE_TYPE) {
-            System.out.println("CHANGE TYPE RECEIVED");
-            Vector at = new Vector();
-            Piece.Type newType = null;
-            String[] values = packet.getBuffer().split("~");
+                if (values.length == 2) {
+                    at.unapck(values[0]);
+                    newType = Piece.Type.fromCode(Integer.parseInt(values[1]));
+                } else
+                    throw new IllegalArgumentException("Invalid buffer format");
 
-            if (values.length == 2) {
-                at.unapck(values[0]);
-                newType = Piece.Type.fromCode(Integer.parseInt(values[1]));
-            } else
-                throw new IllegalArgumentException("Invalid buffer format");
-
-            System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
-            Board.instance.networkChangePiece(Board.instance.get(at), newType);//TODO:FIX THIS
-            GuiManager.updateField(at);
-        } else if (packet.getType() == Packet.Type.CUSTOM) {
-            return;//TODO:HANDLE CUSTOM
-        } else if (packet.getType() == Packet.Type.SEND_PLAYER) {
-            LocalClient.instance.send(new Packet(localUser.pack(Packet.Type.PLAYER), Packet.Type.PLAYER));
-        } else if (packet.getType() == Packet.Type.PLAYER) {
-            opponent = new User(packet.getBuffer());
-        } else if (packet.getType() == Packet.Type.START_GAME) {
-            newGame();
-        } else if (packet.getType() == Packet.Type.CHANGE_COLOR) {
-            localUser.changeSide();
-        } else if (packet.getType() == Packet.Type.DISCONNECT) {
-            return;//TODO:HANDLE DISCONNECTED
+                System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
+                Board.instance.networkChangePiece(Board.instance.get(at), newType);//TODO:FIX THIS
+                GuiManager.updateField(at);
+                break;
+            case CUSTOM:
+                break;
+            case SEND_PLAYER:
+                LocalClient.instance.send(new Packet(PacketType.PLAYER, localUser.pack()));
+                break;
+            case PLAYER:
+                opponent = new User(packet.getBuffer());
+                break;
+            case START_GAME:
+                newGame();
+                break;
+            case CHANGE_COLOR:
+                localUser.changeSide();
+                break;
+            case DISCONNECT:
+                break;
+            default:
+                break;
         }
     }
 }

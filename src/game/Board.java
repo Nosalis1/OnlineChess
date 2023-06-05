@@ -2,13 +2,11 @@ package game;
 
 import socket.LocalClient;
 import socket.packages.Packet;
+import socket.packages.PacketType;
 import util.Array;
 import util.Vector;
 import util.events.ArgEvent;
 import util.events.Event;
-
-import java.nio.IntBuffer;
-import java.time.Period;
 
 public class Board {
 
@@ -215,7 +213,7 @@ public class Board {
         Move move = new Move(from, to);
 
         //Send move over network
-        LocalClient.instance.send(new Packet(move.pack(Packet.Type.MOVE)));
+        LocalClient.instance.send(new Packet(PacketType.MOVE, move.pack()));
 
         move(move);
     }
@@ -359,12 +357,12 @@ public class Board {
 
     public void networkChangePiece(Piece current, final Piece.Type toType) {
         Vector position = current.getPosition();
-        String buffer = position.pack(null);
+        String buffer = position.pack();
         buffer += "~" + Integer.toString(toType.getCode());
 
         //Send change over network
-        LocalClient.instance.send(new Packet(buffer, Packet.Type.CHANGE_TYPE));
+        LocalClient.instance.send(new Packet(PacketType.CHANGE_TYPE, buffer));
         System.out.println("CHANGE TYPE SENT");
-        promotePiece(current,toType);
+        promotePiece(current, toType);
     }
 }

@@ -188,7 +188,7 @@ public class User implements socket.packages.Streamable {
     }
 
     @Override
-    public String pack(Packet.Type type) {
+    public String pack() {
         return this.userName;
     }
 

@@ -37,10 +37,9 @@ public class Stream {
         out.println(packet.getPackedBuffer());
     }
 
-    public Packet receive(Packet packet) {
+    public Packet receive() {
         try {
-            packet.setReceivedBuffer(in.readLine());
-            return packet;
+            return new Packet(in.readLine());
         } catch (SocketException ex) {
             return null;
         } catch (Exception ex) {

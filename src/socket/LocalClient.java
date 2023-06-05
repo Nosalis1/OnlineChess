@@ -2,6 +2,7 @@ package socket;
 
 import game.GameManager;
 import socket.packages.Packet;
+import socket.packages.PacketType;
 import util.Console;
 
 import java.net.Socket;
@@ -53,7 +54,7 @@ public class LocalClient extends Client implements Runnable {
         }
 
         try {
-            instance.send(new Packet("", Packet.Type.DISCONNECT));
+            instance.send(new Packet(PacketType.DISCONNECT));
             instance.getSocket().close();
             instance = null;
         } catch (Exception ex) {
@@ -93,7 +94,7 @@ public class LocalClient extends Client implements Runnable {
 
         util.Console.message("LocalClient started listening", this);
         do {
-            this.packet = receive(this.packet);
+            this.packet = receive();
         } while (handlePacket());
         util.Console.message("LocalClient stopped listening", this);
     }

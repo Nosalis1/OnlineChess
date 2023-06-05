@@ -151,7 +151,7 @@ public class Vector implements Streamable {
     }
 
     @Override
-    public String pack(Packet.Type type) {
+    public String pack() {
         return X + "," + Y;
     }
 
