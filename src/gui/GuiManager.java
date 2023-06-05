@@ -11,7 +11,9 @@ import util.ColorGradient;
 import util.Vector;
 import util.events.Event;
 
-public class GuiManager {
+import java.awt.*;
+
+public abstract class GuiManager {
     public static final util.events.Event onButtonClick = new Event();
 
     public static void initialize() {

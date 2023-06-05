@@ -1,5 +1,9 @@
 package gui;
 
+import gui.design.Button;
+import gui.design.Label;
+import gui.design.Title;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,20 +25,12 @@ public class Register extends Window implements ActionListener {
         int x = 130;
         int y = 100;
 
-        JLabel label = new JLabel("Register");
+        add(new Title("REGISTER", x, y));
 
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
-
-        add(label);
         y += SPACING;
 
-        label = new JLabel("Username:");
+        add(new Label("Username:", x, y));
 
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
-
-        add(label);
         y += SPACING - 10;
 
         usernameField = new TextField();
@@ -44,12 +40,8 @@ public class Register extends Window implements ActionListener {
         add(usernameField);
         y += SPACING;
 
-        label = new JLabel("Password:");
+        add(new Label("Password:", x, y));
 
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
-
-        add(label);
         y += SPACING - 10;
 
         passwordField = new JPasswordField();
@@ -59,12 +51,7 @@ public class Register extends Window implements ActionListener {
         add(passwordField);
         y += SPACING;
 
-        JButton button = new JButton("Register");
-
-        button.setBounds(x, y, 120, 20);
-        button.addActionListener(this);
-
-        add(button);
+        add(new Button("Register", x, y, this));
     }
 
     @Override

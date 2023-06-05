@@ -1,5 +1,9 @@
 package gui;
 
+import gui.design.Button;
+import gui.design.Label;
+import gui.design.Title;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,18 +27,12 @@ public class Login extends Window implements ActionListener {
         int x = 130;
         int y = 70;
 
-        JLabel label = new JLabel("LOGIN");
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
+        add(new Title("LOGIN", x, y));
 
-        add(label);
         y += SPACING;
 
-        label = new JLabel("Username:");
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
+        add(new Label("Username:", x, y));
 
-        add(label);
         y += SPACING - 10;
 
         usernameField = new TextField();
@@ -43,11 +41,8 @@ public class Login extends Window implements ActionListener {
         add(usernameField);
         y += SPACING;
 
-        label = new JLabel("Password:");
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
+        add(new Label("Password:", x, y));
 
-        add(label);
         y += SPACING - 10;
 
         passwordField = new JPasswordField();
@@ -56,22 +51,15 @@ public class Login extends Window implements ActionListener {
         add(passwordField);
         y += SPACING;
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setBounds(x, y, 120, 20);
-        loginButton.addActionListener(this);
+        add(new Button("Login", x, y, this));
 
-        add(loginButton);
         y += SPACING;
 
-        JButton registerButton = new JButton("Register");
-        registerButton.setBounds(x, y, 120, 20);
-        registerButton.addActionListener(e -> {
+        add(new Button("Register", x, y, e -> {
             GuiManager.onButtonClick.run();
             this.hideWindow();
             GuiManager.getRegisterWindow().showWindow();
-        });
-
-        add(registerButton);
+        }));
     }
 
     @Override

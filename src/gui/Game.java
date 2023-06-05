@@ -1,6 +1,7 @@
 package gui;
 
 import game.*;
+import gui.design.Label;
 import gui.images.Field;
 import util.ColorGradient;
 import util.Vector;
@@ -68,12 +69,13 @@ public class Game extends Window {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(ColorGradient.DARK.getColor(false));
 
-        JLabel label = new JLabel("Player info", SwingConstants.CENTER);
-        label.setForeground(Color.WHITE);
-        panel.setPreferredSize(new Dimension(260, label.getPreferredSize().height));
-        panel.setFont(label.getFont().deriveFont(Font.BOLD, 20F));
+        JLabel label = new Label("Player info");
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(260, label.getPreferredSize().height));
+
         panel.add(label);
-        panel.add(new JLabel());
+        panel.add(new Label());
         return panel;
     }
 
@@ -151,8 +153,8 @@ public class Game extends Window {
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
         timerPanel.setBounds(818, 725, 260, 85);
         timerPanel.setBackground(ColorGradient.DARK.getColor(true));
-        playerTimeLabel = new JLabel();
-        opponentTimeLabel = new JLabel();
+        playerTimeLabel = new Label();
+        opponentTimeLabel = new Label();
         playerTimeLabel.setBounds(10, 10, 120, 20);
         opponentTimeLabel.setBounds(10, 30, 120, 20);
         playerTimeLabel.setForeground(Color.WHITE);

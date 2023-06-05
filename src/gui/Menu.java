@@ -1,6 +1,9 @@
 package gui;
 
 import game.users.User;
+import gui.design.Button;
+import gui.design.Title;
+import socket.LocalClient;
 import socket.NetworkManager;
 
 import javax.swing.*;
@@ -15,7 +18,7 @@ public class Menu extends Window implements ActionListener {
         createUserInterface();
     }
 
-    JButton button = null;
+    JButton playButton,deleteButton,stopButton = null;
     JLabel info = null;
 
     private void createUserInterface() {
@@ -26,23 +29,18 @@ public class Menu extends Window implements ActionListener {
         int x = 130;
         int y = 100;
 
-        JLabel label = new JLabel("MENU");
-        label.setBounds(x, y, 120, 20);
-        label.setForeground(Color.WHITE);
+        add(new Title("MENU", x, y));
 
-        add(label);
         y += SPACING;
 
-        button = new JButton("Play");
-        button.setBounds(x, y, 120, 20);
-        button.addActionListener(this);
+        add(playButton = new Button("Play", x, y, this));
 
-        add(button);
+        add(info = new Title("Waiting for opponent...", x, y));
+        info.setVisible(false);
+
         y += SPACING;
 
-        JButton removeUserButton = new JButton("Delete account");
-        removeUserButton.setBounds(x, y, 120, 20);
-        removeUserButton.addActionListener(e -> {
+        add(deleteButton = new Button("Delete account", x, y, e -> {
             GuiManager.onButtonClick.run();
             try {
                 User.currentUser.removeUser();
@@ -52,23 +50,25 @@ public class Menu extends Window implements ActionListener {
             } catch (IOException ex) {
                 util.Console.error(String.format("User %s not removed", User.currentUser.getUserName()));
             }
-        });
-
-        add(removeUserButton);
-
-        info = new JLabel("Waiting for opponent...");
-        info.setBounds(x, y, 120, 20);
-        info.setForeground(Color.WHITE);
-
-        add(info);
-        info.setVisible(false);
+        }));
+        add(stopButton = new Button("Cancel",x,y,e->{
+            GuiManager.onButtonClick.run();
+            LocalClient.disconnect();
+            playButton.setVisible(true);
+            deleteButton.setVisible(true);
+            stopButton.setVisible(false);
+            info.setVisible(false);
+        }));
+        stopButton.setVisible(false);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         GuiManager.onButtonClick.run();
         NetworkManager.connectClient();
-        button.setVisible(false);
+        playButton.setVisible(false);
+        deleteButton.setVisible(false);
+        stopButton.setVisible(true);
         info.setVisible(true);
     }
 }
