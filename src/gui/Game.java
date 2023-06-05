@@ -1,9 +1,6 @@
 package gui;
 
-import game.Board;
-import game.BoardData;
-import game.GameManager;
-import game.Piece;
+import game.*;
 import gui.images.Field;
 import util.ColorGradient;
 import util.Vector;
@@ -88,11 +85,11 @@ public class Game extends Window {
         return createInfoMessage(name, elo, piecesCount, piecesScore, data.get(Piece.Type.Pawn.getCode() - 1), data.get(Piece.Type.Rook.getCode() - 1), data.get(Piece.Type.Knight.getCode() - 1), data.get(Piece.Type.Bishop.getCode() - 1), data.get(Piece.Type.Queen.getCode() - 1), data.get(Piece.Type.King.getCode() - 1));
     }
 
-    public void updateInfoTable(Piece piece) {
+    public void updateInfoTable(Move ignore) {
         final BoardData data = Board.instance.getData();
 
-        String messageWhite = createInfoMessage("TODO:NAME", 1, Board.instance.getWhitePieces().size(), data.getWhitePieceScore(), data.getWhiteData());
-        String messageBlack = createInfoMessage("TODO:OPPONENT NAME", -1, Board.instance.getBlackPieces().size(), data.getBlackPieceScore(), data.getBlackData());
+        String messageWhite = createInfoMessage("TODO:NAME", 1, data.white.getPieces().size(), data.white.getScore(), data.white.getPiecesCount());
+        String messageBlack = createInfoMessage("TODO:OPPONENT NAME", -1, data.black.getPieces().size(), data.black.getScore(), data.black.getPiecesCount());
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
@@ -103,7 +100,7 @@ public class Game extends Window {
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
 
-    public void updateMovesTable(Piece piece) {
+    public void updateMovesTable(Move ignore) {
         BoardData data = Board.instance.getData();
         util.Array<String> movesData = data.getMoves();
 
@@ -137,7 +134,7 @@ public class Game extends Window {
         movesPanelWrapper.setBounds(818, 470, 260, 250);
         add(movesPanelWrapper);
 
-        Board.instance.onPieceMoved.add(this::updateMovesTable);
+        Board.instance.onMoveDone.add(this::updateMovesTable);
 
         JPanel timerPanel = new JPanel();
         timerPanel.setName("timer_panel");
@@ -160,7 +157,7 @@ public class Game extends Window {
         opponentLabel.setForeground(Color.white);
 
         updateInfoTable(null);
-        Board.instance.onPieceMoved.add(this::updateInfoTable);
+        Board.instance.onMoveDone.add(this::updateInfoTable);
 
         add(playerPanel);
         add(opponentPanel);

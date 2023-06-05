@@ -66,6 +66,7 @@ public class Login extends Window implements ActionListener {
         JButton registerButton = new JButton("Register");
         registerButton.setBounds(x, y, 120, 20);
         registerButton.addActionListener(e -> {
+            GuiManager.onButtonClick.run();
             this.hideWindow();
             GuiManager.instance.getRegisterWindow().showWindow();
         });
@@ -75,6 +76,7 @@ public class Login extends Window implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GuiManager.onButtonClick.run();
 
         String userName = usernameField.getText();
         String password = new String(passwordField.getPassword());

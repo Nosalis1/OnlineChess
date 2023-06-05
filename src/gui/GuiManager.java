@@ -8,9 +8,12 @@ import gui.images.Image;
 import util.Array;
 import util.ColorGradient;
 import util.Vector;
+import util.events.Event;
 
 public class GuiManager {
     public static GuiManager instance;
+
+    public static util.events.Event onButtonClick =  new Event();
 
     public static void initialize() {
         Image.wakeUp();
@@ -62,10 +65,15 @@ public class GuiManager {
 
         //Field.onFieldClicked.add(this::onFieldClicked);
 
-        Board.instance.onPieceEaten.add(this::onPieceEaten);
-        Board.instance.onPieceMoved.add(this::onPieceMoved);
-        Board.instance.onPieceMove.add(this::onPieceMove);
-
+        Board.instance.onCaptured.add((Piece piece) -> {
+            this.gameWindow.getField(piece.getPosition()).setImage(null);
+        });
+        Board.instance.onMoveDone.add((Move move) -> {
+            Piece piece = Board.instance.get(move.getTo());
+            this.gameWindow.getField(move.getFrom()).setImage(null);
+            this.gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+        });
+        
         updateFields();
     }
 
@@ -74,22 +82,11 @@ public class GuiManager {
         this.gameWindow.getField(at).setImage(null);
     }
 
-    private void onPieceMoved(Piece piece) {
-        util.Vector at = piece.getPosition();
-
-        this.gameWindow.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
-    }
-
-    private void onPieceEaten(Piece piece) {
-        util.Vector at = piece.getPosition();
-
-        this.gameWindow.getField(at).setImage(null);
-    }
 
     public void updateFields() {
         this.gameWindow.clearFields();
 
-        util.Array<Piece> allPieces = Board.instance.getAllPieces();
+        util.Array<Piece> allPieces = Board.instance.getData().getAllPieces();
         allPieces.foreach((Piece piece) -> {
             util.Vector at = piece.getPosition();
 

@@ -1,130 +1,115 @@
 package audio;
 
 import game.Board;
-import game.Piece;
+import game.GameManager;
+import gui.GuiManager;
 import util.Array;
 
-public class AudioManager {
-    /**
-     * Represents the singleton instance of the AudioManager.
-     */
-    public static AudioManager instance;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Objects;
 
-    /**
-     * Initializes the AudioManager by loading audio clips and creating the instance.
-     */
+public abstract class AudioManager {
+    public static final String DATA_PATH = "src\\audio\\sfx";
+
+    private static boolean initialized = false;
+
+    public static boolean isInitialized() {
+        return initialized;
+    }
+
     public static void initialize() {
+        if (initialized)
+            return;
 
-        if (instance == null)
-            instance = new AudioManager();
-
-        util.Console.message("Initializing AudioManager.",instance);
-
-        final String[] FILE_PATHS = {
-                "src/audio/sfx/capture.wav",
-                "src/audio/sfx/end.wav",
-                "src/audio/sfx/move.wav",
-                "src/audio/sfx/start.wav"
-        };
         try {
-            for (String path : FILE_PATHS) {
-                clips.add(new AudioClip(path));
-            }
-        } catch (Exception ex) {
-            util.Console.error("Failed to load sfx!",instance);
+            load();
+        } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
+
+        AudioClip buttonClickSfx = find("buttonClick.wav");
+        assert buttonClickSfx != null;
+        GuiManager.onButtonClick.add(() -> {
+            play(buttonClickSfx);
+        });
+
+        AudioClip startRoundSfx = find("startRound.wav");
+        assert startRoundSfx != null;
+        GameManager.onGameStarted.add(() -> {
+            play(startRoundSfx);
+        });
+
+        AudioClip pieceMoveSfx = find("pieceMove.wav");
+        assert pieceMoveSfx != null;
+        Board.instance.onMove.add(() -> {
+            play(pieceMoveSfx);
+        });
+
+        AudioClip pieceCaptureSfx = find("pieceCapture.wav");
+        assert pieceCaptureSfx != null;
+        Board.instance.onCapture.add(() -> {
+            play(pieceCaptureSfx);
+        });
+
+        initialized = true;
     }
 
-    /**
-     * Holds an array of audio clips.
-     */
-    public static final Array<AudioClip> clips = new Array<>();
-
-    /**
-     * Finds and retrieves an audio clip from the clips array based on the specified index.
-     *
-     * @param index the index of the audio clip
-     * @return the audio clip at the specified index, or null if not found
-     */
-    public static AudioClip findClip(final int index) {
-        return clips.get(index);
+    public static void free() {
+        loadedClips.clear();
+        initialized = false;
     }
 
-    /**
-     * Finds and retrieves an audio clip from the clips array based on the specified name.
-     *
-     * @param name the name of the audio clip
-     * @return the audio clip with the specified name, or null if not found
-     */
-    public static AudioClip findClip(final String name) {
-        for (int i = 0; i < clips.size(); i++) {
-            if (clips.get(i).getName().equals(name)) {
-                return clips.get(i);
+    private static final Array<AudioClip> loadedClips = new Array<>();
+
+    private static void load() throws FileNotFoundException {
+
+        File file = new File(DATA_PATH);
+
+        if (file.exists()) {
+            String[] list = file.list();
+
+            assert list != null;
+
+            for (String item : list) {
+                loadedClips.add(
+                        new AudioClip(file.getPath() + "\\" + item));
             }
-        }
+        } else
+            throw new FileNotFoundException();
+    }
+
+    public static AudioClip get(final int index) {
+        return loadedClips.get(index);
+    }
+
+    public static AudioClip find(final int id) {
+        for (int i = 0; i < loadedClips.size(); i++)
+            if (loadedClips.get(i).getID() == id)
+                return loadedClips.get(i);
         return null;
     }
 
-    /**
-     * Plays the audio clip at the specified index.
-     *
-     * @param index the index of the audio clip to play
-     */
-    public static void playClip(final int index) {
-        AudioClip clip = findClip(index);
-        if (clip == null) {
-            util.Console.error("Failed to play AudioClip : " + index, instance);
-            throw new NullPointerException();
-        }
+    public static AudioClip find(final String name) {
+        for (int i = 0; i < loadedClips.size(); i++)
+            if (loadedClips.get(i).isName(name))
+                return loadedClips.get(i);
+        return null;
+    }
+
+    public static void playIndex(final int index) {
+        get(index).play();
+    }
+
+    public static void play(AudioClip clip) {
         clip.play();
     }
 
-    /**
-     * Plays the audio clip with the specified name.
-     *
-     * @param name the name of the audio clip to play
-     */
-    @SuppressWarnings("unused")
-    public static void playClip(final String name) {
-        AudioClip clip = findClip(name);
-        if (clip == null) {
-            util.Console.error("Failed to play AudioClip : " + name, instance);
-            throw new NullPointerException();
-        }
-
-        clip.play();
+    public static void play(final int id) {
+        Objects.requireNonNull(find(id)).play();
     }
 
-    /**
-     * Constructs an AudioManager object and subscribes to events on the Board class.
-     */
-    public AudioManager() {
-        Board.instance.onPieceEaten.add(this::onPieceEaten);
-        Board.instance.onPieceMoved.add(this::onPieceMoved);
+    public static void play(final String name) {
+        Objects.requireNonNull(find(name)).play();
     }
-
-    /**
-     * Plays the start sound effect when a game starts.
-     */
-    public void startGame(){ playClip(3); }
-
-    /**
-     * Plays the capture sound effect when a piece is eaten.
-     *
-     * @param piece the piece that was eaten
-     */
-    private void onPieceEaten(Piece piece) {
-        playClip(0);
-    }
-
-    /**
-     * Plays the move sound effect when a piece is moved.
-     *
-     * @param piece the piece that was moved
-     */
-    private void onPieceMoved(Piece piece) {
-        playClip(2);
-    }
-
 }

@@ -69,6 +69,7 @@ public class Register extends Window implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GuiManager.onButtonClick.run();
 
         String userName = usernameField.getText();
         String password = new String(passwordField.getPassword());

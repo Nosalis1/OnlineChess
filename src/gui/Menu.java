@@ -43,6 +43,7 @@ public class Menu extends Window implements ActionListener {
         JButton removeUserButton = new JButton("Delete account");
         removeUserButton.setBounds(x, y, 120, 20);
         removeUserButton.addActionListener(e -> {
+            GuiManager.onButtonClick.run();
             try {
                 User.currentUser.removeUser();
                 User.currentUser = null;
@@ -65,6 +66,7 @@ public class Menu extends Window implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        GuiManager.onButtonClick.run();
         NetworkManager.connectClient();
         button.setVisible(false);
         info.setVisible(true);

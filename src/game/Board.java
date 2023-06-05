@@ -5,6 +5,7 @@ import socket.packages.Packet;
 import util.Array;
 import util.Vector;
 import util.events.ArgEvent;
+import util.events.Event;
 
 public class Board {
 
@@ -30,42 +31,24 @@ public class Board {
 
     public Board() {
         this.data = new BoardData(this);
-        this.data.updateData(this);
+        this.data.updateElements();
     }
 
     public Board(Board other) {
         this.pieces = other.getPiecesCopy();
-        this.updatePieces();
-
-        this.onPieceEaten.clear();
-        this.onPieceMove.clear();
-        this.onPieceMoved.clear();
 
         this.data = new BoardData(this);
-        this.data.updateData(this);
-    }
+        this.data.updateElements();
 
-    private final util.Array<Piece> whitePieces = new Array<>();
-    private final util.Array<Piece> blackPieces = new Array<>();
-    private final util.Array<Piece> allPieces = new Array<>();
+        this.onMove.clear();
+        this.onMoved.clear();
+        this.onMoveDone.clear();
 
-    public void updatePieces() {
-        allPieces.clear();
-        whitePieces.clear();
-        blackPieces.clear();
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++) {
-                if (isNull(i, j))
-                    continue;
+        this.onCapture.clear();
+        this.onCaptured.clear();
 
-                Piece tempPiece = pieces[i][j];
-                allPieces.add(tempPiece);
-
-                if (tempPiece.isColor(Piece.Color.White))
-                    whitePieces.add(tempPiece);
-                else
-                    blackPieces.add(tempPiece);
-            }
+        this.onCheck.clear();
+        this.onCheckMate.clear();
     }
 
     public void clear() {
@@ -74,19 +57,12 @@ public class Board {
                 pieces[i][j] = null;
             }
         }
+        this.data.resetElements();
     }
 
     private void addPiece(final Piece newPiece) {
         final Vector position = newPiece.getPosition();
         pieces[position.X][position.Y] = newPiece;
-
-        allPieces.add(newPiece);
-
-        if (newPiece.isColor(Piece.Color.White))
-            whitePieces.add(newPiece);
-        else
-            blackPieces.add(newPiece);
-
     }
 
     public void reset() {
@@ -103,20 +79,7 @@ public class Board {
             addPiece(new Piece(Piece.Color.Black, Piece.Type.Pawn, new util.Vector(LAST - 1, i)));
         }
 
-        this.data.updateData(this);
-    }
-
-    private void onPieceEaten(Piece piece) {
-        if (piece.isColor(Piece.Color.White)) {
-            if (whitePieces.contains(piece))
-                whitePieces.remove(piece);
-        } else {
-            if (blackPieces.contains(piece))
-                blackPieces.remove(piece);
-        }
-        allPieces.remove(piece);
-
-        onPieceEaten.run(piece);
+        this.data.updateElements();
     }
 
     public Piece get(final int x, final int y) {
@@ -130,7 +93,7 @@ public class Board {
     public Piece get(final Piece.Color color, final Piece.Type type, final int offset) {
         int off = offset;
 
-        util.Array<Piece> currentPieces = color == Piece.Color.White ? getWhitePieces() : getBlackPieces();
+        util.Array<Piece> currentPieces = color == Piece.Color.White ? data.white.getPieces() : data.black.getPieces();
 
         for (int i = 0; i < currentPieces.size(); i++) {
             if (currentPieces.get(i).isType(type)) {
@@ -145,18 +108,6 @@ public class Board {
 
     public Piece get(final Piece.Color color, final Piece.Type type) {
         return get(color, type, 0);
-    }
-
-    public util.Array<Piece> getWhitePieces() {
-        return whitePieces;
-    }
-
-    public util.Array<Piece> getBlackPieces() {
-        return blackPieces;
-    }
-
-    public util.Array<Piece> getAllPieces() {
-        return allPieces;
     }
 
     public boolean isNull(final int x, final int y) {
@@ -194,31 +145,44 @@ public class Board {
         return inPath(from, to, step.X, step.Y);
     }
 
-    public util.events.ArgEvent<Piece> onPieceEaten = new ArgEvent<>();
-    public util.events.ArgEvent<Move> onPieceMove = new ArgEvent<>();
-    public util.events.ArgEvent<Piece> onPieceMoved = new ArgEvent<>();
-
     private final BoardData data;
 
     public final BoardData getData() {
         return this.data;
     }
 
+    public util.events.Event onCapture = new Event();
+    public util.events.ArgEvent<Piece> onCaptured = new ArgEvent<>();
+    public util.events.Event onMove = new Event();
+    public util.events.ArgEvent<Piece> onMoved = new ArgEvent<>();
+    public util.events.ArgEvent<Move> onMoveDone = new ArgEvent<>();
+
+    public util.events.ArgEvent<Piece.Color> onCheck = new ArgEvent<>();
+    public util.events.ArgEvent<Piece.Color> onCheckMate = new ArgEvent<>();
+
     public void move(final Vector from, final Vector to) {
-        Move move = new Move(from, to);
-        onPieceMove.run(move);
+        onMove.run();
 
         Piece temp = get(from);
 
-        if (!isNull(to))
-            onPieceEaten(get(to));
+        if (!isNull(to)) {
+            onCapture.run();
+            onCaptured.run(this.get(to));
+        }
 
         pieces[from.X][from.Y] = null;
         pieces[to.X][to.Y] = temp;
 
         temp.updatePosition(to);
+        onMoved.run(temp);
 
-        onPieceMoved.run(temp);
+        onMoveDone.run(new Move(from, to));
+
+        checkCheckMate();
+    }
+
+    public void move(final Move move) {
+        move(move.getFrom(), move.getTo());
     }
 
     public void networkMove(final Vector from, final Vector to) {
@@ -228,10 +192,6 @@ public class Board {
         LocalClient.instance.send(new Packet(move.pack(Packet.Type.MOVE)));
 
         move(move);
-    }
-
-    public void move(final Move move) {
-        move(move.getFrom(), move.getTo());
     }
 
     @SuppressWarnings("unused")
@@ -254,12 +214,109 @@ public class Board {
         return tryMove(move.getFrom(), move.getTo());
     }
 
+    private void checkCheck() {
+        Piece king = get(Piece.Color.White, Piece.Type.King);
+        data.white.setInCheck(false);
+
+        if (king == null)
+            data.white.setInCheck(true);
+        else {
+            util.Array<Piece> opponentPieces = data.black.getPieces();
+            for (int i = 0; i < opponentPieces.size(); i++)
+                if (opponentPieces.get(i).canMove(king.getPosition())) {
+                    data.white.setInCheck(true);
+                    break;
+                }
+        }
+
+        if (data.white.isInCheck())
+            onCheck.run(Piece.Color.White);
+
+        king = get(Piece.Color.Black, Piece.Type.King);
+        data.black.setInCheck(false);
+
+        if (king == null)
+            data.black.setInCheck(true);
+        else {
+            util.Array<Piece> opponentPieces = data.white.getPieces();
+            for (int i = 0; i < opponentPieces.size(); i++)
+                if (opponentPieces.get(i).canMove(king.getPosition())) {
+                    data.black.setInCheck(true);
+                    break;
+                }
+        }
+
+        if (data.black.isInCheck())
+            onCheck.run(Piece.Color.Black);
+    }
+
+    private void checkCheckMate() {
+        checkCheck();
+
+        if (instance != this)
+            return;
+
+        util.Array<Piece> tempPieces;
+
+        if (data.white.isInCheck()) {
+            data.white.setInCheckMate(true);
+
+            tempPieces = data.white.getPieces();
+            util.Array<Move> legalMoves = new Array<>();
+            tempPieces.foreach((Piece piece) -> {
+                util.Array<Vector> moves = piece.getMoves();
+                moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
+            });
+
+            for (int i = 0; i < legalMoves.size(); i++) {
+                Move move = legalMoves.get(i);
+                Board tempBoard = new Board(this);
+
+                tempBoard.move(move);
+
+                if (!tempBoard.data.white.isInCheck()) {
+                    data.white.setInCheckMate(false);
+                    break;
+                }
+            }
+
+            if (data.white.isInCheckMate())
+                onCheckMate.run(Piece.Color.White);
+        }
+
+        if (data.black.isInCheck()) {
+            data.black.setInCheckMate(true);
+
+            tempPieces = data.black.getPieces();
+            util.Array<Move> legalMoves = new Array<>();
+            tempPieces.foreach((Piece piece) -> {
+                util.Array<Vector> moves = piece.getMoves();
+                moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
+            });
+
+            for (int i = 0; i < legalMoves.size(); i++) {
+                Move move = legalMoves.get(i);
+                Board tempBoard = new Board(this);
+
+                tempBoard.move(move);
+
+                if (!tempBoard.data.black.isInCheck()) {
+                    data.black.setInCheckMate(false);
+                    break;
+                }
+            }
+
+            if (data.black.isInCheckMate())
+                onCheckMate.run(Piece.Color.Black);
+        }
+    }
+
     public void changePiece(Piece current, final Piece.Type toType) {
         Vector position = current.getPosition();
         pieces[position.X][position.Y] = new Piece(current.getColor(), toType, position);
     }
 
-    public void networkChangePiece(Piece current,final Piece.Type toType) {
+    public void networkChangePiece(Piece current, final Piece.Type toType) {
         Vector position = current.getPosition();
         String buffer = position.pack(null);
         buffer += "~" + Integer.toString(toType.getCode());
@@ -268,50 +325,5 @@ public class Board {
         LocalClient.instance.send(new Packet(buffer, Packet.Type.CHANGE_TYPE));
         System.out.println("CHANGE TYPE SENT");
         changePiece(current, toType);
-    }
-
-    public boolean tryChangePiece(Piece current, final Piece.Type toType) {
-        if (data.getMissingPieces(current.getColor(), toType) > 0) {
-            changePiece(current, toType);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isCheck(Piece.Color color) {
-        Piece king = get(color, Piece.Type.King);
-        if (king == null)
-            return true;//TODO:ENDGAME
-
-        util.Array<Piece> opponentPieces = color == Piece.Color.White ? blackPieces : whitePieces;
-        for (int i = 0; i < opponentPieces.size(); i++) {
-            if (opponentPieces.get(i).canMove(king.getPosition()))
-                return true;
-        }
-
-        return false;
-    }
-
-    public boolean isCheckmate(Piece.Color color) {
-
-        if (!isCheck(color))
-            return false;
-
-        util.Array<Piece> tempPieces = color == Piece.Color.White ? getWhitePieces() : getBlackPieces();
-        util.Array<Move> legalMoves = new Array<>();
-        tempPieces.foreach((Piece piece) -> {
-            util.Array<Vector> moves = piece.getMoves();
-            moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
-        });
-
-        for (int i = 0; i < legalMoves.size(); i++) {
-            Move legalMove = legalMoves.get(i);
-            Board tempBoard = new Board(this);
-            tempBoard.move(legalMove);
-            if (!tempBoard.isCheck(color))
-                return false;
-        }
-
-        return true;
     }
 }

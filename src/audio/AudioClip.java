@@ -1,100 +1,118 @@
 package audio;
 
+import util.Asset;
+
+import javax.sound.sampled.*;
 import java.io.File;
+import java.io.IOException;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
-public class AudioClip {
-    /**
-     * Represents the name of the audio clip.
-     */
-    private String name;
-
-    /**
-     * Represents the Clip object that holds the audio data.
-     */
-    private Clip clip;
+/**
+ * The AudioClip class represents an audio clip asset that extends the base Asset class.
+ * It provides methods for playing, stopping, and restarting the audio clip.
+ */
+public class AudioClip extends Asset {
+    private final Clip clip;
 
     /**
-     * Retrieves the Clip object of the audio clip.
+     * Returns the Clip object associated with the audio clip.
      *
-     * @return the Clip object of the audio clip
+     * @return The Clip object.
      */
     @SuppressWarnings("unused")
     public final Clip getClip() {
         return this.clip;
     }
 
+    private final int numChannels;
+
     /**
-     * Retrieves the name of the audio clip.
+     * Returns the number of channels in the audio clip.
      *
-     * @return the name of the audio clip
+     * @return The number of channels.
      */
-    public final String getName() {
-        return name;
+    @SuppressWarnings("unused")
+    public final int getNumChannels() {
+        return this.numChannels;
+    }
+
+    private final int sampleSize;
+
+    /**
+     * Returns the sample size in bits of the audio clip.
+     *
+     * @return The sample size in bits.
+     */
+    @SuppressWarnings("unused")
+    public final int getSampleSize() {
+        return this.sampleSize;
+    }
+
+    private final boolean bigEndian;
+
+    /**
+     * Checks if the audio clip uses big-endian byte order.
+     *
+     * @return true if the audio clip is in big-endian byte order, false otherwise.
+     */
+    @SuppressWarnings("unused")
+    public final boolean isBigEndian() {
+        return this.bigEndian;
+    }
+
+    private final float sampleRate;
+
+    /**
+     * Returns the sample rate of the audio clip.
+     *
+     * @return The sample rate.
+     */
+    @SuppressWarnings("unused")
+    public final float getSampleRate() {
+        return this.sampleRate;
     }
 
     /**
-     * Sets the name of the audio clip.
+     * Constructs a new AudioClip object with the audio file at the specified path.
      *
-     * @param name the name of the audio clip
+     * @param path The path of the audio file.
      */
-    public void setName(final String name) {
-        this.name = name;
-    }
+    public AudioClip(final String path) {
+        super(new File(path).getName(), path);
 
-    /**
-     * Checks if the audio clip is currently running.
-     *
-     * @return true if the audio clip is running, false otherwise
-     */
-    public final boolean isRunning() {
-        return this.clip != null && this.clip.isRunning();
-    }
-
-    /**
-     * Constructs an AudioClip object with the specified file name.
-     *
-     * @param fileName the name of the audio file
-     */
-    public AudioClip(String fileName) {
-        load(fileName);
-    }
-
-    /**
-     * Loads the audio file and initializes the Clip object.
-     *
-     * @param fileName the name of the audio file
-     */
-    private void load(String fileName) {
-        util.Console.message("Loading new AudioClip : " + fileName, this);
-        this.clip = null;
-
+        File audioFile = new File(path);
         try {
-            File file = new File(fileName);
-            this.setName(file.getName());
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
             this.clip = AudioSystem.getClip();
-            this.clip.open(AudioSystem.getAudioInputStream(file));
-        } catch (Exception ex) {
-            util.Console.error("Failed to load new AudioClip : " + fileName, this);
-            ex.printStackTrace();
+            this.clip.open(audioStream);
+
+            AudioFormat audioFormat = audioStream.getFormat();
+            this.numChannels = audioFormat.getChannels();
+            this.sampleSize = audioFormat.getSampleSizeInBits();
+            this.bigEndian = audioFormat.isBigEndian();
+            this.sampleRate = audioFormat.getSampleRate();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
         }
-        util.Console.message("AudioClip loaded : " + this.name,this);
     }
 
     /**
-     * Plays the audio clip.
-     * If the audio clip is already playing, it will be stopped and restarted.
+     * Checks if the audio clip is currently running (playing).
+     *
+     * @return true if the audio clip is running, false otherwise.
+     */
+    public final boolean isRunning() {
+        return this.clip.isRunning();
+    }
+
+    /**
+     * Plays the audio clip from the beginning.
+     * If the audio clip is already running, it is stopped and restarted.
      */
     public void play() {
-        if (this.clip == null) {
-            util.Console.error("Failed to play AudioClip", this);
-            throw new NullPointerException();
-        }
-
-        stop();
+        if (isRunning())
+            stop();
 
         restart();
 
@@ -102,26 +120,26 @@ public class AudioClip {
     }
 
     /**
-     * Stops the audio clip if it is currently running.
+     * Stops the audio clip playback.
      */
     public void stop() {
-        if (!isRunning()) {
-            util.Console.warning("Trying to stop already stopped AudioClip", this);
-            return;
-        }
-
         this.clip.stop();
     }
 
     /**
-     * Restarts the audio clip by setting its frame position to 0.
+     * Restarts the audio clip playback from the beginning.
      */
     public void restart() {
-        if (this.clip == null) {
-            util.Console.error("Trying to restart non existing clip", this);
-            throw new NullPointerException();
-        }
-
         this.clip.setFramePosition(0);
+    }
+
+    /**
+     * Returns a string representation of the audio clip.
+     *
+     * @return A string representation of the audio clip.
+     */
+    @Override
+    public String toString() {
+        return super.toString() + " [" + this.numChannels + "] [" + this.sampleSize + "] [" + this.bigEndian + "] [" + this.sampleRate + "] ;";
     }
 }

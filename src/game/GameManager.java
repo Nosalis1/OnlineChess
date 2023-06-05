@@ -1,13 +1,12 @@
 package game;
 
-import audio.AudioManager;
 import game.users.User;
 import gui.ChosePiece;
 import gui.GuiManager;
 import gui.images.Field;
-import gui.images.Image;
 import socket.packages.Packet;
 import util.Vector;
+import util.events.Event;
 
 import java.io.IOException;
 
@@ -28,10 +27,18 @@ public class GameManager {
         }
     }
 
+    public static util.events.Event onGameStarted = new Event();
+
     public GameManager() {
         Field.onFieldClicked.add(this::onFieldClicked);
 
-        Board.instance.onPieceMoved.add(this::onPieceMoved);
+        Board.instance.onMoved.add(this::onPieceMoved);
+        Board.instance.onCheck.add((Piece.Color color) -> {
+            System.out.println(color.toString() + " in check!");
+        });
+        Board.instance.onCheckMate.add((Piece.Color color) -> {
+            System.out.println(color.toString() + " in checkMate!");
+        });
 
         ChosePiece.onTypeSelected.add(this::onTypeSelected);
     }
@@ -39,7 +46,7 @@ public class GameManager {
     public void newGame() {
         Board.instance.reset();
         GuiManager.instance.startGame();
-        AudioManager.instance.startGame();
+        onGameStarted.run();
     }
 
     private void onPieceMoved(Piece piece) {
@@ -57,24 +64,6 @@ public class GameManager {
         }
 
         nextTurn();
-
-        if (Board.instance.isCheckmate(Piece.Color.White)) {
-            System.out.println("WHITE IN CHECKMATE");
-            //TODO:ENDGAME
-        } else {
-            if (Board.instance.isCheck(Piece.Color.White)) {
-                System.out.println("WHITE IN CHECK");
-            }
-
-            if (Board.instance.isCheckmate(Piece.Color.Black)) {
-                System.out.println("BLACK IN CHECKMATE");
-                //TODO:ENDGAME
-            } else {
-                if (Board.instance.isCheck(Piece.Color.Black)) {
-                    System.out.println("BLACK IN CHECK");
-                }
-            }
-        }
     }
 
     private Piece lastMovedPiece = null;
