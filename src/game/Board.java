@@ -343,26 +343,28 @@ public class Board {
         if (x == 0 || x == LAST) {
             onPromotion.run();
             onPiecePromotion.run(piece);
+            if (!GameManager.localUser.canPlay())
+                LocalClient.instance.send(new Packet(PacketType.CUSTOM));
             return true;
         }
 
         return false;
     }
 
-    private void promotePiece(Piece piece, Piece.Type toType) {
+    public void promotePiece(Piece piece, Piece.Type toType) {
         piece.promote(toType);
         onPiecePromoted.run(piece);
         skipTurn();
     }
 
-    public void networkChangePiece(Piece current, final Piece.Type toType) {
-        Vector position = current.getPosition();
+    public void networkPromotePiece(Piece piece,Piece.Type toType) {
+        Vector position = piece.getPosition();
         String buffer = position.pack();
         buffer += "~" + Integer.toString(toType.getCode());
 
         //Send change over network
         LocalClient.instance.send(new Packet(PacketType.CHANGE_TYPE, buffer));
-        System.out.println("CHANGE TYPE SENT");
-        promotePiece(current, toType);
+
+        promotePiece(piece, toType);
     }
 }

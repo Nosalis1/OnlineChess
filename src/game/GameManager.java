@@ -1,6 +1,7 @@
 package game;
 
 import game.users.User;
+import gui.ChosePiece;
 import gui.GuiManager;
 import gui.images.Field;
 import socket.LocalClient;
@@ -38,6 +39,16 @@ public abstract class GameManager {
             onGameEnded.run();
         });
 
+        Board.instance.onMoved.add((Piece piece) -> {
+            lastMovedPiece = piece;
+        });
+        ChosePiece.onTypeSelected.add((Piece.Type newType) -> {
+            if (lastMovedPiece == null)
+                return;
+            Board.instance.networkPromotePiece(lastMovedPiece, newType);
+            GuiManager.updateField(lastMovedPiece.getPosition());
+        });
+
         Board.instance.onPromotion.add(() -> {
             if (localUser.canPlay()) {
                 GuiManager.getGameWindow().setEnabled(false);
@@ -58,6 +69,8 @@ public abstract class GameManager {
 
     public static User localUser = null;
     public static User opponent = null;//TODO:ASSIGN OPPONENT
+
+    private static Piece lastMovedPiece = null;
 
     static Vector selected;
 
@@ -92,7 +105,6 @@ public abstract class GameManager {
                 Board.instance.move(move);
                 break;
             case CHANGE_TYPE:
-                System.out.println("CHANGE TYPE RECEIVED");
                 Vector at = new Vector();
                 Piece.Type newType = null;
                 values = packet.getBuffer().split("~");
@@ -103,8 +115,7 @@ public abstract class GameManager {
                 } else
                     throw new IllegalArgumentException("Invalid buffer format");
 
-                System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
-                Board.instance.networkChangePiece(Board.instance.get(at), newType);//TODO:FIX THIS
+                Board.instance.promotePiece(Board.instance.get(at), newType);
                 GuiManager.updateField(at);
                 break;
             case CUSTOM:

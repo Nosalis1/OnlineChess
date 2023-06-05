@@ -6,8 +6,8 @@ import util.Vector;
 
 public class Move implements Streamable {
 
-    private Vector from;
-    private Vector to;
+    private final Vector from;
+    private final Vector to;
 
     public Vector getFrom() {
         return this.from;
