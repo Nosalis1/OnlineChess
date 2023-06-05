@@ -341,8 +341,8 @@ public class Board {
         if (piece == null || !piece.isType(Piece.Type.Pawn))
             return false;
 
-        final int y = piece.getPosition().Y;
-        if (y == 0 || y == LAST) {
+        final int x = piece.getPosition().X;
+        if (x == 0 || x == LAST) {
             onPromotion.run();
             onPiecePromotion.run(piece);
             return true;
