@@ -38,7 +38,10 @@ public abstract class GameManager {
         });
 
         Board.instance.onPromotion.add(() -> {
-            System.out.println("PROMOTION");
+            if(localUser.canPlay()){
+                GuiManager.getGameWindow().setEnabled(false);
+                GuiManager.getChosePieceWindow().showWindow();
+            }
         });
 
         initialized = true;

@@ -5,6 +5,7 @@ import game.BoardData;
 import game.GameManager;
 import game.Piece;
 import util.Array;
+import util.ColorGradient;
 import util.Vector;
 import util.events.ArgEvent;
 
@@ -19,6 +20,8 @@ public class ChosePiece extends Window implements ActionListener {
         this.setDimensions(new Vector(250, 80));
         setUndecorated(true);
         createUserInterface();
+        setFocusableWindowState(false);
+        setAlwaysOnTop(true);
     }
 
     private final util.Array<JButton> buttons = new Array<>();
@@ -26,7 +29,8 @@ public class ChosePiece extends Window implements ActionListener {
     private JButton getStylizedButton(int x, Image imageDir, ActionListener action) {
         JButton btn = new JButton();
         btn.setPreferredSize(new Dimension(50, 50));
-        btn.setBounds(x, 20, 50, 50);
+        btn.setBounds(7 + x, 15, 50, 50);
+        btn.setBackground(ColorGradient.DARK.getColor(true));
         Image img = new ImageIcon(imageDir).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         btn.setIcon(new ImageIcon(img));
         btn.addActionListener(action);
@@ -38,6 +42,8 @@ public class ChosePiece extends Window implements ActionListener {
 
     private void createUserInterface() {
         JPanel panel = new JPanel(new FlowLayout());
+        panel.setBackground(ColorGradient.DARK.getColor(false));
+        panel.setLayout(null);
 
         boolean isWhite = true;//GameManager.localUser.isWhite();//TODO:LATER
 
@@ -69,8 +75,15 @@ public class ChosePiece extends Window implements ActionListener {
     @Override
     public void showWindow() {
         Point position = GuiManager.getGameWindow().getLocation();
-        this.setPosition(new Vector(position.x + 20, position.y + 20));
+        Dimension dimension = GuiManager.getGameWindow().getSize();
+        this.setPosition(new Vector(position.x + dimension.width / 2, position.y + dimension.height / 2));
         super.showWindow();
+    }
+
+    @Override
+    public void hideWindow(){
+        GuiManager.getGameWindow().setEnabled(true);
+        super.hideWindow();
     }
 
     @Override
