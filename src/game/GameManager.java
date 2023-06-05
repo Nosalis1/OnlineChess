@@ -39,6 +39,10 @@ public abstract class GameManager {
             onGameEnded.run();
         });
 
+        Board.instance.onPromotion.add(()->{
+            System.out.println("PROMOTION");
+        });
+
         initialized = true;
     }
 

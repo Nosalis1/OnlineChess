@@ -52,6 +52,12 @@ public class Board {
 
         this.onCheck.clear();
         this.onCheckMate.clear();
+
+        this.onPromotion.clear();
+        this.onPiecePromoted.clear();
+        this.onPiecePromotion.clear();
+
+        this.whiteTurn = other.whiteTurn;
     }
 
     public void clear() {
