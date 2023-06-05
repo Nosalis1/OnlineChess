@@ -1,9 +1,10 @@
 package util;
 
 /**
- * An array data structure implementation.
- *
- * @param <T> The type of elements stored in the array
+
+ An array data structure implementation.
+
+ @param <T> The type of elements stored in the array
  */
 public class Array<T> {
 
@@ -246,7 +247,6 @@ public class Array<T> {
 
     /**
      * Returns the last item in the array.
-     *
      * @return The last item in array
      */
     public T getLast() {
