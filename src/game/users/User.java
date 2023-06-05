@@ -4,24 +4,31 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import game.Board;
+import game.GameManager;
+import socket.packages.Packet;
 import util.Array;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class User {
+public class User implements socket.packages.Streamable {
     public static User currentUser = null;
     private static final com.google.gson.Gson gson = new com.google.gson.Gson();
     private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
     private static final util.Array<User> existingUsers = new Array<>();
 
-    private final String userName;
+    private String userName;
     private final String password;
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public User(String userName) {
+        this.userName = userName;
+        this.password = "";
     }
 
     private boolean white = true;
@@ -48,6 +55,7 @@ public class User {
             if (user.getUserName().equals(userName) && user.isCorrectPassword(password)) {
                 util.Console.message("User logged in");
                 currentUser = user;
+                GameManager.localUser = currentUser;
                 return true;
             }
         }
@@ -177,5 +185,15 @@ public class User {
         if (obj == null || getClass() != obj.getClass()) return false;
         User objUser = (User) obj;
         return this.userName.equals(objUser.getUserName()) && objUser.isCorrectPassword(this.password);
+    }
+
+    @Override
+    public String pack(Packet.Type type) {
+        return this.userName;
+    }
+
+    @Override
+    public void unapck(String buffer) {
+        this.userName = buffer;
     }
 }

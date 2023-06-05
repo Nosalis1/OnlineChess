@@ -47,6 +47,17 @@ public class RoomManager {
 
         Packet packet = new Packet(Packet.Type.CHANGE_COLOR);
         clients.get(clients.size() - 1).send(packet);
+
+        packet.setBuffer(Packet.Type.SEND_PLAYER);
+        clients.get(0).send(packet);
+        packet = clients.get(0).receive(packet);
+        clients.get(1).send(packet);
+
+        packet.setBuffer(Packet.Type.SEND_PLAYER);
+        clients.get(1).send(packet);
+        packet = clients.get(1).receive(packet);
+        clients.get(0).send(packet);
+
         packet.setBuffer(Packet.Type.START_GAME);
         Packet finalPacket = packet;
         clients.foreach((Client client) -> client.send(finalPacket));

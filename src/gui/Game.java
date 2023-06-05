@@ -88,8 +88,8 @@ public class Game extends Window {
     public void updateInfoTable(Move ignore) {
         final BoardData data = Board.instance.getData();
 
-        String messageWhite = createInfoMessage("TODO:NAME", 1, data.white.getPieces().size(), data.white.getScore(), data.white.getPiecesCount());
-        String messageBlack = createInfoMessage("TODO:OPPONENT NAME", -1, data.black.getPieces().size(), data.black.getScore(), data.black.getPiecesCount());
+        String messageWhite = createInfoMessage(GameManager.localUser.getUserName(), 1, data.white.getPieces().size(), data.white.getScore(), data.white.getPiecesCount());
+        String messageBlack = createInfoMessage(GameManager.opponent.getUserName(), -1, data.black.getPieces().size(), data.black.getScore(), data.black.getPiecesCount());
 
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
@@ -156,7 +156,7 @@ public class Game extends Window {
         opponentLabel = (JLabel) opponentPanel.getComponents()[1];
         opponentLabel.setForeground(Color.white);
 
-        updateInfoTable(null);
+       // updateInfoTable(null);//TODO:CHECK THIS LATER
         Board.instance.onMoveDone.add(this::updateInfoTable);
 
         add(playerPanel);

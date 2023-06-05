@@ -81,7 +81,7 @@ public class Register extends Window implements ActionListener {
                 usernameField.setText("");
                 passwordField.setText("");
 
-                GuiManager.instance.registered();
+                GuiManager.registered();
             } else {
                 usernameField.setText("");
                 passwordField.setText("");

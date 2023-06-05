@@ -1,6 +1,7 @@
 package gui;
 
 import game.Board;
+import game.GameManager;
 import game.Move;
 import game.Piece;
 import gui.images.Field;
@@ -11,91 +12,73 @@ import util.Vector;
 import util.events.Event;
 
 public class GuiManager {
-    public static GuiManager instance;
-
-    public static util.events.Event onButtonClick =  new Event();
+    public static final util.events.Event onButtonClick =  new Event();
 
     public static void initialize() {
         Image.wakeUp();
 
-        if (instance == null) instance = new GuiManager();
-        util.Console.message("Initializing GuiManager.", instance);
-    }
-
-    private final Login loginWindow;
-    private final Register registerWindow;
-    private final Menu menuWindow;
-    private final Game gameWindow;
-    private final ChosePiece chosePieceWindow;
-
-    public Login getLoginWindow() {
-        return this.loginWindow;
-    }
-
-    public Register getRegisterWindow() {
-        return this.registerWindow;
-    }
-
-    public Menu getMenuWindow() {
-        return this.menuWindow;
-    }
-
-    public Game getGameWindow() {
-        return this.gameWindow;
-    }
-
-    @SuppressWarnings("unused")
-    public ChosePiece getChosePieceWindow() {
-        return this.chosePieceWindow;
-    }
-
-    @SuppressWarnings("unused")
-    public Game get() {
-        return this.gameWindow;
-    }
-
-    public GuiManager() {
-        this.loginWindow = new Login();
-        this.registerWindow = new Register();
-        this.menuWindow = new Menu();
-        this.gameWindow = new Game();
-        this.chosePieceWindow = new ChosePiece();
-
-        this.loginWindow.showWindow();
-
-        //Field.onFieldClicked.add(this::onFieldClicked);
+        loginWindow.showWindow();
 
         Board.instance.onCaptured.add((Piece piece) -> {
-            this.gameWindow.getField(piece.getPosition()).setImage(null);
+            gameWindow.getField(piece.getPosition()).setImage(null);
         });
         Board.instance.onMoveDone.add((Move move) -> {
             Piece piece = Board.instance.get(move.getTo());
-            this.gameWindow.getField(move.getFrom()).setImage(null);
-            this.gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+            gameWindow.getField(move.getFrom()).setImage(null);
+            gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
-        
+
+        GameManager.onGameStarted.add(()->{
+            updateFields();
+            menuWindow.hideWindow();
+            gameWindow.showWindow();
+            gameWindow.updateInfoTable(null);
+        });
+
         updateFields();
     }
 
-    private void onPieceMove(Move move) {
-        util.Vector at = move.getFrom();
-        this.gameWindow.getField(at).setImage(null);
+    private static final Login loginWindow = new Login();
+    private static final Register registerWindow = new Register();
+    private static final Menu menuWindow = new Menu();
+    private static final Game gameWindow = new Game();
+    private static final ChosePiece chosePieceWindow = new ChosePiece();
+
+    public static Login getLoginWindow() {
+        return loginWindow;
+    }
+
+    public static Register getRegisterWindow() {
+        return registerWindow;
+    }
+
+    public static Menu getMenuWindow() {
+        return menuWindow;
+    }
+
+    public static Game getGameWindow() {
+        return gameWindow;
+    }
+
+    @SuppressWarnings("unused")
+    public static ChosePiece getChosePieceWindow() {
+        return chosePieceWindow;
     }
 
 
-    public void updateFields() {
-        this.gameWindow.clearFields();
+    public static void updateFields() {
+        gameWindow.clearFields();
 
         util.Array<Piece> allPieces = Board.instance.getData().getAllPieces();
         allPieces.foreach((Piece piece) -> {
             util.Vector at = piece.getPosition();
 
-            this.gameWindow.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+            gameWindow.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
     }
 
-    public void updateField(final Vector at) {
-        Field tempField = this.gameWindow.getField(at);
+    public static void updateField(final Vector at) {
+        Field tempField = gameWindow.getField(at);
 
         if (Board.instance.isNull(at)) {
             tempField.setImage(null);
@@ -105,52 +88,45 @@ public class GuiManager {
         }
     }
 
-    public void startGame() {
-        updateFields();
+    public static void loggedIn() {
+        loginWindow.hideWindow();
+        menuWindow.showWindow();
+    }
+
+    public static void registered() {
+        registerWindow.hideWindow();
+        menuWindow.showWindow();
+    }
+
+    public static void accountDeleted() {
         menuWindow.hideWindow();
-        gameWindow.showWindow();
-        gameWindow.updateInfoTable(null);
-    }
-
-    public void loggedIn() {
-        this.loginWindow.hideWindow();
-        this.menuWindow.showWindow();
-    }
-
-    public void registered() {
-        this.registerWindow.hideWindow();
-        this.menuWindow.showWindow();
-    }
-
-    public void accountDeleted() {
-        this.getMenuWindow().hideWindow();
-        this.getLoginWindow().showWindow();
+        menuWindow.showWindow();
     }
 
     //HIGHLIGHTING
-    private final Array<Field> currentHighlights = new Array<>();
+    private static final Array<Field> currentHighlights = new Array<>();
 
-    public void resetHighlights() {
+    public static void resetHighlights() {
         currentHighlights.foreach((Field field) -> field.setColor(ColorGradient.FIELD.getColor(field.isGradient())));
         currentHighlights.clear();
     }
 
-    private void setHighlight(Vector at) {
-        Field temp = this.gameWindow.getField(at);
+    private static void setHighlight(Vector at) {
+        Field temp = gameWindow.getField(at);
         temp.setColor(ColorGradient.HIGHLIGHT.getColor(temp.isGradient()));
         currentHighlights.add(temp);
     }
 
-    private void setHighlights(util.Array<Vector> at) {
+    private static void setHighlights(util.Array<Vector> at) {
         at.foreach((Vector position) -> {
-            Field temp = this.gameWindow.getField(position);
+            Field temp = gameWindow.getField(position);
 
             temp.setColor(Board.instance.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         });
     }
 
-    public void onFieldClicked(Vector vector) {
+    public static void onFieldClicked(Vector vector) {
         resetHighlights();
 
         Piece piece = Board.instance.get(vector);

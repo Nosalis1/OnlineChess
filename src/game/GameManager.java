@@ -5,13 +5,14 @@ import gui.ChosePiece;
 import gui.Game;
 import gui.GuiManager;
 import gui.images.Field;
+import socket.LocalClient;
 import socket.packages.Packet;
 import util.Vector;
 import util.events.Event;
 
 import java.io.IOException;
 
-public class GameManager {
+public abstract class GameManager {
     private static boolean initialized = false;
 
     public static boolean isInitialized() {
@@ -46,14 +47,11 @@ public class GameManager {
 
     public static void newGame() {
         Board.instance.reset();
-        GuiManager.instance.startGame();
-
         onGameStarted.run();
     }
 
-    public static User localUser = null;//TODO:ASSIGN LOCALUSER
+    public static User localUser = null;
     public static User opponent = null;//TODO:ASSIGN OPPONENT
-
 
     static Vector selected;
 
@@ -62,14 +60,14 @@ public class GameManager {
             return;
         if (selected == null && (!Board.instance.isNull(at) && Board.instance.get(at).isColor(localUser.isWhite() ? Piece.Color.White : Piece.Color.Black))) {
             selected = at;
-            GuiManager.instance.onFieldClicked(at);
+            GuiManager.onFieldClicked(at);
         } else if (selected == at) {
             selected = null;
-            GuiManager.instance.resetHighlights();
+            GuiManager.resetHighlights();
         } else if (selected != null) {
             Board.instance.tryMove(selected, at);
             selected = null;
-            GuiManager.instance.resetHighlights();
+            GuiManager.resetHighlights();
         }
     }
 
@@ -77,8 +75,6 @@ public class GameManager {
 
         if (packet == null)
             return;
-
-        System.out.println(packet.getPackedBuffer());
 
         if (packet.getType() == Packet.Type.MOVE) {
             Vector from = new Vector(), to = new Vector();
@@ -105,9 +101,13 @@ public class GameManager {
 
             System.out.println("CHANGING TYPE <" + at.toString() + "> <" + newType.toString() + ">");
             Board.instance.networkChangePiece(Board.instance.get(at), newType);//TODO:FIX THIS
-            GuiManager.instance.updateField(at);
+            GuiManager.updateField(at);
         } else if (packet.getType() == Packet.Type.CUSTOM) {
             return;//TODO:HANDLE CUSTOM
+        } else if (packet.getType() == Packet.Type.SEND_PLAYER) {
+            LocalClient.instance.send(new Packet(localUser.pack(Packet.Type.PLAYER), Packet.Type.PLAYER));
+        } else if (packet.getType() == Packet.Type.PLAYER) {
+            opponent = new User(packet.getBuffer());
         } else if (packet.getType() == Packet.Type.START_GAME) {
             newGame();
         } else if (packet.getType() == Packet.Type.CHANGE_COLOR) {

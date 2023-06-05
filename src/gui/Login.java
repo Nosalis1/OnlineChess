@@ -68,7 +68,7 @@ public class Login extends Window implements ActionListener {
         registerButton.addActionListener(e -> {
             GuiManager.onButtonClick.run();
             this.hideWindow();
-            GuiManager.instance.getRegisterWindow().showWindow();
+            GuiManager.getRegisterWindow().showWindow();
         });
 
         add(registerButton);
@@ -87,7 +87,7 @@ public class Login extends Window implements ActionListener {
 
             util.Console.message("Valid User", this);
 
-            GuiManager.instance.loggedIn();
+            GuiManager.loggedIn();
         } else {
             usernameField.setText("");
             passwordField.setText("");

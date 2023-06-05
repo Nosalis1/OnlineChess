@@ -7,7 +7,9 @@ public class Packet {
         DISCONNECT("$0010!"),
         MOVE("$0011!"),
         CHANGE_TYPE("$0100!"),
-        CUSTOM("$0101!");
+        PLAYER("$0101!"),
+        SEND_PLAYER("$0110!"),
+        CUSTOM("$0111!");
 
         private final String code;
         public static final int CODE_LENGTH = 6;
