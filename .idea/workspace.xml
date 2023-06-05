@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Nekako radi :)">
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/buttonClick1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/check.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/gameLoss.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/gameLoss1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/gameQueue.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/gameWin.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceCapture1.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceMove1.wav" afterDir="false" />
+    <list default="true" id="0026f5f2-a006-4a9c-9f3f-a83d0059bec4" name="Changes" comment="Nesto tamo vamo ....">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/buttonClick.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/sfx/buttonClick.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/end.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceCapture.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/sfx/pieceCapture.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceMove.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/sfx/pieceMove.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Array.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Console.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/events/ArgEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/events/ArgEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/events/Event.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -365,7 +361,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686004070842</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Nekako radi :)">
+      <created>1686006030260</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1686006030260</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -403,7 +406,8 @@
     <MESSAGE value="A LOT" />
     <MESSAGE value="Nzm vise" />
     <MESSAGE value="Nekako radi :)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nekako radi :)" />
+    <MESSAGE value="Nesto tamo vamo ...." />
+    <option name="LAST_COMMIT_MESSAGE" value="Nesto tamo vamo ...." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/OnlineChess$Main.ic" NAME="Main Coverage Results" MODIFIED="1685403185032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

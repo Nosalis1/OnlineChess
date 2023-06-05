@@ -48,6 +48,7 @@ public class Event extends util.Array<Runnable> {
     /**
      * Runs all actions in the event and then clears the event.
      */
+    @SuppressWarnings("unused")
     public void runOnce() {
         run();
         clear();

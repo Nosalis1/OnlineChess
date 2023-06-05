@@ -6,6 +6,7 @@ package util;
 
  @param <T> The type of elements stored in the array
  */
+@SuppressWarnings("unused")
 public class Array<T> {
 
     /**

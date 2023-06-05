@@ -2,6 +2,7 @@ package audio;
 
 import game.Board;
 import game.GameManager;
+import game.Piece;
 import gui.GuiManager;
 import util.Array;
 
@@ -14,6 +15,7 @@ public abstract class AudioManager {
 
     private static boolean initialized = false;
 
+    @SuppressWarnings("unused")
     public static boolean isInitialized() {
         return initialized;
     }
@@ -30,31 +32,46 @@ public abstract class AudioManager {
 
         AudioClip buttonClickSfx = find("buttonClick.wav");
         assert buttonClickSfx != null;
-        GuiManager.onButtonClick.add(() -> {
-            play(buttonClickSfx);
-        });
+        GuiManager.onButtonClick.add(() -> play(buttonClickSfx));
 
         AudioClip startRoundSfx = find("startRound.wav");
         assert startRoundSfx != null;
-        GameManager.onGameStarted.add(() -> {
-            play(startRoundSfx);
-        });
+        GameManager.onGameStarted.add(() -> play(startRoundSfx));
 
         AudioClip pieceMoveSfx = find("pieceMove.wav");
         assert pieceMoveSfx != null;
-        Board.instance.onMove.add(() -> {
-            play(pieceMoveSfx);
-        });
+        Board.instance.onMove.add(() -> play(pieceMoveSfx));
 
         AudioClip pieceCaptureSfx = find("pieceCapture.wav");
         assert pieceCaptureSfx != null;
-        Board.instance.onCapture.add(() -> {
-            play(pieceCaptureSfx);
+        Board.instance.onCapture.add(() -> play(pieceCaptureSfx));
+
+        AudioClip checkSfx = find("check.wav");
+        assert checkSfx != null;
+        Board.instance.onCheck.add((game.Piece.Color ignore) -> play(checkSfx));
+
+        AudioClip winSfx = find("gameWin.wav"), lossSfx = find("gameLoss.wav");
+        assert winSfx != null && lossSfx != null;
+        Board.instance.onCheck.add((game.Piece.Color color) -> {
+            if (color == Piece.Color.White) {
+                if (GameManager.localUser.isWhite()) {
+                    play(lossSfx);
+                } else {
+                    play(winSfx);
+                }
+            } else {
+                if (!GameManager.localUser.isWhite()) {
+                    play(lossSfx);
+                } else {
+                    play(winSfx);
+                }
+            }
         });
 
         initialized = true;
     }
 
+    @SuppressWarnings("unused")
     public static void free() {
         loadedClips.clear();
         initialized = false;
@@ -97,6 +114,7 @@ public abstract class AudioManager {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public static void playIndex(final int index) {
         get(index).play();
     }
@@ -105,6 +123,7 @@ public abstract class AudioManager {
         clip.play();
     }
 
+    @SuppressWarnings("unused")
     public static void play(final int id) {
         Objects.requireNonNull(find(id)).play();
     }

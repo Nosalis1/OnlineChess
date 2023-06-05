@@ -1,5 +1,6 @@
 package gui;
 
+import audio.AudioManager;
 import game.users.User;
 import gui.design.Button;
 import gui.design.Title;
@@ -7,7 +8,6 @@ import socket.LocalClient;
 import socket.NetworkManager;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -70,5 +70,6 @@ public class Menu extends Window implements ActionListener {
         deleteButton.setVisible(false);
         stopButton.setVisible(true);
         info.setVisible(true);
+        AudioManager.play("gameQueue.wav");
     }
 }

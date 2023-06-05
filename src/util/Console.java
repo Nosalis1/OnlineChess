@@ -5,6 +5,7 @@ import java.time.LocalTime;
 /**
  * The Console class provides utility methods for printing messages to the console with different colors and timestamps.
  */
+@SuppressWarnings("unused")
 public class Console {
 
     /**
@@ -15,21 +16,15 @@ public class Console {
         GREEN("\u001B[32m"),
         YELLOW("\u001B[33m"),
         RED("\u001B[31m"),
-        @SuppressWarnings("unused")
         BLACK("\u001B[30m"),
         BLUE("\u001B[34m"),
         CYAN("\u001B[36m"),
         PURPLE("\u001B[35m"),
-        @SuppressWarnings("unused")
         WHITE("\u001B[37m"),
         BRIGHT_BLACK("\u001B[90m"),
-        @SuppressWarnings("unused")
         BRIGHT_BLUE("\u001B[94m"),
-        @SuppressWarnings("unused")
         BRIGHT_CYAN("\u001B[96m"),
-        @SuppressWarnings("unused")
         BRIGHT_PURPLE("\u001B[95m"),
-        @SuppressWarnings("unused")
         BRIGHT_WHITE("\u001B[97m");
 
         private final String code;
@@ -62,7 +57,6 @@ public class Console {
      *
      * @param message The message to be printed
      */
-    @SuppressWarnings("unused")
     public static void print(String message) {
         System.out.print(message);
     }
@@ -73,7 +67,6 @@ public class Console {
      * @param message The message to be printed
      * @param color   The color of the message
      */
-    @SuppressWarnings("unused")
     public static void println(String message, Color color) {
         System.out.println(color.getCode() + message + Color.RESET.getCode());
     }
@@ -202,7 +195,6 @@ public class Console {
      * @param sender  The sender object (can be null)
      * @param <T>     The type of the sender object
      */
-    @SuppressWarnings("unused")
     public static <T> void staticError(String message, T sender) {
         printTime();
         if (sender != null) printSender(sender);

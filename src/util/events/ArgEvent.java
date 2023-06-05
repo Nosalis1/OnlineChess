@@ -54,6 +54,7 @@ public class ArgEvent<T> extends util.Array<Action<T>> {
      *
      * @param arg the argument for the actions
      */
+    @SuppressWarnings("unused")
     public void runOnce(T arg) {
         run(arg);
         clear();

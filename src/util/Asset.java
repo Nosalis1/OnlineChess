@@ -3,6 +3,7 @@ package util;
 /**
  * The Asset class represents an asset with a unique identifier, name, and path.
  */
+@SuppressWarnings("unused")
 public class Asset {
     private static int uniqueId = 100;
 

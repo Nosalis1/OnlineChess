@@ -1,9 +1,7 @@
 package util;
 
-import socket.packages.Packet;
-import socket.packages.Streamable;
-
-public class Vector implements Streamable {
+@SuppressWarnings("unused")
+public class Vector implements socket.packages.Streamable {
     // Public fields for X and Y coordinates
     public int X, Y;
 
@@ -134,20 +132,11 @@ public class Vector implements Streamable {
      * @param t     the interpolation value (0 to 100)
      * @return the interpolated vector
      */
-    public static Vector lerp(final Vector start, final Vector end, final int t) {
+    public static Vector linearInterpolation(final Vector start, final Vector end, final int t) {
         end.subtract(start);
 
         start.add(end);
         return start;
-    }
-
-    /**
-     * Rotates the vector by swapping its X and Y components.
-     */
-    public void rotate() {
-        int i = X;
-        X = Y;
-        Y = i;
     }
 
     @Override
