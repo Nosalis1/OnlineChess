@@ -17,7 +17,6 @@ public class Main {
             util.Console.message("Initializing Client.", null);
             AudioManager.initialize();
             GameManager.initialize();
-
             GuiManager.initialize();
         }
     }

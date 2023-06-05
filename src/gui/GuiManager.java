@@ -12,7 +12,7 @@ import util.Vector;
 import util.events.Event;
 
 public class GuiManager {
-    public static final util.events.Event onButtonClick =  new Event();
+    public static final util.events.Event onButtonClick = new Event();
 
     public static void initialize() {
         Image.wakeUp();
@@ -28,7 +28,7 @@ public class GuiManager {
             gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
 
-        GameManager.onGameStarted.add(()->{
+        GameManager.onGameStarted.add(() -> {
             updateFields();
             menuWindow.hideWindow();
             gameWindow.showWindow();

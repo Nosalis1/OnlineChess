@@ -6,25 +6,29 @@ import java.awt.event.ActionEvent;
 public class GameClock implements java.awt.event.ActionListener {
     private int playerTimeSeconds, opponentTimeSeconds;
     private final Timer timer;
+    private final JLabel playerLabel, opponentLabel;
 
-    private GameClock() {
-        opponentTimeSeconds = playerTimeSeconds = 300;
+    public GameClock(JLabel playerLabel, JLabel opponentLabel) {
+        playerTimeSeconds = 300;
+        opponentTimeSeconds = 300;
         timer = new Timer(1000, this);
-        timer.setRepeats(false);
+        timer.setRepeats(true);
+        this.playerLabel = playerLabel;
+        this.opponentLabel = opponentLabel;
     }
 
     public boolean getIsTimerRunning() {
         return timer.isRunning();
     }
 
-    public void switchTimerRunning() {
+    public void switchTimerState() {
         if (getIsTimerRunning()) timer.stop();
         else timer.start();
     }
 
     public void setTimerState(boolean setRunning) {
-        if (setRunning && getIsTimerRunning()) timer.stop();
-        else if (!setRunning && !getIsTimerRunning()) timer.start();
+        if (setRunning && !getIsTimerRunning()) timer.start();
+        else if (!setRunning && getIsTimerRunning()) timer.stop();
         else {
             String s = setRunning ? "running" : "stopped";
             util.Console.warning(String.format("Cannot set timer state to %s as it is already %s", s, s));
@@ -42,7 +46,7 @@ public class GameClock implements java.awt.event.ActionListener {
 
     public String getPlayerTimeString() {
         int minutes = getPlayerTimeMinutes(), seconds = this.playerTimeSeconds % 60;
-        return String.format("%s%s", minutes > 0 ? minutes + ":" : "", seconds);
+        return String.format("%s%s", minutes > 0 ? minutes + ":" : "", seconds < 10 ? "0" + seconds : seconds);
     }
 
 
@@ -51,25 +55,28 @@ public class GameClock implements java.awt.event.ActionListener {
     }
 
     public int getOpponentTimeMinutes() {
-        return opponentTimeSeconds / 60;
+        return (int) Math.floor((double) opponentTimeSeconds / 60);
     }
 
     public String getOpponentTimeString() {
         int minutes = getOpponentTimeMinutes(), seconds = this.opponentTimeSeconds % 60;
-        return String.format("%s%s", minutes > 0 ? minutes + ":" : "", seconds);
+        return String.format("%s%s", minutes > 0 ? minutes + ":" : "", seconds < 10 ? "0" + seconds : seconds);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (GameManager.localUser.canPlay()) playerTimeSeconds--;
-        else opponentTimeSeconds--;
+        if (GameManager.localUser.canPlay()) {
+            playerTimeSeconds--;
+            playerLabel.setText(GameManager.localUser.getUserName() + ": " + getPlayerTimeString());
+        } else {
+            opponentTimeSeconds--;
+            opponentLabel.setText(GameManager.opponent.getUserName() + ": " + getOpponentTimeString());
+        }
 
-        if (playerTimeSeconds <= 0)
-            // TODO: pozivanje endgame funkcije, player gubi
-            util.Console.message("Playeru je isteklo vreme");
-        else if (opponentTimeSeconds <= 0)
-            // TODO: pozivanje endgame funkcije, opponent gubi
-            util.Console.message("Opponentu je isteklo vreme");
+        if (playerTimeSeconds <= 0 || opponentTimeSeconds <= 0) {
+            setTimerState(false);
+            GameManager.onGameEnded.run();
+        }
     }
 }

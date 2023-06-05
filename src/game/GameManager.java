@@ -1,8 +1,6 @@
 package game;
 
 import game.users.User;
-import gui.ChosePiece;
-import gui.Game;
 import gui.GuiManager;
 import gui.images.Field;
 import socket.LocalClient;
@@ -39,7 +37,7 @@ public abstract class GameManager {
             onGameEnded.run();
         });
 
-        Board.instance.onPromotion.add(()->{
+        Board.instance.onPromotion.add(() -> {
             System.out.println("PROMOTION");
         });
 

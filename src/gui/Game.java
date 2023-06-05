@@ -110,8 +110,16 @@ public class Game extends Window {
     }
 
     private JPanel playerPanel, opponentPanel;
-    private JLabel playerLabel, opponentLabel;
+    private JLabel playerLabel, opponentLabel, playerTimeLabel, opponentTimeLabel;
     private DefaultTableModel movesTableModel;
+
+    public JLabel getPlayerTimeLabel() {
+        return playerTimeLabel;
+    }
+
+    public JLabel getOpponentTimeLabel() {
+        return opponentTimeLabel;
+    }
 
     private void createInfo() {
         movesTableModel = new DefaultTableModel(new Object[]{"Column 1"}, 0) {
@@ -142,6 +150,19 @@ public class Game extends Window {
         timerPanel.setBorder(timerBorder);
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
         timerPanel.setBounds(818, 725, 260, 85);
+        timerPanel.setBackground(ColorGradient.DARK.getColor(true));
+        playerTimeLabel = new JLabel();
+        opponentTimeLabel = new JLabel();
+        playerTimeLabel.setBounds(10, 10, 120, 20);
+        opponentTimeLabel.setBounds(10, 30, 120, 20);
+        playerTimeLabel.setForeground(Color.WHITE);
+        opponentTimeLabel.setForeground(Color.WHITE);
+        playerTimeLabel.setText("5:00");
+        opponentTimeLabel.setText("5:00");
+        timerPanel.add(playerTimeLabel);
+        timerPanel.add(opponentTimeLabel);
+
+        // TODO: NAPRAVI TAJMER OBJEKAT I DODAJ "TIMER.SETTIMERSTATE(TRUE);" ZA STARTOVANJE TAJMERA) timer = new GameClock(playerTimeLabel, opponentTimeLabel);
 
         playerPanel = getPlayerInfoPanel();
         opponentPanel = getPlayerInfoPanel();
@@ -156,7 +177,7 @@ public class Game extends Window {
         opponentLabel = (JLabel) opponentPanel.getComponents()[1];
         opponentLabel.setForeground(Color.white);
 
-       // updateInfoTable(null);//TODO:CHECK THIS LATER
+        // updateInfoTable(null);//TODO:CHECK THIS LATER
         Board.instance.onMoveDone.add(this::updateInfoTable);
 
         add(playerPanel);
@@ -164,5 +185,4 @@ public class Game extends Window {
         add(movesPanel);
         add(timerPanel);
     }
-    // TODO: Dodaj metodu za odbrojavanje vremena
 }

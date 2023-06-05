@@ -8,15 +8,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
-
- The Server class represents a server application.
-
- It provides methods for starting and stopping the server, managing connections,
-
- and validating the server status.
+ * The Server class represents a server application.
+ * <p>
+ * It provides methods for starting and stopping the server, managing connections,
+ * <p>
+ * and validating the server status.
  */
 public class Server {
-    public static final int PORT = 51130;
+    public static final int PORT = 52130;
     public static final int MAX_SOCKET_CONNECTIONS = 4;
 
     private static ServerSocket serverSocket = null;
@@ -68,8 +67,7 @@ public class Server {
      */
     @SuppressWarnings("unused")
     public static void stop() {
-        if (isListening())
-            stopListening();
+        if (isListening()) stopListening();
 
         Console.message("Trying to stop the Server on port " + PORT, null);
         if (isClosed()) {
@@ -176,8 +174,7 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 handleNewConnection(clientSocket);
 
-                if (connectedSockets.size() >= MAX_SOCKET_CONNECTIONS)
-                    stopListening();
+                if (connectedSockets.size() >= MAX_SOCKET_CONNECTIONS) stopListening();
 
             } catch (Exception ex) {
                 Console.error("Failed to accept connection from ClientSocket!", null);
