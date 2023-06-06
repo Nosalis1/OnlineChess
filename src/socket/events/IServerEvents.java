@@ -1,8 +1,9 @@
 package socket.events;
 
-import java.net.Socket;
-
-public interface iServerEvents {
+/**
+ * Interface defining server events.
+ */
+public interface IServerEvents {
     /**
      * Called when the server has started.
      */
@@ -28,6 +29,5 @@ public interface iServerEvents {
      *
      * @param clientSocket the connected client socket
      */
-    void onSocketConnected(Socket clientSocket);
-
+    void onSocketConnected(java.net.Socket clientSocket);
 }

@@ -5,9 +5,9 @@ import socket.packages.Stream;
 import java.net.Socket;
 
 /**
- The Client class extends the Stream class and represents a client connection.
-
- It encapsulates a socket object for communication with the server.
+ * The Client class extends the Stream class and represents a client connection.
+ * <p>
+ * It encapsulates a socket object for communication with the server.
  */
 public class Client extends Stream {
     private Socket socket;
@@ -15,7 +15,7 @@ public class Client extends Stream {
     /**
      * Retrieves the socket associated with the client.
      *
-     * @return the client's socket
+     * @return The client's socket
      */
     public Socket getSocket() {
         return this.socket;
@@ -24,7 +24,7 @@ public class Client extends Stream {
     /**
      * Sets the socket for the client and initializes the streams.
      *
-     * @param socket the socket to set
+     * @param socket The socket to set
      */
     public void setSocket(Socket socket) {
         this.socket = socket;
@@ -40,7 +40,7 @@ public class Client extends Stream {
     /**
      * Constructs a Client object with the specified socket.
      *
-     * @param socket the socket associated with the client
+     * @param socket The socket associated with the client
      */
     public Client(Socket socket) {
         setSocket(socket);

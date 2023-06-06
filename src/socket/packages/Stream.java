@@ -8,6 +8,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * The Stream class provides functionality for managing input and output streams
+ * used for sending and receiving data over a socket connection.
+ */
 public abstract class Stream {
     protected PrintWriter out;
     protected BufferedReader in;

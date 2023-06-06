@@ -1,27 +1,24 @@
 package socket.events;
 
-import java.net.Socket;
-
 /**
- * The ServerEventHandler class extends the util.Array class and implements the iServerEvents interface.
- * It provides functionality to handle server events and manage a list of server event actions.
+ * The ServerEventHandler class manages server event actions and provides functionality to handle server events.
  */
-public class ServerEventHandler extends util.Array<iServerEvents> implements iServerEvents {
+public class ServerEventHandler extends util.Array<IServerEvents> implements IServerEvents {
 
     /**
      * Adds a server event action to the list.
      * Displays a warning message if the action already exists in the list.
      *
-     * @param actions The server event action to be added
+     * @param eventActions The server event action to be added
      */
     @Override
-    public void add(iServerEvents actions) {
-        if (contains(actions)) {
-            util.Console.warning("Action you are trying to add already exists in the list!", this);
+    public void add(IServerEvents eventActions) {
+        if (contains(eventActions)) {
+            util.Console.warning("The action you are trying to add already exists in the list!", this);
             return;
         }
 
-        super.add(actions);
+        super.add(eventActions);
     }
 
     /**
@@ -29,8 +26,13 @@ public class ServerEventHandler extends util.Array<iServerEvents> implements iSe
      */
     @Override
     public void onServerStarted() {
-        for (int i = 0; i < size(); i++)
-            get(i).onServerStarted();
+        super.forEach((IServerEvents eventActions) -> {
+            try {
+                eventActions.onServerStarted();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -38,8 +40,13 @@ public class ServerEventHandler extends util.Array<iServerEvents> implements iSe
      */
     @Override
     public void onServerStopped() {
-        for (int i = 0; i < size(); i++)
-            get(i).onServerStopped();
+        super.forEach((IServerEvents eventActions) -> {
+            try {
+                eventActions.onServerStopped();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -47,8 +54,13 @@ public class ServerEventHandler extends util.Array<iServerEvents> implements iSe
      */
     @Override
     public void onServerStartListening() {
-        for (int i = 0; i < size(); i++)
-            get(i).onServerStartListening();
+        super.forEach((IServerEvents eventActions) -> {
+            try {
+                eventActions.onServerStartListening();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -56,8 +68,13 @@ public class ServerEventHandler extends util.Array<iServerEvents> implements iSe
      */
     @Override
     public void onServerStopListening() {
-        for (int i = 0; i < size(); i++)
-            get(i).onServerStopListening();
+        super.forEach((IServerEvents eventActions) -> {
+            try {
+                eventActions.onServerStopListening();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -66,8 +83,13 @@ public class ServerEventHandler extends util.Array<iServerEvents> implements iSe
      * @param clientSocket The socket representing the client connection
      */
     @Override
-    public void onSocketConnected(Socket clientSocket) {
-        for (int i = 0; i < size(); i++)
-            get(i).onSocketConnected(clientSocket);
+    public void onSocketConnected(java.net.Socket clientSocket) {
+        super.forEach((IServerEvents eventActions) -> {
+            try {
+                eventActions.onSocketConnected(clientSocket);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 }

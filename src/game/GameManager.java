@@ -101,13 +101,13 @@ public abstract class GameManager {
         switch (type) {
             case MOVE:
                 Move move = new Move(new Vector(), new Vector());
-                move.unpack(packet.getBuffer());
+                move.unpack(packet.getBufferData());
                 Board.instance.move(move);
                 break;
             case CHANGE_TYPE:
                 Vector at = new Vector();
                 Piece.Type newType = null;
-                values = packet.getBuffer().split("~");
+                values = packet.getBufferData().split("~");
 
                 if (values.length == 2) {
                     try {
@@ -128,7 +128,7 @@ public abstract class GameManager {
                 LocalClient.instance.send(new Packet(PacketType.PLAYER, localUser.pack()));
                 break;
             case PLAYER:
-                opponent = new User(packet.getBuffer());
+                opponent = new User(packet.getBufferData());
                 break;
             case START_GAME:
                 newGame();

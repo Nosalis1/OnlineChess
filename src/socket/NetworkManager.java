@@ -1,10 +1,10 @@
 package socket;
 
-import socket.events.iServerEvents;
+import socket.events.IServerEvents;
 
 import java.net.Socket;
 
-public class NetworkManager implements iServerEvents {
+public class NetworkManager implements IServerEvents {
     public static NetworkManager instance = null;
 
     /**

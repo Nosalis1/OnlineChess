@@ -1,5 +1,8 @@
 package socket.packages;
 
+/**
+ * Represents the types of packets used in the socket communication.
+ */
 public enum PacketType {
     START_GAME("$0000!"),
     CHANGE_COLOR("$0001!"),
@@ -14,16 +17,7 @@ public enum PacketType {
     public static final int CODE_LENGTH = 6;
 
     /**
-     * Get the code associated with the packet type.
-     *
-     * @return The code of the packet type
-     */
-    public final String getCode() {
-        return this.code;
-    }
-
-    /**
-     * Constructor for PacketType.
+     * Constructs a PacketType with the associated code.
      *
      * @param code The code associated with the packet type
      */
@@ -32,11 +26,19 @@ public enum PacketType {
     }
 
     /**
-     * Get the PacketType based on the provided buffer code.
+     * Returns the code associated with the packet type.
+     *
+     * @return The code of the packet type
+     */
+    public String getCode() {
+        return this.code;
+    }
+
+    /**
+     * Returns the PacketType based on the provided buffer code.
      *
      * @param buffer The buffer code to match with a PacketType
-     * @return The corresponding PacketType
-     * @throws IllegalArgumentException if the provided code is invalid
+     * @return The corresponding PacketType, or a default/unknown PacketType
      */
     public static PacketType fromCode(String buffer) {
         final String bufferCode = buffer.substring(0, CODE_LENGTH);
@@ -46,6 +48,10 @@ public enum PacketType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid code: " + bufferCode);
+        // Return a default/unknown packet type or handle the error appropriately
+        return UNKNOWN;
     }
+
+    // Define a default or unknown packet type
+    public static final PacketType UNKNOWN = CUSTOM;
 }
