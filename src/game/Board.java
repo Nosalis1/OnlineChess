@@ -5,7 +5,7 @@ import socket.packages.Packet;
 import socket.packages.PacketType;
 import util.Array;
 import util.Vector;
-import util.events.ArgEvent;
+import util.events.ArgumentEvent;
 import util.events.Event;
 
 public class Board {
@@ -69,7 +69,7 @@ public class Board {
 
     private void addPiece(final Piece newPiece) {
         final Vector position = newPiece.getPosition();
-        pieces[position.X][position.Y] = newPiece;
+        pieces[position.x][position.y] = newPiece;
     }
 
     public void reset() {
@@ -94,7 +94,7 @@ public class Board {
     }
 
     public Piece get(final Vector position) {
-        return get(position.X, position.Y);
+        return get(position.x, position.y);
     }
 
     public Piece get(final Piece.Color color, final Piece.Type type, final int offset) {
@@ -122,14 +122,14 @@ public class Board {
     }
 
     public boolean isNull(final Vector position) {
-        return isNull(position.X, position.Y);
+        return isNull(position.x, position.y);
     }
 
     public boolean inPath(final int x, final int y, final int dx, final int dy, int ddx, int ddy) {
         Vector i = new Vector(x, y);
         i.add(ddx, ddy);
 
-        while (i.X != dx || i.Y != dy) {
+        while (i.x != dx || i.y != dy) {
             if (!isNull(i))
                 return false;
 
@@ -140,16 +140,16 @@ public class Board {
     }
 
     public boolean inPath(final Vector from, final int dx, final int dy, int ddx, int ddy) {
-        return inPath(from.X, from.Y, dx, dy, ddx, ddy);
+        return inPath(from.x, from.y, dx, dy, ddx, ddy);
     }
 
     public boolean inPath(final Vector from, final Vector to, int ddx, int ddy) {
-        return inPath(from, to.X, to.Y, ddx, ddy);
+        return inPath(from, to.x, to.y, ddx, ddy);
     }
 
     @SuppressWarnings("unused")
     public boolean inPath(final Vector from, final Vector to, Vector step) {
-        return inPath(from, to, step.X, step.Y);
+        return inPath(from, to, step.x, step.y);
     }
 
     private boolean whiteTurn = true;
@@ -169,17 +169,17 @@ public class Board {
     }
 
     public util.events.Event onCapture = new Event();
-    public util.events.ArgEvent<Piece> onCaptured = new ArgEvent<>();
+    public ArgumentEvent<Piece> onCaptured = new ArgumentEvent<>();
     public util.events.Event onMove = new Event();
-    public util.events.ArgEvent<Piece> onMoved = new ArgEvent<>();
-    public util.events.ArgEvent<Move> onMoveDone = new ArgEvent<>();
+    public ArgumentEvent<Piece> onMoved = new ArgumentEvent<>();
+    public ArgumentEvent<Move> onMoveDone = new ArgumentEvent<>();
 
-    public util.events.ArgEvent<Piece.Color> onCheck = new ArgEvent<>();
-    public util.events.ArgEvent<Piece.Color> onCheckMate = new ArgEvent<>();
+    public ArgumentEvent<Piece.Color> onCheck = new ArgumentEvent<>();
+    public ArgumentEvent<Piece.Color> onCheckMate = new ArgumentEvent<>();
 
     public util.events.Event onPromotion = new Event();
-    public util.events.ArgEvent<Piece> onPiecePromotion = new ArgEvent<>();
-    public util.events.ArgEvent<Piece> onPiecePromoted = new ArgEvent<>();
+    public ArgumentEvent<Piece> onPiecePromotion = new ArgumentEvent<>();
+    public ArgumentEvent<Piece> onPiecePromoted = new ArgumentEvent<>();
 
     public void move(final Vector from, final Vector to) {
         onMove.run();
@@ -191,8 +191,8 @@ public class Board {
             onCaptured.run(this.get(to));
         }
 
-        pieces[from.X][from.Y] = null;
-        pieces[to.X][to.Y] = temp;
+        pieces[from.x][from.y] = null;
+        pieces[to.x][to.y] = temp;
 
         temp.updatePosition(to);
         onMoved.run(temp);
@@ -287,9 +287,9 @@ public class Board {
 
             tempPieces = data.white.getPieces();
             util.Array<Move> legalMoves = new Array<>();
-            tempPieces.foreach((Piece piece) -> {
+            tempPieces.forEach((Piece piece) -> {
                 util.Array<Vector> moves = piece.getMoves();
-                moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
+                moves.forEach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
             });
 
             for (int i = 0; i < legalMoves.size(); i++) {
@@ -313,9 +313,9 @@ public class Board {
 
             tempPieces = data.black.getPieces();
             util.Array<Move> legalMoves = new Array<>();
-            tempPieces.foreach((Piece piece) -> {
+            tempPieces.forEach((Piece piece) -> {
                 util.Array<Vector> moves = piece.getMoves();
-                moves.foreach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
+                moves.forEach((Vector destination) -> legalMoves.add(new Move(piece.getPosition(), destination)));
             });
 
             for (int i = 0; i < legalMoves.size(); i++) {
@@ -339,7 +339,7 @@ public class Board {
         if (piece == null || !piece.isType(Piece.Type.Pawn))
             return false;
 
-        final int x = piece.getPosition().X;
+        final int x = piece.getPosition().x;
         if (x == 0 || x == LAST) {
             onPromotion.run();
             onPiecePromotion.run(piece);

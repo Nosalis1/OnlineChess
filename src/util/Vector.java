@@ -1,158 +1,189 @@
 package util;
 
+/**
+ * Represents a 2D vector.
+ */
 @SuppressWarnings("unused")
 public class Vector implements socket.packages.Streamable {
-    // Public fields for X and Y coordinates
-    public int X, Y;
+    public int x;
+    public int y;
 
     /**
-     * Default constructor that initializes X and Y to 0.
+     * Creates a new Vector instance with X and Y initialized to 0.
      */
     public Vector() {
-        this.X = this.Y = 0;
+        this.x = this.y = 0;
     }
 
     /**
-     * Constructor that initializes X and Y to the provided scalar value.
+     * Creates a new Vector instance with X and Y set to the given scalar value.
      *
-     * @param scalar the scalar value to initialize X and Y
+     * @param scalar The scalar value to set X and Y.
      */
     public Vector(final int scalar) {
-        this.X = this.Y = scalar;
+        this.x = this.y = scalar;
     }
 
     /**
-     * Constructor that initializes X and Y with the provided values.
+     * Creates a new Vector instance with the given X and Y values.
      *
-     * @param x the X coordinate
-     * @param y the Y coordinate
+     * @param x The X value.
+     * @param y The Y value.
      */
     public Vector(int x, int y) {
-        this.X = x;
-        this.Y = y;
+        this.x = x;
+        this.y = y;
     }
 
     /**
-     * Add the components of another vector to this vector.
+     * Adds the components of the given vector to this vector.
      *
-     * @param other the vector to add
+     * @param other The vector to add.
      */
     public void add(final Vector other) {
-        this.X += other.X;
-        this.Y += other.Y;
+        this.x += other.x;
+        this.y += other.y;
     }
 
     /**
-     * Add the specified values to the components of this vector.
+     * Adds the given values to the components of this vector.
      *
-     * @param x the value to add to the X coordinate
-     * @param y the value to add to the Y coordinate
+     * @param x The value to add to the X component.
+     * @param y The value to add to the Y component.
      */
     public void add(final int x, final int y) {
-        this.X += x;
-        this.Y += y;
+        this.x += x;
+        this.y += y;
     }
 
     /**
-     * Subtract the components of another vector from this vector.
+     * Subtracts the components of the given vector from this vector.
      *
-     * @param other the vector to subtract
+     * @param other The vector to subtract.
      */
     public void subtract(final Vector other) {
-        this.X -= other.X;
-        this.Y -= other.Y;
+        this.x -= other.x;
+        this.y -= other.y;
     }
 
     /**
-     * Multiply this vector by a scalar value.
+     * Multiplies the components of this vector by the given scalar value.
      *
-     * @param scalar the scalar value to multiply by
+     * @param scalar The scalar value to multiply.
      */
     public void multiply(final int scalar) {
-        this.X *= scalar;
-        this.Y *= scalar;
+        this.x *= scalar;
+        this.y *= scalar;
     }
 
     /**
-     * Divide this vector by a scalar value.
+     * Divides the components of this vector by the given scalar value.
      *
-     * @param scalar the scalar value to divide by
+     * @param scalar The scalar value to divide.
      */
     public void divide(final int scalar) {
-        this.X /= scalar;
-        this.Y /= scalar;
+        this.x /= scalar;
+        this.y /= scalar;
     }
 
     /**
-     * Returns a string representation of the vector.
+     * Returns a string representation of this vector.
      *
-     * @return a string representation of the vector
+     * @return The string representation.
      */
     @Override
     public String toString() {
-        return "Vector{ X = " + X + ", Y = " + Y + "}";
+        return "Vector{ X = " + x + ", Y = " + y + "}";
     }
 
-    // Static final vectors for common values
+    /**
+     * Returns a Vector instance representing the zero vector (0, 0).
+     */
     public static final Vector ZERO = new Vector(0);
+
+    /**
+     * Returns a Vector instance representing the unit vector (1, 1).
+     */
     public static final Vector ONE = new Vector(1);
+
+    /**
+     * Returns a Vector instance representing the maximum possible vector.
+     */
     public static final Vector MAX = new Vector(Integer.MAX_VALUE);
+
+    /**
+     * Returns a Vector instance representing the minimum possible vector.
+     */
     public static final Vector MIN = new Vector(Integer.MIN_VALUE);
 
     /**
-     * Checks if the vector's components are within the specified bounds.
+     * Checks if the vector is within the bounds defined by the minimum and maximum values (exclusive).
      *
-     * @param min the minimum bound
-     * @param max the maximum bound
-     * @return true if the vector is within the bounds, false otherwise
+     * @param min The minimum value.
+     * @param max The maximum value.
+     * @return True if the vector is within the bounds, false otherwise.
      */
     public boolean inBounds(final int min, final int max) {
-        return (X > min && X < max) && (Y > min && Y < max);
+        return (x > min && x < max) && (y > min && y < max);
     }
 
     /**
-     * Clamps the vector's components to be within the specified bounds.
+     * Clamps the vector within the bounds defined by the minimum and maximum values.
      *
-     * @param min the minimum bound
-     * @param max the maximum bound
+     * @param min The minimum value.
+     * @param max The maximum value.
      */
     public void clamp(final int min, final int max) {
         if (inBounds(min, max))
             return;
 
-        X = X < min ? min : (Math.min(X, max));
-        Y = Y < min ? min : (Math.min(Y, max));
+        x = x < min ? min : (Math.min(x, max));
+        y = y < min ? min : (Math.min(y, max));
     }
 
     /**
      * Performs linear interpolation between two vectors.
      *
-     * @param start the starting vector
-     * @param end   the ending vector
-     * @param t     the interpolation value (0 to 100)
-     * @return the interpolated vector
+     * @param start The starting vector.
+     * @param end   The ending vector.
+     * @param t     The interpolation parameter (between 0 and 1).
+     * @return The interpolated vector.
      */
     public static Vector linearInterpolation(final Vector start, final Vector end, final int t) {
-        end.subtract(start);
-
-        start.add(end);
-        return start;
+        int interpolatedX = start.x + (end.x - start.x) * t;
+        int interpolatedY = start.y + (end.y - start.y) * t;
+        return new Vector(interpolatedX, interpolatedY);
     }
 
+    /**
+     * Packs the vector into a string representation.
+     *
+     * @return The packed string.
+     */
     @Override
     public String pack() {
-        return X + "," + Y;
+        return x + "," + y;
     }
 
+    /**
+     * Unpacks the vector from a string representation.
+     *
+     * @param buffer The buffer containing the packed string.
+     * @throws socket.exceptions.InvalidBufferFormatException if the buffer is in an invalid format.
+     */
     @Override
-    public void unapck(String buffer) {
+    public void unpack(String buffer) throws socket.exceptions.InvalidBufferFormatException {
         String[] values = buffer.split(",");
+
         if (values.length == 2) {
-            this.X = Integer.parseInt(values[0]);
-            this.Y = Integer.parseInt(values[1]);
+            try {
+                this.x = Integer.parseInt(values[0]);
+                this.y = Integer.parseInt(values[1]);
+            } catch (NumberFormatException e) {
+                throw new socket.exceptions.InvalidBufferFormatException("Invalid buffer format. Expected comma-separated integers.", e);
+            }
         } else {
-            throw new IllegalArgumentException("Invalid buffer format");
+            throw new socket.exceptions.InvalidBufferFormatException("Invalid buffer format. Expected two comma-separated values.");
         }
     }
-
 }

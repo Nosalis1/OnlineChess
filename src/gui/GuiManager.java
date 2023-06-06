@@ -11,8 +11,6 @@ import util.ColorGradient;
 import util.Vector;
 import util.events.Event;
 
-import java.awt.*;
-
 public abstract class GuiManager {
     public static final util.events.Event onButtonClick = new Event();
 
@@ -30,7 +28,7 @@ public abstract class GuiManager {
             gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
 
-        GameManager.onGameStarted.add(() -> {
+        GameManager.onGameStarted.addAction(() -> {
             updateFields();
             menuWindow.hideWindow();
             gameWindow.showWindow();
@@ -72,7 +70,7 @@ public abstract class GuiManager {
         gameWindow.clearFields();
 
         util.Array<Piece> allPieces = Board.instance.getData().getAllPieces();
-        allPieces.foreach((Piece piece) -> {
+        allPieces.forEach((Piece piece) -> {
             util.Vector at = piece.getPosition();
 
             gameWindow.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
@@ -109,18 +107,18 @@ public abstract class GuiManager {
     private static final Array<Field> currentHighlights = new Array<>();
 
     public static void resetHighlights() {
-        currentHighlights.foreach((Field field) -> field.setColor(ColorGradient.FIELD.getColor(field.isGradient())));
+        currentHighlights.forEach((Field field) -> field.setColor(field.isGradient()?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor()));
         currentHighlights.clear();
     }
 
     private static void setHighlight(Vector at) {
         Field temp = gameWindow.getField(at);
-        temp.setColor(ColorGradient.HIGHLIGHT.getColor(temp.isGradient()));
+        temp.setColor(temp.isGradient()?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
         currentHighlights.add(temp);
     }
 
     private static void setHighlights(util.Array<Vector> at) {
-        at.foreach((Vector position) -> {
+        at.forEach((Vector position) -> {
             Field temp = gameWindow.getField(position);
 
             temp.setColor(Board.instance.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));

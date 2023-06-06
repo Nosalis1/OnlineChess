@@ -34,7 +34,7 @@ public class Game extends Window {
     }
 
     public gui.images.Field getField(final Vector at) {
-        return getField(at.X, at.Y);
+        return getField(at.x, at.y);
     }
 
     public void clearFields() {
@@ -67,7 +67,7 @@ public class Game extends Window {
     private JPanel getPlayerInfoPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(ColorGradient.DARK.getColor(false));
+        panel.setBackground(ColorGradient.DARK.getDarkColor());
 
         JLabel label = new Label("Player info");
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -96,8 +96,8 @@ public class Game extends Window {
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
 
-        Color playColor = ColorGradient.FIELD.getColor(GameManager.localUser.canPlay());
-        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.localUser.canPlay());
+        Color playColor = GameManager.localUser.canPlay() ? ColorGradient.FIELD.getDarkColor() : ColorGradient.FIELD.getLightColor();
+        Color opponentColor = !GameManager.localUser.canPlay() ? ColorGradient.FIELD.getDarkColor() : ColorGradient.FIELD.getLightColor();
         playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
@@ -133,13 +133,13 @@ public class Game extends Window {
         JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
-        movesPanel.setBackground(ColorGradient.DARK.getColor(true));
+        movesPanel.setBackground(ColorGradient.DARK.getLightColor());
         movesPanel.setForeground(Color.white);
         movesPanel.setTableHeader(null);
         movesPanel.setBounds(823, 475, 251, 240);
         JPanel movesPanelWrapper = new JPanel();
         movesPanelWrapper.add(movesPanel);
-        movesPanelWrapper.setBackground(ColorGradient.DARK.getColor(false));
+        movesPanelWrapper.setBackground(ColorGradient.DARK.getDarkColor());
         movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
         movesPanelWrapper.setBounds(818, 470, 260, 250);
         add(movesPanelWrapper);
@@ -152,7 +152,7 @@ public class Game extends Window {
         timerPanel.setBorder(timerBorder);
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
         timerPanel.setBounds(818, 725, 260, 85);
-        timerPanel.setBackground(ColorGradient.DARK.getColor(true));
+        timerPanel.setBackground(ColorGradient.DARK.getLightColor());
         playerTimeLabel = new Label();
         opponentTimeLabel = new Label();
         playerTimeLabel.setBounds(10, 10, 120, 20);
@@ -166,10 +166,10 @@ public class Game extends Window {
 
         // TODO: NAPRAVI TAJMER OBJEKAT I DODAJ "TIMER.SETTIMERSTATE(TRUE);" ZA STARTOVANJE TAJMERA) timer = new GameClock(playerTimeLabel, opponentTimeLabel);
         GameClock clock = new GameClock(playerTimeLabel,opponentTimeLabel);
-        GameManager.onGameStarted.add(()->{
+        GameManager.onGameStarted.addAction(()->{
             clock.setTimerState(true);
         });
-        GameManager.onGameEnded.add(()->{
+        GameManager.onGameEnded.addAction(()->{
             clock.setTimerState(false);
         });
 

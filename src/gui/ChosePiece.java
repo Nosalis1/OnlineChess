@@ -1,13 +1,10 @@
 package gui;
 
-import game.Board;
-import game.BoardData;
-import game.GameManager;
 import game.Piece;
 import util.Array;
 import util.ColorGradient;
 import util.Vector;
-import util.events.ArgEvent;
+import util.events.ArgumentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +27,7 @@ public class ChosePiece extends Window implements ActionListener {
         JButton btn = new JButton();
         btn.setPreferredSize(new Dimension(50, 50));
         btn.setBounds(7 + x, 15, 50, 50);
-        btn.setBackground(ColorGradient.DARK.getColor(true));
+        btn.setBackground(ColorGradient.DARK.getDarkColor());
         Image img = new ImageIcon(imageDir).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         btn.setIcon(new ImageIcon(img));
         btn.addActionListener(action);
@@ -38,11 +35,11 @@ public class ChosePiece extends Window implements ActionListener {
         return btn;
     }
 
-    public static util.events.ArgEvent<Piece.Type> onTypeSelected = new ArgEvent<>();
+    public static ArgumentEvent<Piece.Type> onTypeSelected = new ArgumentEvent<>();
 
     private void createUserInterface() {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBackground(ColorGradient.DARK.getColor(false));
+        panel.setBackground(ColorGradient.DARK.getLightColor());
         panel.setLayout(null);
 
         boolean isWhite = true;//GameManager.localUser.isWhite();//TODO:LATER

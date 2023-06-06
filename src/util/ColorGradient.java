@@ -3,20 +3,17 @@ package util;
 import java.awt.Color;
 
 /**
-
- The ColorGradient class represents a gradient between two colors.
-
- It provides methods to retrieve the colors based on a gradient flag.
+ * Represents a color gradient with a dark and light color.
  */
 public class ColorGradient {
     private final Color dark;
     private final Color light;
 
     /**
-     * Constructs a ColorGradient object with the specified dark and light colors.
+     * Creates a ColorGradient with the specified dark and light colors.
      *
-     * @param dark  the darker color in the gradient
-     * @param light the lighter color in the gradient
+     * @param dark  The dark color.
+     * @param light The light color.
      */
     public ColorGradient(Color dark, Color light) {
         this.dark = dark;
@@ -24,61 +21,72 @@ public class ColorGradient {
     }
 
     /**
-     * Retrieves the color based on the gradient flag.
+     * Returns the dark color of the gradient.
      *
-     * @param isLight a flag indicating whether to retrieve the lighter color (true) or the darker color (false)
-     * @return the color based on the gradient flag
+     * @return The dark color.
      */
-    public final Color getColor(boolean isLight) {
-        return isLight ? light : dark;
+    public Color getDarkColor() {
+        return dark;
+    }
+
+    /**
+     * Returns the light color of the gradient.
+     *
+     * @return The light color.
+     */
+    public Color getLightColor() {
+        return light;
+    }
+
+    /**
+     * Returns the color of the gradient.
+     *
+     * @param light Determines if the light color should be returned.
+     * @return The color of the gradient.
+     */
+    public Color getColor(final boolean light) {
+        return light ? getLightColor() : getDarkColor();
     }
 
     // Predefined color gradients
 
     /**
-     * A predefined color gradient for the FIELD.
-     * The dark color is (122, 148, 87, 255), and the light color is (238, 238, 212, 255).
+     * Predefined color gradient for the "FIELD" gradient.
      */
     public static final ColorGradient FIELD = new ColorGradient(
             new Color(122, 148, 87, 255),
             new Color(238, 238, 212, 255));
 
     /**
-     * A predefined color gradient for the HIGHLIGHT.
-     * The dark color is (90, 170, 193, 255), and the light color is (114, 189, 218, 255).
+     * Predefined color gradient for the "HIGHLIGHT" gradient.
      */
     public static final ColorGradient HIGHLIGHT = new ColorGradient(
             new Color(90, 170, 193, 255),
             new Color(114, 189, 218, 255));
 
     /**
-     * A predefined color gradient for the MOVE.
-     * The dark color is (228, 167, 17, 255), and the light color is (252, 183, 43, 255).
+     * Predefined color gradient for the "MOVE" gradient.
      */
     public static final ColorGradient MOVE = new ColorGradient(
             new Color(228, 167, 17, 255),
             new Color(252, 183, 43, 255));
 
     /**
-     * A predefined color gradient for the ATTACK.
-     * The dark color is (212, 108, 81, 255), and the light color is (237, 126, 106, 255).
+     * Predefined color gradient for the "ATTACK" gradient.
      */
     public static final ColorGradient ATTACK = new ColorGradient(
             new Color(212, 108, 81, 255),
             new Color(237, 126, 106, 255));
 
     /**
-     * A predefined color gradient for the GREEN.
-     * The dark color is (162, 195, 88, 255), and the light color is (188, 212, 114, 255).
+     * Predefined color gradient for the "GREEN" gradient.
      */
-    @SuppressWarnings("unused")
     public static final ColorGradient GREEN = new ColorGradient(
             new Color(162, 195, 88, 255),
             new Color(188, 212, 114, 255));
 
     /**
-     * A predefined color gradient for the DARK.
-     * The dark color is (39, 36, 33, 255), and the light color is (49, 46, 43, 255).
+     * Predefined color gradient for the "DARK" gradient.
      */
     public static final ColorGradient DARK = new ColorGradient(
             new Color(39, 36, 33, 255),

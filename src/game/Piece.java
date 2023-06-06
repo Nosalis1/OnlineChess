@@ -197,8 +197,8 @@ public class Piece {
      * @param y the y-coordinate of the new position
      */
     public void updatePosition(int x, int y) {
-        this.position.X = x;
-        this.position.Y = y;
+        this.position.x = x;
+        this.position.y = y;
     }
 
     /**
@@ -207,7 +207,7 @@ public class Piece {
      * @param newPosition the new position as a vector
      */
     public void updatePosition(final Vector newPosition) {
-        updatePosition(newPosition.X, newPosition.Y);
+        updatePosition(newPosition.x, newPosition.y);
     }
 
     private final util.Array<Vector> moves = new Array<>();
@@ -249,13 +249,13 @@ public class Piece {
     private void getRookMoves() {
         int x, y;
         for (int i = 0; i < 8; i++) {
-            x = position.X;
+            x = position.x;
             y = i;
 
             tryAddMove(x, y);
 
             x = i;
-            y = position.Y;
+            y = position.y;
 
             tryAddMove(x, y);
         }
@@ -265,43 +265,43 @@ public class Piece {
         int x, y;
 
         //SIDE A
-        x = position.X - 1;
-        y = position.Y - 2;
+        x = position.x - 1;
+        y = position.y - 2;
 
         tryAddMove(x, y);
 
-        x = position.X - 1;
-        y = position.Y + 2;
+        x = position.x - 1;
+        y = position.y + 2;
 
         tryAddMove(x, y);
 
-        x = position.X + 1;
-        y = position.Y - 2;
+        x = position.x + 1;
+        y = position.y - 2;
 
         tryAddMove(x, y);
 
-        x = position.X + 1;
-        y = position.Y + 2;
+        x = position.x + 1;
+        y = position.y + 2;
 
         tryAddMove(x, y);
         //SIDE B
-        x = position.X - 2;
-        y = position.Y - 1;
+        x = position.x - 2;
+        y = position.y - 1;
 
         tryAddMove(x, y);
 
-        x = position.X - 2;
-        y = position.Y + 1;
+        x = position.x - 2;
+        y = position.y + 1;
 
         tryAddMove(x, y);
 
-        x = position.X + 2;
-        y = position.Y - 1;
+        x = position.x + 2;
+        y = position.y - 1;
 
         tryAddMove(x, y);
 
-        x = position.X + 2;
-        y = position.Y + 1;
+        x = position.x + 2;
+        y = position.y + 1;
 
         tryAddMove(x, y);
     }
@@ -313,12 +313,12 @@ public class Piece {
             if (i == 0)
                 continue;
 
-            x = position.X + i;
-            y = position.Y + i;
+            x = position.x + i;
+            y = position.y + i;
 
             tryAddMove(x, y);
 
-            y = position.Y - i;
+            y = position.y - i;
             tryAddMove(x, y);
         }
     }
@@ -337,8 +337,8 @@ public class Piece {
                 if (i == 0 && j == 0)
                     continue;
 
-                x = position.X + i;
-                y = position.Y + j;
+                x = position.x + i;
+                y = position.y + j;
 
                 tryAddMove(x, y);
             }
@@ -350,17 +350,17 @@ public class Piece {
 
         int x, y;
 
-        x = position.X + direction * 2;
-        y = position.Y;
+        x = position.x + direction * 2;
+        y = position.y;
         tryAddMove(x, y);
 
-        x = position.X + direction;
+        x = position.x + direction;
         tryAddMove(x, y);
 
-        y = position.Y + 1;
+        y = position.y + 1;
         tryAddMove(x, y);
 
-        y = position.Y - 1;
+        y = position.y - 1;
         tryAddMove(x, y);
     }
 
@@ -384,7 +384,7 @@ public class Piece {
      * @return true if the move is valid, false otherwise
      */
     public boolean canMove(final Vector destination) {
-        return canMove(destination.X, destination.Y);
+        return canMove(destination.x, destination.y);
     }
 
     /**
@@ -416,53 +416,53 @@ public class Piece {
     }
 
     private boolean canRookMove(int x, int y) {
-        if (position.X != x && position.Y != y)
+        if (position.x != x && position.y != y)
             return false;
 
-        int ddx = (position.X == x) ? 0
-                : (x - position.X) / Math.abs(x - position.X);
-        int ddy = (position.Y == y) ? 0
-                : (y - position.Y) / Math.abs(y - position.Y);
+        int ddx = (position.x == x) ? 0
+                : (x - position.x) / Math.abs(x - position.x);
+        int ddy = (position.y == y) ? 0
+                : (y - position.y) / Math.abs(y - position.y);
 
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canKnightMove(int x, int y) {
-        int ddx = Math.abs(x - position.X);
-        int ddy = Math.abs(y - position.Y);
+        int ddx = Math.abs(x - position.x);
+        int ddy = Math.abs(y - position.y);
 
         return (ddx == 2 && ddy == 1) || (ddx == 1 && ddy == 2);
     }
 
     private boolean canBishopMove(int x, int y) {
-        int ddx = Math.abs(x - position.X);
-        int ddy = Math.abs(y - position.Y);
+        int ddx = Math.abs(x - position.x);
+        int ddy = Math.abs(y - position.y);
 
         if (ddx != ddy)
             return false;
 
-        ddx = Integer.signum(x - position.X);
-        ddy = Integer.signum(y - position.Y);
+        ddx = Integer.signum(x - position.x);
+        ddy = Integer.signum(y - position.y);
 
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canQueenMove(int x, int y) {
-        int ddx = Math.abs(x - position.X);
-        int ddy = Math.abs(y - position.Y);
+        int ddx = Math.abs(x - position.x);
+        int ddy = Math.abs(y - position.y);
 
         if (ddx != ddy && ddx != 0 && ddy != 0)
             return false;
 
-        ddx = Integer.compare(x, position.X);
-        ddy = Integer.compare(y, position.Y);
+        ddx = Integer.compare(x, position.x);
+        ddy = Integer.compare(y, position.y);
 
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
     private boolean canKingMove(int x, int y) {
-        int ddx = Math.abs(x - position.X);
-        int ddy = Math.abs(y - position.Y);
+        int ddx = Math.abs(x - position.x);
+        int ddy = Math.abs(y - position.y);
 
         return ddx <= 1 && ddy <= 1;
 
@@ -471,13 +471,13 @@ public class Piece {
     private boolean canPawnMove(int x, int y) {
         int direction = isColor(Color.White) ? 1 : -1;
 
-        if (y == position.Y && (x == position.X + direction
-                || (position.X == 1 || position.X == 6)
-                && x == position.X + (2 * direction))) {
+        if (y == position.y && (x == position.x + direction
+                || (position.x == 1 || position.x == 6)
+                && x == position.x + (2 * direction))) {
             return Board.instance.isNull(x, y);
         }
 
-        if (Math.abs(y - position.Y) == 1 && x == position.X + direction) {
+        if (Math.abs(y - position.y) == 1 && x == position.x + direction) {
             return !Board.instance.isNull(x, y) && !isColor(Board.instance.get(x, y).getColor());
         }
 

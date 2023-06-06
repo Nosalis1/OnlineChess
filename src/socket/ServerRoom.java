@@ -1,7 +1,7 @@
 package socket;
 
 import util.Array;
-import util.events.ArgEvent;
+import util.events.ArgumentEvent;
 
 /**
 
@@ -92,7 +92,7 @@ public class ServerRoom implements Runnable {
      * Event handler for when the room is started.
      * It provides an argument event with the server room as the argument.
      */
-    public static util.events.ArgEvent<ServerRoom> onRoomStarted = new ArgEvent<>();
+    public static ArgumentEvent<ServerRoom> onRoomStarted = new ArgumentEvent<>();
 
     @Override
     public void run() {

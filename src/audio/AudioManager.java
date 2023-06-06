@@ -32,19 +32,19 @@ public abstract class AudioManager {
 
         AudioClip buttonClickSfx = find("buttonClick.wav");
         assert buttonClickSfx != null;
-        GuiManager.onButtonClick.add(() -> play(buttonClickSfx));
+        GuiManager.onButtonClick.addAction(() -> play(buttonClickSfx));
 
         AudioClip startRoundSfx = find("startRound.wav");
         assert startRoundSfx != null;
-        GameManager.onGameStarted.add(() -> play(startRoundSfx));
+        GameManager.onGameStarted.addAction(() -> play(startRoundSfx));
 
         AudioClip pieceMoveSfx = find("pieceMove.wav");
         assert pieceMoveSfx != null;
-        Board.instance.onMove.add(() -> play(pieceMoveSfx));
+        Board.instance.onMove.addAction(() -> play(pieceMoveSfx));
 
         AudioClip pieceCaptureSfx = find("pieceCapture.wav");
         assert pieceCaptureSfx != null;
-        Board.instance.onCapture.add(() -> play(pieceCaptureSfx));
+        Board.instance.onCapture.addAction(() -> play(pieceCaptureSfx));
 
         AudioClip checkSfx = find("check.wav");
         assert checkSfx != null;

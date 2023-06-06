@@ -5,7 +5,6 @@ import socket.packages.Stream;
 import java.net.Socket;
 
 /**
-
  The Client class extends the Stream class and represents a client connection.
 
  It encapsulates a socket object for communication with the server.
@@ -33,6 +32,7 @@ public class Client extends Stream {
             this.socket.setSoTimeout(0);
             super.initializeStreams(this.socket);
         } catch (Exception ex) {
+            util.Console.error("Failed to set Client socket!", this);
             ex.printStackTrace();
         }
     }

@@ -1,15 +1,13 @@
 package util;
 
-import java.time.LocalTime;
-
 /**
- * The Console class provides utility methods for printing messages to the console with different colors and timestamps.
+ * Utility class for console output and logging.
  */
 @SuppressWarnings("unused")
 public class Console {
 
     /**
-     * An enumeration of console colors.
+     * ANSI color codes for console output.
      */
     public enum Color {
         RESET("\u001B[0m"),
@@ -34,9 +32,9 @@ public class Console {
         }
 
         /**
-         * Returns the ANSI escape code for the color.
+         * Returns the ANSI color code.
          *
-         * @return The ANSI escape code
+         * @return The color code.
          */
         public String getCode() {
             return this.code;
@@ -44,45 +42,45 @@ public class Console {
     }
 
     /**
-     * Prints a message followed by a newline character.
+     * Prints a line of text to the console.
      *
-     * @param message The message to be printed
+     * @param message The message to be printed.
      */
     public static void println(String message) {
         System.out.println(message);
     }
 
     /**
-     * Prints a message without a newline character.
+     * Prints text to the console.
      *
-     * @param message The message to be printed
+     * @param message The message to be printed.
      */
     public static void print(String message) {
         System.out.print(message);
     }
 
     /**
-     * Prints a colored message followed by a newline character.
+     * Prints a colored line of text to the console.
      *
-     * @param message The message to be printed
-     * @param color   The color of the message
+     * @param message The message to be printed.
+     * @param color   The color of the text.
      */
     public static void println(String message, Color color) {
         System.out.println(color.getCode() + message + Color.RESET.getCode());
     }
 
     /**
-     * Prints a colored message without a newline character.
+     * Prints colored text to the console.
      *
-     * @param message The message to be printed
-     * @param color   The color of the message
+     * @param message The message to be printed.
+     * @param color   The color of the text.
      */
     public static void print(String message, Color color) {
         System.out.print(color.getCode() + message + Color.RESET.getCode());
     }
 
     private static void printTime() {
-        System.out.print("[" + LocalTime.now() + "]");
+        System.out.print("[" + java.time.LocalTime.now() + "]");
     }
 
     private static String getColorCode(String packageName) {
@@ -97,115 +95,77 @@ public class Console {
     }
 
     private static void printSender(Object sender) {
-        System.out.print("[ " + getColorCode(sender.getClass().getPackageName()) + sender.getClass().getName() + Color.RESET.getCode() + " ]");
+        System.out.print("[ " + getColorCode(sender.getClass().getPackageName()) +
+                sender.getClass().getName() + Color.RESET.getCode() + " ]");
     }
 
     /**
-     * Prints a message with a timestamp and optional sender information.
+     * Prints a formatted message to the console, including the current time and sender information.
      *
-     * @param message The message to be printed
-     * @param sender  The sender object (can be null)
+     * @param message The message to be printed.
+     * @param sender  The sender of the message.
      */
     public static void message(String message, Object sender) {
         printTime();
-        if (sender != null) printSender(sender);
+        if (sender != null) {
+            printSender(sender);
+        }
         print("[ MSG ]", Color.GREEN);
         println("# " + message);
     }
 
     /**
-     * Prints a message with a timestamp, optional sender information, and a generic type parameter.
+     * Prints a formatted message to the console, including the current time.
      *
-     * @param message The message to be printed
-     * @param sender  The sender object (can be null)
-     * @param <T>     The type of the sender object
-     */
-    @SuppressWarnings("unused")
-    public static <T> void staticMessage(String message, T sender) {
-        printTime();
-        if (sender != null) printSender(sender);
-        print("[ MSG ]", Color.GREEN);
-        println("# " + message);
-    }
-
-    /**
-     * Prints a message with a timestamp.
-     *
-     * @param message The message to be printed
+     * @param message The message to be printed.
      */
     public static void message(String message) {
         message(message, null);
     }
 
     /**
-     * Prints a warning message with a timestamp and optional sender information.
+     * Prints a formatted warning message to the console, including the current time and sender information.
      *
-     * @param message The warning message to be printed
-     * @param sender  The sender object (can be null)
+     * @param message The warning message to be printed.
+     * @param sender  The sender of the warning.
      */
     public static void warning(String message, Object sender) {
         printTime();
-        if (sender != null) printSender(sender);
+        if (sender != null) {
+            printSender(sender);
+        }
         print("[ WRN ]", Color.YELLOW);
         println("# " + message);
     }
 
     /**
-     * Prints a warning message with a timestamp, optional sender information, and a generic type parameter.
+     * Prints a formatted warning message to the console, including the current time.
      *
-     * @param message The warning message to be printed
-     * @param sender  The sender object (can be null)
-     * @param <T>     The type of the sender object
+     * @param message The warning message to be printed.
      */
-    @SuppressWarnings("unused")
-    public static <T> void staticWarning(String message, T sender) {
-        printTime();
-        if (sender != null) printSender(sender);
-        print("[ WRN ]", Color.YELLOW);
-        println("# " + message);
-    }
-
-    /**
-     * Prints a warning message with a timestamp.
-     *
-     * @param message The warning message to be printed
-     */
-    @SuppressWarnings("unused")
     public static void warning(String message) {
         warning(message, null);
     }
 
     /**
-     * Prints an error message with a timestamp and optional sender information.
+     * Prints a formatted error message to the console, including the current time and sender information.
      *
-     * @param message The error message to be printed
-     * @param sender  The sender object (can be null)
+     * @param message The error message to be printed.
+     * @param sender  The sender of the error.
      */
     public static void error(String message, Object sender) {
         printTime();
-        if (sender != null) printSender(sender);
+        if (sender != null) {
+            printSender(sender);
+        }
         print("[ ERR ]", Color.RED);
         println("# " + message);
     }
 
     /**
-     * Prints an error message with a timestamp, optional sender information, and a generic type parameter.
+     * Prints a formatted error message to the console, including the current time.
      *
-     * @param message The error message to be printed
-     * @param sender  The sender object (can be null)
-     * @param <T>     The type of the sender object
-     */
-    public static <T> void staticError(String message, T sender) {
-        printTime();
-        if (sender != null) printSender(sender);
-        print("[ ERR ]", Color.RED);
-        println("# " + message);
-    }
-
-    /**
-     * Prints an error message with a timestamp.
-     *
-     * @param message The error message to be printed
+     * @param message The error message to be printed.
      */
     public static void error(String message) {
         error(message, null);

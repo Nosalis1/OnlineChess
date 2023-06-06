@@ -193,7 +193,7 @@ public class User implements socket.packages.Streamable {
     }
 
     @Override
-    public void unapck(String buffer) {
+    public void unpack(String buffer) {
         this.userName = buffer;
     }
 }

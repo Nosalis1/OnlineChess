@@ -8,7 +8,6 @@ import util.Console;
 import java.net.Socket;
 
 /**
-
  The LocalClient class extends the Client class and implements the Runnable interface.
 
  It represents a local client that connects to a server using a socket.
@@ -76,7 +75,7 @@ public class LocalClient extends Client implements Runnable {
         listeningThread.start();
     }
 
-    private Packet packet = new Packet("");
+    private Packet packet;
 
     /**
      * Implementation of the run method from the Runnable interface.

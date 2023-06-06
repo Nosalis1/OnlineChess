@@ -1,56 +1,58 @@
 package util.events;
 
-import util.Console;
+/**
+ * Represents an event that triggers a list of registered actions when invoked.
+ */
+@SuppressWarnings("unused")
+public class Event {
+    private final util.Array<Runnable> actions;
 
-public class Event extends util.Array<Runnable> {
     /**
-     * Adds a runnable action to the event, checking for duplicates before adding.
-     * If the action already exists in the list, a warning message is printed.
-     *
-     * @param action the action to add
+     * Constructs a new Event.
      */
-    @Override
-    public void add(Runnable action) {
-        if (contains(action)) {
-            Console.warning("Action you are trying to add already exists in the list!", this);
-            return;
-        }
-        super.add(action);
+    public Event() {
+        this.actions = new util.Array<>();
     }
 
     /**
-     * Runs the specified runnable action.
+     * Adds an action to the event.
      *
-     * @param action the action to run
+     * @param action The action to be added.
      */
-    private void run(Runnable action) {
+    public void addAction(Runnable action) {
+        if (actions.contains(action)) {
+            util.Console.warning("Action you are trying to add already exists in the list!", this);
+            return;
+        }
+        actions.add(action);
+    }
+
+    private void runAction(Runnable action) {
         action.run();
     }
 
     /**
-     * Runs the action at the specified index.
-     *
-     * @param index the index of the action to run
-     */
-    private void run(final int index) {
-        run(get(index));
-    }
-
-    /**
-     * Runs all actions in the event.
+     * Triggers the event, invoking all registered actions.
      */
     public void run() {
-        for (int i = 0; i < size(); i++) {
-            run(i);
+        for (int i = 0; i < actions.size(); i++) {
+            runAction(actions.get(i));
         }
     }
 
     /**
-     * Runs all actions in the event and then clears the event.
+     * Triggers the event, invoking all registered actions,
+     * and clears the registered actions after execution.
      */
-    @SuppressWarnings("unused")
     public void runOnce() {
         run();
-        clear();
+        actions.clear();
+    }
+
+    /**
+     * Clears the registered actions.
+     */
+    public void clear(){
+        actions.clear();
     }
 }

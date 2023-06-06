@@ -71,6 +71,6 @@ public class BoardData {
     }
 
     private String convertVector(final Vector vector) {
-        return (vector.X + 1) + LABELS[vector.Y];
+        return (vector.x + 1) + LABELS[vector.y];
     }
 }

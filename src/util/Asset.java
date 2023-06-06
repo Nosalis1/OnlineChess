@@ -1,17 +1,17 @@
 package util;
 
 /**
- * The Asset class represents an asset with a unique identifier, name, and path.
+ * Represents an asset with a unique ID, name, and path.
  */
 @SuppressWarnings("unused")
 public class Asset {
     private static int uniqueId = 100;
-
     private final int id;
+    private final String name;
+    private final String path;
 
     /**
-     * Constructs a new Asset object with the given name and path.
-     *
+     * Creates an Asset with the specified name and path.
      * @param name The name of the asset.
      * @param path The path of the asset.
      */
@@ -22,61 +22,47 @@ public class Asset {
     }
 
     /**
-     * Returns the unique identifier of the asset.
-     *
-     * @return The unique identifier.
+     * Returns the ID of the asset.
+     * @return The ID.
      */
-    public final int getID() {
+    public int getID() {
         return this.id;
     }
 
-    private final String name;
-
     /**
      * Returns the name of the asset.
-     *
-     * @return The name of the asset.
+     * @return The name.
      */
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
     /**
-     * Checks if the asset has the same name as the specified string.
-     *
-     * @param other The string to compare with.
-     * @return true if the asset name equals the specified string, false otherwise.
+     * Checks if the asset has the specified name.
+     * @param other The name to compare.
+     * @return True if the names match, false otherwise.
      */
-    public final boolean isName(final String other) {
+    public boolean isName(final String other) {
         return this.name.equals(other);
     }
 
-    private final String path;
-
     /**
      * Returns the path of the asset.
-     *
-     * @return The path of the asset.
+     * @return The path.
      */
-    public final String getPath() {
+    public String getPath() {
         return this.path;
     }
 
     /**
-     * Checks if the asset has the same path as the specified string.
-     *
-     * @param other The string to compare with.
-     * @return true if the asset path equals the specified string, false otherwise.
+     * Checks if the asset has the specified path.
+     * @param other The path to compare.
+     * @return True if the paths match, false otherwise.
      */
-    public final boolean isPath(final String other) {
+    public boolean isPath(final String other) {
         return this.path.equals(other);
     }
 
-    /**
-     * Returns a string representation of the asset.
-     *
-     * @return A string representation of the asset.
-     */
     @Override
     public String toString() {
         return "Asset -> [" + this.id + "] [" + this.name + "] [" + this.path + "]";

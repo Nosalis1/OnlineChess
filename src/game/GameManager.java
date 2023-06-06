@@ -49,7 +49,7 @@ public abstract class GameManager {
             GuiManager.updateField(lastMovedPiece.getPosition());
         });
 
-        Board.instance.onPromotion.add(() -> {
+        Board.instance.onPromotion.addAction(() -> {
             if (localUser.canPlay()) {
                 GuiManager.getGameWindow().setEnabled(false);
                 GuiManager.getChosePieceWindow().showWindow();
@@ -101,7 +101,7 @@ public abstract class GameManager {
         switch (type) {
             case MOVE:
                 Move move = new Move(new Vector(), new Vector());
-                move.unapck(packet.getBuffer());
+                move.unpack(packet.getBuffer());
                 Board.instance.move(move);
                 break;
             case CHANGE_TYPE:
@@ -110,7 +110,11 @@ public abstract class GameManager {
                 values = packet.getBuffer().split("~");
 
                 if (values.length == 2) {
-                    at.unapck(values[0]);
+                    try {
+                        at.unpack(values[0]);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
                     newType = Piece.Type.fromCode(Integer.parseInt(values[1]));
                 } else
                     throw new IllegalArgumentException("Invalid buffer format");

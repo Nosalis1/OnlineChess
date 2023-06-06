@@ -22,7 +22,7 @@ public class Window extends JFrame {
     }
 
     private void updateBounds() {
-        super.setBounds(position.X, position.Y, dimensions.X, dimensions.Y);
+        super.setBounds(position.x, position.y, dimensions.x, dimensions.y);
     }
 
     public Window() {

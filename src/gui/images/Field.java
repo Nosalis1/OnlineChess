@@ -3,7 +3,7 @@ package gui.images;
 import game.Board;
 import util.ColorGradient;
 import util.Vector;
-import util.events.ArgEvent;
+import util.events.ArgumentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,13 +52,13 @@ public class Field extends ImagePanel implements MouseListener {
         this.boardPosition = boardPosition;
         this.isGradient = isGradient;
 
-        super.setVecDimensions(size.X, size.Y);
+        super.setVecDimensions(size.x, size.y);
 
         super.setColor(Color.blue);
 
         setLabels();
 
-        setColor(ColorGradient.FIELD.getColor(this.isGradient));
+        setColor(isGradient?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
 
         addMouseListener(this);
     }
@@ -66,20 +66,20 @@ public class Field extends ImagePanel implements MouseListener {
     private final String[] labels = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
     private void setLabels() {
-        if (boardPosition.X == Board.LAST) {
-            super.setLabel(labels[boardPosition.Y]);
+        if (boardPosition.x == Board.LAST) {
+            super.setLabel(labels[boardPosition.y]);
             super.setjLabelDimension(15, 15);
-            super.setjLabelPosition(getVecDimensions().X - 20, getVecDimensions().Y - 20);
-            super.getjLabel().setForeground(ColorGradient.FIELD.getColor(!isGradient));
-        } else if (boardPosition.Y == 0) {
-            super.setLabel(Integer.toString(boardPosition.X + 1));
-            super.getjLabel().setForeground(ColorGradient.FIELD.getColor(!isGradient));
+            super.setjLabelPosition(getVecDimensions().x - 20, getVecDimensions().y - 20);
+            super.getjLabel().setForeground(!isGradient?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
+        } else if (boardPosition.y == 0) {
+            super.setLabel(Integer.toString(boardPosition.x + 1));
+            super.getjLabel().setForeground(!isGradient?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
         }
 
-        if (boardPosition.X == Board.LAST && boardPosition.Y == 0) {
-            JLabel lab = new JLabel(Integer.toString(boardPosition.X + 1));
+        if (boardPosition.x == Board.LAST && boardPosition.y == 0) {
+            JLabel lab = new JLabel(Integer.toString(boardPosition.x + 1));
             lab.setBounds(10, 10, 10, 10);
-            lab.setForeground(ColorGradient.FIELD.getColor(!isGradient));
+            lab.setForeground(!isGradient?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
             add(lab);
         }
     }
@@ -88,7 +88,7 @@ public class Field extends ImagePanel implements MouseListener {
      * The onFieldClicked event is an ArgEvent that represents the event of a chessboard field being clicked.
      * It provides the board position of the clicked field as an argument.
      */
-    public static util.events.ArgEvent<Vector> onFieldClicked = new ArgEvent<>();
+    public static ArgumentEvent<Vector> onFieldClicked = new ArgumentEvent<>();
 
     /**
      * Event handler for the mouseClicked event.

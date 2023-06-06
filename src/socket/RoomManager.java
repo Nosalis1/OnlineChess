@@ -1,8 +1,10 @@
 package socket;
 
+import socket.exceptions.ClosedSocketException;
+import socket.exceptions.NullPacketException;
 import socket.packages.Packet;
-import socket.packages.PacketType;
 import util.Array;
+import util.Console;
 
 public class RoomManager {
     public static RoomManager instance;
@@ -34,56 +36,63 @@ public class RoomManager {
     }
 
     public void onRoomStarted(ServerRoom room) {
-        handleRoomProcess(room);
+        try {
+            handleRoomProcess(room);
+        } catch (ClosedSocketException ex) {
+            Console.error("Client Socket is closed!", this);
+        }
     }
 
-    private void handleRoomProcess(ServerRoom room) {
+    private void exchangeNames(final Client first, final Client second) {
+        first.send(Packet.SEND_PLAYER);
+        Packet packet = first.receive();
+        second.send(packet);
+
+        second.send(Packet.SEND_PLAYER);
+        packet = second.receive();
+        first.send(packet);
+    }
+
+    private void handleRoomProcess(ServerRoom room) throws ClosedSocketException {
         util.Array<Client> clients = room.getClients();
 
-        clients.foreach((Client client) -> {
-            if (client.getSocket().isClosed()) {
-                System.out.println("CLOSED SERVER CLIENT");
-            }
-        });
+        Client whitePlayer = clients.get(0), blackPlayer = clients.getLast();
 
-        clients.get(clients.size() - 1).send(new Packet(PacketType.CHANGE_COLOR));
+        if (whitePlayer.getSocket().isClosed())
+            throw new ClosedSocketException(whitePlayer);
+        if (blackPlayer.getSocket().isClosed())
+            throw new ClosedSocketException(blackPlayer);
 
-        clients.get(0).send(new Packet(PacketType.SEND_PLAYER));
-        Packet packet = clients.get(0).receive();
-        clients.get(1).send(packet);
+        blackPlayer.send(Packet.CHANGE_COLOR);
 
-        clients.get(1).send(new Packet(PacketType.SEND_PLAYER));
-        packet = clients.get(1).receive();
-        clients.get(0).send(packet);
+        exchangeNames(whitePlayer, blackPlayer);
 
-        clients.foreach((Client client) -> client.send(new Packet(PacketType.START_GAME)));
+        clients.forEach((Client client) -> client.send(Packet.START_GAME));
 
-        Client whitePlayer = clients.get(0), blackPlayer = clients.get(1);
-
-        if (whitePlayer.getSocket().isClosed() || blackPlayer.getSocket().isClosed()) {
-            System.exit(-1);
-        }
-
-        boolean isWhiteTurn = true;
+        boolean sender = true;
+        Packet packet;
 
         while (true) {
 
             try {
-                packet = isWhiteTurn ? whitePlayer.receive() : blackPlayer.receive();
+                packet = sender ? whitePlayer.receive() : blackPlayer.receive();
 
                 if (packet == null)
-                    break;
+                    throw new NullPacketException();
 
-                if (isWhiteTurn)
+                if (sender)
                     blackPlayer.send(packet);
                 else
                     whitePlayer.send(packet);
 
+            } catch (NullPacketException ex) {
+                Console.error("Client Socket is closed!", this);
+                break;
             } catch (Exception ex) {
                 ex.printStackTrace();
                 break;
             }
-            isWhiteTurn = !isWhiteTurn;
+            sender = !sender;
         }
     }
 }

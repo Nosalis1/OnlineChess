@@ -1,6 +1,5 @@
 package game;
 
-import socket.packages.Packet;
 import socket.packages.Streamable;
 import util.Vector;
 
@@ -30,12 +29,16 @@ public class Move implements Streamable {
     }
 
     @Override
-    public void unapck(String buffer) {
+    public void unpack(String buffer) {
         String[] values = buffer.split(STREAM_TOKEN);
 
         if (values.length == 2) {
-            this.from.unapck(values[0]);
-            this.to.unapck(values[1]);
+            try {
+                this.from.unpack(values[0]);
+                this.to.unpack(values[1]);
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
         } else
             throw new IllegalArgumentException("Invalid buffer format");
     }

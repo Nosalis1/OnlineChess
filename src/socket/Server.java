@@ -14,7 +14,7 @@ import java.net.Socket;
  * <p>
  * and validating the server status.
  */
-public class Server {
+public abstract class Server {
     public static final int PORT = 52130;
     public static final int MAX_SOCKET_CONNECTIONS = 4;
 

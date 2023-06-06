@@ -1,43 +1,42 @@
 package util;
 
 /**
-
- An array data structure implementation.
-
- @param <T> The type of elements stored in the array
+ * An array data structure that allows dynamic resizing and various operations.
+ *
+ * @param <T> the type of elements in the array
  */
 @SuppressWarnings("unused")
 public class Array<T> {
 
     /**
-     * Constructs an empty array.
+     * Creates an empty array.
      */
     public Array() {
         clear();
     }
 
     /**
-     * Constructs an array with the specified size.
+     * Creates an array with the specified initial size.
      *
-     * @param size The size of the array
+     * @param size the initial size of the array
      */
     public Array(final int size) {
         this.recreate(size);
     }
 
     /**
-     * Constructs an array from the given array.
+     * Creates an array from the given array.
      *
-     * @param array The array to be used
+     * @param array the array to initialize the new instance with
      */
     public Array(T[] array) {
         this.setArray(array);
     }
 
     /**
-     * Constructs a copy of the given array.
+     * Creates a copy of the given array.
      *
-     * @param array The array to be copied
+     * @param array the array to copy
      */
     public Array(Array<T> array) {
         this.setArray(array.copy());
@@ -48,7 +47,7 @@ public class Array<T> {
     /**
      * Returns the underlying array.
      *
-     * @return The array
+     * @return the array
      */
     public T[] getArray() {
         return this.array;
@@ -59,9 +58,9 @@ public class Array<T> {
     }
 
     /**
-     * Returns the size of the array.
+     * Returns the number of elements in the array.
      *
-     * @return The size of the array
+     * @return the number of elements
      */
     public final int size() {
         return this.array.length;
@@ -70,16 +69,16 @@ public class Array<T> {
     /**
      * Checks if the array is empty.
      *
-     * @return true if the array is empty, false otherwise
+     * @return {@code true} if the array is empty, {@code false} otherwise
      */
     public final boolean isEmpty() {
         return this.array == null || this.array.length == 0;
     }
 
     /**
-     * Replaces the array with the given array.
+     * Replaces the contents of the array with the given array.
      *
-     * @param array The new array to replace the existing one
+     * @param array the array to replace the contents with
      */
     public void replace(T[] array) {
         this.setArray(array);
@@ -88,7 +87,7 @@ public class Array<T> {
     /**
      * Creates a copy of the array.
      *
-     * @return A copy of the array
+     * @return a copy of the array
      */
     @SuppressWarnings("unchecked")
     public T[] copy() {
@@ -99,15 +98,24 @@ public class Array<T> {
         return copy;
     }
 
+    /**
+     * Resizes the array to the specified new size.
+     * If the new size is smaller than the current size, elements beyond the new size will be truncated.
+     * If the new size is larger than the current size, the additional elements will be set to null.
+     *
+     * @param newSize the new size of the array
+     */
     @SuppressWarnings("unchecked")
-    private void recreate(final int size) {
-        this.array = (T[]) new Object[size];
+    private void recreate(final int newSize) {
+        this.array = (T[]) new Object[newSize];
     }
 
     /**
-     * Resizes the array to the specified size.
+     * Resizes the array to the specified new size.
+     * If the new size is smaller than the current size, elements beyond the new size will be truncated.
+     * If the new size is larger than the current size, the additional elements will be set to null.
      *
-     * @param newSize The new size of the array
+     * @param newSize the new size of the array
      */
     public void resize(final int newSize) {
         T[] oldArray = this.copy();
@@ -118,7 +126,8 @@ public class Array<T> {
     }
 
     /**
-     * Shifts all elements in the array one position to the left.
+     * Shifts the elements of the array to the left by one position.
+     * The first element becomes the last element.
      */
     public void shiftLeft() {
         T temp = this.get(0);
@@ -130,7 +139,8 @@ public class Array<T> {
     }
 
     /**
-     * Shifts all elements in the array one position to the right.
+     * Shifts the elements of the array to the right by one position.
+     * The last element becomes the first element.
      */
     public void shiftRight() {
         T temp = this.get(this.array.length - 1);
@@ -141,6 +151,12 @@ public class Array<T> {
         this.set(0, temp);
     }
 
+    /**
+     * Checks if the given index is valid.
+     *
+     * @param index the index to check
+     * @return {@code true} if the index is invalid, {@code false} otherwise
+     */
     private boolean checkIndex(final int index) {
         return index < 0 || index >= this.array.length;
     }
@@ -148,9 +164,9 @@ public class Array<T> {
     /**
      * Sets the element at the specified index in the array.
      *
-     * @param index The index of the element to be set
-     * @param item  The item to be set at the specified index
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index at which to set the element
+     * @param item  the element to be set
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void set(final int index, T item) {
         if (checkIndex(index))
@@ -160,11 +176,11 @@ public class Array<T> {
     }
 
     /**
-     * Adds an item at the specified index in the array.
+     * Inserts the element at the specified index in the array, shifting the existing elements to the right.
      *
-     * @param index The index at which the item should be added
-     * @param item  The item to be added
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index at which to insert the element
+     * @param item  the element to be inserted
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void add(final int index, T item) {
         this.resize(this.array.length + 1);
@@ -175,18 +191,18 @@ public class Array<T> {
     }
 
     /**
-     * Adds an item to the end of the array.
+     * Appends the element to the end of the array.
      *
-     * @param item The item to be added
+     * @param item the element to be added
      */
     public void add(T item) {
         this.add(this.array.length, item);
     }
 
     /**
-     * Adds all the items from the given array to the end of the array.
+     * Appends the elements of the given array to the end of the array.
      *
-     * @param array The array of items to be added
+     * @param array the array of elements to be added
      */
     public void add(T[] array) {
         this.resize(this.array.length + array.length);
@@ -196,11 +212,11 @@ public class Array<T> {
     }
 
     /**
-     * Inserts an item at the specified index in the array, shifting the existing elements to the right.
+     * Inserts the element at the specified index in the array, shifting the existing elements to the right.
      *
-     * @param index The index at which the item should be inserted
-     * @param item  The item to be inserted
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index at which to insert the element
+     * @param item  the element to be inserted
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void insert(final int index, T item) {
         if (checkIndex(index))
@@ -213,13 +229,11 @@ public class Array<T> {
     }
 
     /**
-     * Inserts all the items from the given array at the specified index in the array,
-     * <p>
-     * shifting the existing elements to the right.
+     * Inserts the elements of the given array at the specified index in the array, shifting the existing elements to the right.
      *
-     * @param index The index at which the items should be inserted
-     * @param array The array of items to be inserted
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index at which to insert the elements
+     * @param array the array of elements to be inserted
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void insert(final int index, T[] array) {
         if (checkIndex(index))
@@ -234,11 +248,11 @@ public class Array<T> {
     }
 
     /**
-     * Returns the item at the specified index in the array.
+     * Returns the element at the specified index in the array.
      *
-     * @param index The index of the item to be retrieved
-     * @return The item at the specified index
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index of the element to retrieve
+     * @return the element at the specified index
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public T get(final int index) {
         if (checkIndex(index))
@@ -247,8 +261,20 @@ public class Array<T> {
     }
 
     /**
-     * Returns the last item in the array.
-     * @return The last item in array
+     * Returns the first element in the array.
+     *
+     * @return the first element in the array, or {@code null} if the array is empty
+     */
+    public T getFirst() {
+        if (this.isEmpty())
+            return null;
+        return this.get(0);
+    }
+
+    /**
+     * Returns the last element in the array.
+     *
+     * @return the last element in the array, or {@code null} if the array is empty
      */
     public T getLast() {
         if (this.isEmpty())
@@ -257,10 +283,10 @@ public class Array<T> {
     }
 
     /**
-     * Removes the item at the specified index from the array, shifting the remaining elements to the left.
+     * Removes the element at the specified index in the array, shifting the remaining elements to the left.
      *
-     * @param index The index of the item to be removed
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @param index the index of the element to remove
+     * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void remove(final int index) {
         if (checkIndex(index))
@@ -275,26 +301,26 @@ public class Array<T> {
     }
 
     /**
-     * Removes the first occurrence of the specified item from the array, shifting the remaining elements to the left.
+     * Removes the first occurrence of the specified element from the array.
      *
-     * @param item The item to be removed
+     * @param item the element to be removed
      */
     public void remove(T item) {
         this.remove(findIndexOf(item));
     }
 
     /**
-     * Clears the array, removing all elements.
+     * Clears the array by setting its size to 0.
      */
     public void clear() {
         this.recreate(0);
     }
 
     /**
-     * Returns the index of the first occurrence of the specified item in the array.
+     * Finds the index of the first occurrence of the specified element in the array.
      *
-     * @param item The item to search for
-     * @return The index of the item, or -1 if the item is not found
+     * @param item the element to search for
+     * @return the index of the first occurrence of the element, or -1 if the element is not found
      */
     public final int findIndexOf(T item) {
         if (this.contains(item))
@@ -305,10 +331,10 @@ public class Array<T> {
     }
 
     /**
-     * Checks if the array contains the specified item.
+     * Checks if the array contains the specified element.
      *
-     * @param item The item to be checked
-     * @return true if the item is found in the array, false otherwise
+     * @param item the element to search for
+     * @return {@code true} if the element is found, {@code false} otherwise
      */
     public final boolean contains(T item) {
         for (T tempItem : this.array)
@@ -318,31 +344,29 @@ public class Array<T> {
     }
 
     /**
-     * Swaps the positions of two elements in the array.
+     * Swaps the elements at the specified indices in the array.
      *
-     * @param index       The index of the first element to be swapped
-     * @param destination The index of the second element to be swapped
-     * @throws IndexOutOfBoundsException if the index or destination is out of range
+     * @param index       the index of the first element to swap
+     * @param destination the index of the second element to swap
+     * @throws IndexOutOfBoundsException if either index is invalid
      */
     public void swap(final int index, final int destination) {
         if (checkIndex(index) || checkIndex(destination))
-            throw new IndexOutOfBoundsException(index);
-
-        if (index == destination)
-            return;
+            throw new IndexOutOfBoundsException("Invalid index or destination");
 
         T temp = this.get(index);
-        this.set(index, get(destination));
+        this.set(index, this.get(destination));
         this.set(destination, temp);
     }
 
     /**
-     * Performs the specified action on each element of the array.
+     * Applies the specified action to each element in the array.
      *
-     * @param action The action to be performed on each element
+     * @param action the action to be applied to each element
      */
-    public void foreach(util.events.Action<T> action) {
-        for (T item : this.array)
+    public void forEach(util.events.Action<T> action) {
+        for (T item : this.array) {
             action.run(item);
+        }
     }
 }

@@ -97,8 +97,8 @@ public class ImagePanel extends JPanel {
         return this.dimensions;
     }
     public void setVecDimensions(int width,int height) {
-        this.dimensions.X = width;
-        this.dimensions.Y = height;
+        this.dimensions.x = width;
+        this.dimensions.y = height;
 
         setPreferredSize(new Dimension(width, height));
     }
@@ -143,7 +143,7 @@ public class ImagePanel extends JPanel {
         if (isDisplayable() && this.image != null)
             g.drawImage(image.getImage(),
                     imageScale / 2, imageScale / 2,
-                    dimensions.X - imageScale, dimensions.Y - imageScale,
+                    dimensions.x - imageScale, dimensions.y - imageScale,
                     null);
     }
 }
