@@ -2,8 +2,8 @@ package gui;
 
 import audio.AudioManager;
 import game.users.User;
-import gui.design.Button;
-import gui.design.Title;
+import gui.design.CustomButton;
+import gui.design.CustomTitle;
 import socket.LocalClient;
 import socket.NetworkManager;
 
@@ -29,18 +29,18 @@ public class Menu extends Window implements ActionListener {
         int x = 130;
         int y = 100;
 
-        add(new Title("MENU", x, y));
+        add(new CustomTitle("MENU", x, y));
 
         y += SPACING;
 
-        add(playButton = new Button("Play", x, y, this));
+        add(playButton = new CustomButton("Play", x, y, this));
 
-        add(info = new Title("Waiting for opponent...", x, y));
+        add(info = new CustomTitle("Waiting for opponent...", x, y));
         info.setVisible(false);
 
         y += SPACING;
 
-        add(deleteButton = new Button("Delete account", x, y, e -> {
+        add(deleteButton = new CustomButton("Delete account", x, y, e -> {
             GuiManager.onButtonClick.run();
             try {
                 User.currentUser.removeUser();
@@ -51,7 +51,7 @@ public class Menu extends Window implements ActionListener {
                 util.Console.error(String.format("User %s not removed", User.currentUser.getUserName()));
             }
         }));
-        add(stopButton = new Button("Cancel",x,y,e->{
+        add(stopButton = new CustomButton("Cancel",x,y, e->{
             GuiManager.onButtonClick.run();
             LocalClient.disconnect();
             playButton.setVisible(true);

@@ -1,8 +1,8 @@
 package gui;
 
-import gui.design.Button;
-import gui.design.Label;
-import gui.design.Title;
+import gui.design.CustomButton;
+import gui.design.CustomLabel;
+import gui.design.CustomTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +25,11 @@ public class Register extends Window implements ActionListener {
         int x = 130;
         int y = 100;
 
-        add(new Title("REGISTER", x, y));
+        add(new CustomTitle("REGISTER", x, y));
 
         y += SPACING;
 
-        add(new Label("Username:", x, y));
+        add(new CustomLabel("Username:", x, y));
 
         y += SPACING - 10;
 
@@ -40,7 +40,7 @@ public class Register extends Window implements ActionListener {
         add(usernameField);
         y += SPACING;
 
-        add(new Label("Password:", x, y));
+        add(new CustomLabel("Password:", x, y));
 
         y += SPACING - 10;
 
@@ -51,7 +51,7 @@ public class Register extends Window implements ActionListener {
         add(passwordField);
         y += SPACING;
 
-        add(new Button("Register", x, y, this));
+        add(new CustomButton("Register", x, y, this));
     }
 
     @Override

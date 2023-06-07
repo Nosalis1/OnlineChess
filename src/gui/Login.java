@@ -1,8 +1,6 @@
 package gui;
 
-import gui.design.Button;
-import gui.design.Label;
-import gui.design.Title;
+import gui.design.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +13,7 @@ public class Login extends Window implements ActionListener {
         createUserInterface();
     }
 
-    TextField usernameField;
+    JTextField usernameField;
     JPasswordField passwordField;
 
     private void createUserInterface() {
@@ -27,35 +25,31 @@ public class Login extends Window implements ActionListener {
         int x = 130;
         int y = 70;
 
-        add(new Title("LOGIN", x, y));
+        add(new CustomTitle("LOGIN", x, y));
 
         y += SPACING;
 
-        add(new Label("Username:", x, y));
+        add(new CustomLabel("Username:", x, y));
 
         y += SPACING - 10;
 
-        usernameField = new TextField();
-        usernameField.setBounds(x, y, 120, 20);
+        add(usernameField = new CustomInputTextField(x, y));
 
-        add(usernameField);
         y += SPACING;
 
-        add(new Label("Password:", x, y));
+        add(new CustomLabel("Password:", x, y));
 
         y += SPACING - 10;
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(x, y, 120, 20);
-
-        add(passwordField);
-        y += SPACING;
-
-        add(new Button("Login", x, y, this));
+        add(passwordField = new CustomPasswordField(x, y));
 
         y += SPACING;
 
-        add(new Button("Register", x, y, e -> {
+        add(new CustomButton("Login", x, y, this));
+
+        y += SPACING;
+
+        add(new CustomButton("Register", x, y, e -> {
             GuiManager.onButtonClick.run();
             this.hideWindow();
             GuiManager.getRegisterWindow().showWindow();

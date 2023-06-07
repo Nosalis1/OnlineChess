@@ -1,5 +1,6 @@
 import audio.AudioManager;
 import game.GameManager;
+import gui.Game;
 import gui.GuiManager;
 import socket.NetworkManager;
 import socket.RoomManager;
