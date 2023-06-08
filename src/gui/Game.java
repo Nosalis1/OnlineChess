@@ -96,8 +96,8 @@ public class Game extends Window {
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
 
-        Color playColor = GameManager.localUser.canPlay() ? ColorGradient.FIELD.getDarkColor() : ColorGradient.FIELD.getLightColor();
-        Color opponentColor = !GameManager.localUser.canPlay() ? ColorGradient.FIELD.getDarkColor() : ColorGradient.FIELD.getLightColor();
+        Color playColor = ColorGradient.FIELD.getColor(GameManager.localUser.canPlay());
+        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.localUser.canPlay());
         playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }

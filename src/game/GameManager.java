@@ -68,7 +68,7 @@ public abstract class GameManager {
     }
 
     public static User localUser = null;
-    public static User opponent = null;//TODO:ASSIGN OPPONENT
+    public static User opponent = null;
 
     private static Piece lastMovedPiece = null;
 

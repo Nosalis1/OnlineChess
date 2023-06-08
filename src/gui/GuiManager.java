@@ -113,7 +113,7 @@ public abstract class GuiManager {
 
     private static void setHighlight(Vector at) {
         Field temp = gameWindow.getField(at);
-        temp.setColor(temp.isGradient()?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor());
+        temp.setColor(ColorGradient.HIGHLIGHT.getColor(temp.isGradient()));
         currentHighlights.add(temp);
     }
 
