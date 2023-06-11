@@ -12,7 +12,15 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * The Game class represents the main game window.
+ * It extends the Window class.
+ */
 public class Game extends Window {
+    /**
+     * Constructs a Game object.
+     * It sets the window title, size, layout, and location.
+     */
     public Game() {
         super("Game");
         super.setSize(1100, 860);
@@ -25,25 +33,46 @@ public class Game extends Window {
 
     gui.images.Field[][] fields = null;
 
+    /**
+     * Returns the 2D array of Field objects representing the game board.
+     * @return The 2D array of Field objects.
+     */
     @SuppressWarnings("unused")
     public gui.images.Field[][] getFields() {
         return this.fields;
     }
 
+    /**
+     * Returns the Field object at the specified coordinates.
+     * @param x The x-coordinate of the field.
+     * @param y The y-coordinate of the field.
+     * @return The Field object at the specified coordinates.
+     */
     public gui.images.Field getField(final int x, final int y) {
         return this.fields[x][y];
     }
 
+    /**
+     * Returns the Field object at the specified vector position.
+     * @param at The vector position of the field.
+     * @return The Field object at the specified position.
+     */
     public gui.images.Field getField(final Vector at) {
         return getField(at.x, at.y);
     }
 
+    /**
+     * Clears the images of all fields on the game board.
+     */
     public void clearFields() {
         for (gui.images.Field[] fieldRow : fields)
             for (gui.images.Field field : fieldRow)
                 field.setImage(null);
     }
 
+    /**
+     * Creates the game board table with fields.
+     */
     private void createTable() {
         JPanel tablePanel = new JPanel();
 
@@ -65,6 +94,10 @@ public class Game extends Window {
         add(tablePanel);
     }
 
+    /**
+     * Creates the player info panel.
+     * @return The player info panel.
+     */
     private JPanel getPlayerInfoPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -80,14 +113,41 @@ public class Game extends Window {
         return panel;
     }
 
+    /**
+     * Creates the information message for a player.
+     * @param name The player's name.
+     * @param elo The player's ELO.
+     * @param piecesCount The count of pieces.
+     * @param piecesScore The score of pieces.
+     * @param pawnsCount The count of pawns.
+     * @param rooksCount The count of rooks.
+     * @param knightsCount The count of knights.
+     * @param bishopsCount The count of bishops.
+     * @param queensCount The count of queens.
+     * @param kingsCount The count of kings.
+     * @return The information message.
+     */
     private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, final int pawnsCount, final int rooksCount, final int knightsCount, final int bishopsCount, final int queensCount, final int kingsCount) {
         return String.format("<html>Username: %s<br>", name) + String.format("ELO: %s<br>", elo) + String.format("CurrentPiecesCount: %d<br>", piecesCount) + String.format("CurrentPiecesScore: %d<br>", piecesScore) + String.format("Pawns: %d<br>", pawnsCount) + String.format("Rooks (Castles): %d<br>", rooksCount) + String.format("Knights: %d<br>", knightsCount) + String.format("Bishops: %d<br>", bishopsCount) + String.format("Have Queen: %s<br>", queensCount != 0 ? "true" : "false") + String.format("Have King: %s</html>", kingsCount != 0 ? "true" : "false");
     }
 
+    /**
+     * Creates the information message for a player using an Array of data.
+     * @param name The player's name.
+     * @param elo The player's ELO.
+     * @param piecesCount The count of pieces.
+     * @param piecesScore The score of pieces.
+     * @param data The Array of data containing counts of each piece type.
+     * @return The information message.
+     */
     private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, Array<Integer> data) {
         return createInfoMessage(name, elo, piecesCount, piecesScore, data.get(Piece.Type.Pawn.getCode() - 1), data.get(Piece.Type.Rook.getCode() - 1), data.get(Piece.Type.Knight.getCode() - 1), data.get(Piece.Type.Bishop.getCode() - 1), data.get(Piece.Type.Queen.getCode() - 1), data.get(Piece.Type.King.getCode() - 1));
     }
 
+    /**
+     * Updates the information table for player and opponent.
+     * @param ignore The move to ignore.
+     */
     public void updateInfoTable(Move ignore) {
         final BoardData data = Board.instance.getData();
 
@@ -103,6 +163,10 @@ public class Game extends Window {
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
 
+    /**
+     * Updates the moves table.
+     * @param ignore The move to ignore.
+     */
     public void updateMovesTable(Move ignore) {
         BoardData data = Board.instance.getData();
         Array<String> movesData = data.getMoves();
@@ -126,6 +190,9 @@ public class Game extends Window {
         return opponentTimeLabel;
     }
 
+    /**
+     * Creates the player info panel.
+     */
     private void createInfo() {
         movesTableModel = new DefaultTableModel(new Object[]{"Column 1"}, 0) {
             @Override
@@ -167,7 +234,6 @@ public class Game extends Window {
         timerPanel.add(playerTimeLabel);
         timerPanel.add(opponentTimeLabel);
 
-        // TODO: NAPRAVI TAJMER OBJEKAT I DODAJ "TIMER.SETTIMERSTATE(TRUE);" ZA STARTOVANJE TAJMERA) timer = new GameClock(playerTimeLabel, opponentTimeLabel);
         GameClock clock = new GameClock(playerTimeLabel,opponentTimeLabel);
         GameManager.onGameStarted.addAction(()-> clock.setTimerState(true));
         GameManager.onGameEnded.addAction(()-> clock.setTimerState(false));
@@ -185,7 +251,6 @@ public class Game extends Window {
         opponentLabel = (JLabel) opponentPanel.getComponents()[1];
         opponentLabel.setForeground(Color.white);
 
-        // updateInfoTable(null);//TODO:CHECK THIS LATER
         Board.instance.onMoveDone.add(this::updateInfoTable);
 
         add(playerPanel);

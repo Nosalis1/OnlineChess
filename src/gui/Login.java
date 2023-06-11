@@ -15,6 +15,9 @@ public class Login extends Window implements ActionListener {
     JTextField usernameField;
     JPasswordField passwordField;
 
+    /**
+     * Creates the user interface for the login window.
+     */
     private void createUserInterface() {
 
         setLayout(null);

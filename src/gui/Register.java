@@ -19,6 +19,9 @@ public class Register extends Window implements ActionListener {
     TextField usernameField;
     JPasswordField passwordField;
 
+    /**
+     * Creates the user interface for the register window.
+     */
     private void createUserInterface() {
         setLayout(null);
         final int SPACING = 30;

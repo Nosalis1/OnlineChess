@@ -11,7 +11,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *The ChosePiece class represents a GUI window for choosing a chess piece.
+ * It extends the Window class and implements the ActionListener interface.
+ */
 public class ChosePiece extends Window implements ActionListener {
+
+    /**
+     * Constructs a ChosePiece object.
+     * It sets the window title, dimensions, and other properties.
+     */
     public ChosePiece() {
         super("Chose piece");
         this.setDimensions(new Vector(250, 80));
@@ -23,6 +32,13 @@ public class ChosePiece extends Window implements ActionListener {
 
     private final Array<JButton> buttons = new Array<>();
 
+    /**
+     * Returns a stylized button with the specified properties.
+     * @param x The x-coordinate of the button.
+     * @param imageDir The image directory for the button.
+     * @param action The ActionListener for the button.
+     * @return The stylized JButton.
+     */
     private JButton getStylizedButton(int x, Image imageDir, ActionListener action) {
         JButton btn = new JButton();
         btn.setPreferredSize(new Dimension(50, 50));
@@ -35,8 +51,14 @@ public class ChosePiece extends Window implements ActionListener {
         return btn;
     }
 
+    /**
+     * Represents the event when a piece type is selected.
+     */
     public static ArgumentEvent<Piece.Type> onTypeSelected = new ArgumentEvent<>();
 
+    /**
+     * Creates the user interface components for the window.
+     */
     private void createUserInterface() {
         JPanel panel = new JPanel(new FlowLayout());
         panel.setBackground(Colors.DARK.getLightColor());
@@ -76,7 +98,7 @@ public class ChosePiece extends Window implements ActionListener {
     }
 
     @Override
-    public void hideWindow(){
+    public void hideWindow() {
         GuiManager.getGameWindow().setEnabled(true);
         super.hideWindow();
     }

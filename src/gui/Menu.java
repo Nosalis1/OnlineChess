@@ -21,6 +21,9 @@ public class Menu extends Window implements ActionListener {
     JButton playButton,deleteButton,stopButton = null;
     JLabel info = null;
 
+    /**
+     * Creates the user interface for the menu window.
+     */
     private void createUserInterface() {
         setLayout(null);
 
