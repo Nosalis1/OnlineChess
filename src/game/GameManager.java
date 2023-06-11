@@ -67,6 +67,21 @@ public abstract class GameManager {
     public static User localUser = null;
     public static User opponent = null;
 
+    public static User getWinner() {
+        BoardData data = Board.instance.getData();
+
+        if (data.white.isInCheckMate()) {
+            return localUser.isWhite() ? localUser : opponent;
+        } else if (data.black.isInCheckMate()) {
+            return !localUser.isWhite() ? localUser : opponent;
+        } else
+            return null;
+    }
+
+    public static boolean isLocalWinner() {
+        return localUser == getWinner();
+    }
+
     private static Piece lastMovedPiece = null;
 
     static Vector selected;

@@ -12,7 +12,7 @@ public class CustomInputTextField extends JTextField {
      * Initialize the input field with consistent styling.
      */
     private void setup() {
-        setForeground(Colors.GREEN.getColor(true));
+        setForeground(Colors.OTHER.getColor(true));
         setBackground(Colors.DARK.getColor(false));
         setFont(Fonts.Components.TEXT_FIELD);
         setHorizontalAlignment(SwingConstants.CENTER);

@@ -54,15 +54,15 @@ public class Colors {
      * Predefined color gradient for the "FIELD" gradient.
      */
     public static final Colors FIELD = new Colors(
-            new Color(122, 148, 87, 255),
-            new Color(238, 238, 212, 255));
+            new Color(118, 150, 86, 255),
+            new Color(238, 238, 210, 255));
 
     /**
      * Predefined color gradient for the "HIGHLIGHT" gradient.
      */
     public static final Colors HIGHLIGHT = new Colors(
-            new Color(90, 170, 193, 255),
-            new Color(114, 189, 218, 255));
+            new Color(187, 203, 43, 255),
+            new Color(247, 247, 105, 255));
 
     /**
      * Predefined color gradient for the "MOVE" gradient.
@@ -76,15 +76,14 @@ public class Colors {
      */
     public static final Colors ATTACK = new Colors(
             new Color(212, 108, 81, 255),
-            new Color(237, 126, 106, 255));
+            new Color(236, 125, 106, 255));
 
     /**
      * Predefined color gradient for the "GREEN" gradient.
      */
-    public static final Colors GREEN = new Colors(
-            new Color(162, 195, 88, 255),
-            new Color(188, 212, 114, 255));
-
+    public static final Colors OTHER = new Colors(
+            new Color(90, 170, 193, 255),
+            new Color(114, 189, 218, 255));
     /**
      * Predefined color gradient for the "DARK" gradient.
      */

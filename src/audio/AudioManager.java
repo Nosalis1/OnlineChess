@@ -2,7 +2,6 @@ package audio;
 
 import game.Board;
 import game.GameManager;
-import game.Piece;
 import gui.GuiManager;
 import utility.math.Array;
 
@@ -52,19 +51,11 @@ public abstract class AudioManager {
 
         AudioClip winSfx = find("gameWin.wav"), lossSfx = find("gameLoss.wav");
         assert winSfx != null && lossSfx != null;
-        Board.instance.onCheck.add((game.Piece.Color color) -> {
-            if (color == Piece.Color.White) {
-                if (GameManager.localUser.isWhite()) {
-                    play(lossSfx);
-                } else {
-                    play(winSfx);
-                }
+        GameManager.onGameEnded.addAction(()->{
+            if (GameManager.isLocalWinner()) {
+                play(winSfx);
             } else {
-                if (!GameManager.localUser.isWhite()) {
-                    play(lossSfx);
-                } else {
-                    play(winSfx);
-                }
+                play(lossSfx);
             }
         });
 

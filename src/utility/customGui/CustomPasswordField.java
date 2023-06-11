@@ -12,7 +12,7 @@ public class CustomPasswordField extends JPasswordField {
      * Initialize the password field with consistent styling.
      */
     private void setupPasswordField() {
-        setForeground(Colors.GREEN.getColor(true));
+        setForeground(Colors.OTHER.getColor(true));
         setBackground(Colors.DARK.getColor(false));
         setFont(Fonts.Components.PASSWORD_FIELD);
         setHorizontalAlignment(SwingConstants.CENTER);

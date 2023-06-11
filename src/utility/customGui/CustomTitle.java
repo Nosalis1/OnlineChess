@@ -12,7 +12,7 @@ public class CustomTitle extends JLabel {
      * Initialize the title label with consistent styling.
      */
     private void setupTitleLabel() {
-        setForeground(Colors.GREEN.getColor(false));
+        setForeground(Colors.OTHER.getColor(false));
         setHorizontalAlignment(SwingConstants.CENTER);
         setFont(Fonts.Default.TITLE);
     }

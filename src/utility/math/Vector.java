@@ -150,8 +150,9 @@ public class Vector implements networking.packageSystem.Streamable {
      * @return The interpolated vector.
      */
     public static Vector linearInterpolation(final Vector start, final Vector end, final int t) {
-        int interpolatedX = start.x + (end.x - start.x) * t;
-        int interpolatedY = start.y + (end.y - start.y) * t;
+        double fraction = t / 100.0;
+        int interpolatedX = start.x + (int) ((end.x - start.x) * fraction);
+        int interpolatedY = start.y + (int) ((end.y - start.y) * fraction);
         return new Vector(interpolatedX, interpolatedY);
     }
 

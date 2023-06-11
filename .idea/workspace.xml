@@ -5,85 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c087f4fa-f8e8-4f7c-b40d-a8305b08e930" name="Changes" comment="Old changes">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_8_2023_5_03_PM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_8_2023_5_03_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_1_2023_8_47_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_10_35_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_10_35_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_10_55_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_10_55_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_11_25_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_11_25_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_12_51_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_12_51_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_7_03_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_2_2023_7_03_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_11_41_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_11_41_AM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_2_33_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_2_33_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_9_07_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_3_2023_9_07_AM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_7_2023_9_49_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_7_2023_9_49_AM__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceCapture.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceMove.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/junitTest/ArrayTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/junitTest/VectorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OnlineChess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OnlineChess.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/AudioClip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioClip.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/audio/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/gameLoss.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/sfx/gameLoss.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/gameLoss1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/gameWin.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/sfx/gameWin.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceCapture.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceMove.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceMove2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/BoardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/BoardData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/BoardDataElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/BoardDataElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameClock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameClock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceCapture1.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceMove1.wav" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/ChosePiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/ChosePiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/GuiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GuiManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomInputTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomInputTextField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomPasswordField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/CustomTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomTitle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/design/Fonts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/Fonts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/images/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/images/Field.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/images/Image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/images/Image.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/LocalClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/LocalClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/NetworkManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/RoomManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/RoomManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/ServerRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/ServerRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/events/IServerEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/networkEvents/IServerEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/events/ServerEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/networkEvents/ServerEventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/exceptions/ClosedSocketException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/networkExceptions/ClosedSocketException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/exceptions/InvalidBufferFormatException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/networkExceptions/InvalidBufferFormatException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/exceptions/NullPacketException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/networkExceptions/NullPacketException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/packages/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/packageSystem/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/packages/PacketType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/packageSystem/PacketType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/packages/Stream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/packageSystem/Stream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/socket/packages/Streamable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/networking/packageSystem/Streamable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Array.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/math/Array.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Asset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/ColorGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/Colors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Console.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/math/Vector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/events/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/eventSystem/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/events/ArgumentEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/eventSystem/ArgumentEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/events/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/eventSystem/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/tests/VectorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomInputTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomInputTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomPasswordField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomTitle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/math/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/math/Vector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +51,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -121,7 +66,7 @@
     "settings.editor.selected.configurable": "configurable.group.appearance"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ArrayTest">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="OnlineChess" />
@@ -129,6 +74,94 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ArrayTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineChess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utility.junitTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utility.junitTest" />
+      <option name="MAIN_CLASS_NAME" value="utility.junitTest.ArrayTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArrayTest.addTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineChess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utility.junitTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utility.junitTest" />
+      <option name="MAIN_CLASS_NAME" value="utility.junitTest.ArrayTest" />
+      <option name="METHOD_NAME" value="addTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArrayTest.forEachTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineChess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utility.junitTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utility.junitTest" />
+      <option name="MAIN_CLASS_NAME" value="utility.junitTest.ArrayTest" />
+      <option name="METHOD_NAME" value="forEachTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArrayTest.insertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineChess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utility.junitTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utility.junitTest" />
+      <option name="MAIN_CLASS_NAME" value="utility.junitTest.ArrayTest" />
+      <option name="METHOD_NAME" value="insertTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArrayTest.insertTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineChess" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="utility.junitTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="utility.junitTest" />
+      <option name="MAIN_CLASS_NAME" value="utility.junitTest.ArrayTest" />
+      <option name="METHOD_NAME" value="insertTest2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ArrayTest" />
+        <item itemvalue="JUnit.ArrayTest.forEachTest" />
+        <item itemvalue="JUnit.ArrayTest.insertTest2" />
+        <item itemvalue="JUnit.ArrayTest.insertTest" />
+        <item itemvalue="JUnit.ArrayTest.addTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -139,9 +172,18 @@
       <option name="presentableId" value="Default" />
       <updated>1686333821172</updated>
     </task>
+    <task id="LOCAL-00001" summary="Old changes">
+      <created>1686465908511</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1686465908511</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Old changes" />
     <option name="LAST_COMMIT_MESSAGE" value="Old changes" />
   </component>

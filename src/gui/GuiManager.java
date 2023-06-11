@@ -1,9 +1,7 @@
 package gui;
 
-import game.Board;
-import game.GameManager;
-import game.Move;
-import game.Piece;
+import game.*;
+import game.users.User;
 import gui.images.Field;
 import gui.images.Image;
 import utility.math.Array;
@@ -11,6 +9,7 @@ import utility.customGui.Colors;
 import utility.math.Vector;
 import utility.eventSystem.Event;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -41,13 +40,25 @@ public abstract class GuiManager {
             Piece piece = Board.instance.get(move.getTo());
             gameWindow.getField(move.getFrom()).setImage(null);
             gameWindow.getField(move.getTo()).setImage(pieceImages[piece.getColorCode()][piece.getTypeCode() - 1]);
+            resetHighlights();
         });
+
+        Board.instance.onCheck.add((Piece.Color ignore)-> resetHighlights());
 
         GameManager.onGameStarted.addAction(() -> {
             updateFields();
             menuWindow.hideWindow();
             gameWindow.showWindow();
+            gameWindow.setEnabled(true);
             gameWindow.updateInfoTable(null);
+        });
+
+        GameManager.onGameEnded.addAction(()->{
+            gameWindow.setEnabled(false);
+            User winner = GameManager.getWinner();
+            assert winner != null;
+            JOptionPane.showMessageDialog(null,winner.getUserName()+" won the game!","Game Ended",JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);//TODO: DISCONNECT & SHOW MENU WINDOW
         });
 
         loginWindow = new Login();
@@ -184,6 +195,19 @@ public abstract class GuiManager {
     public static void resetHighlights() {
         currentHighlights.forEach((Field field) -> field.setColor(field.isGradient() ? Colors.FIELD.getLightColor() : Colors.FIELD.getDarkColor()));
         currentHighlights.clear();
+
+        BoardData data = Board.instance.getData();
+        if(data.white.isInCheck()){
+            Field temp = gameWindow.getField(Board.instance.get(Piece.Color.White, Piece.Type.King).getPosition());
+            temp.setColor(Colors.ATTACK.getColor(temp.isGradient()));
+            currentHighlights.add(temp);
+        }
+        if(data.black.isInCheck()){
+            Field temp = gameWindow.getField(Board.instance.get(Piece.Color.Black, Piece.Type.King).getPosition());
+            temp.setColor(Colors.ATTACK.getColor(temp.isGradient()));
+            currentHighlights.add(temp);
+        }
+        //TODO: WHEN PLAYER EXIT CHECK POSITION,FIELD IS STILL COLORED RED!
     }
 
     private static void setHighlight(Vector at) {

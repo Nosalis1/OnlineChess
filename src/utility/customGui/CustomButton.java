@@ -13,7 +13,7 @@ public class CustomButton extends JButton {
      * Initialize the button with consistent styling.
      */
     private void setupButton() {
-        setForeground(Colors.GREEN.getColor(false));
+        setForeground(Colors.OTHER.getColor(false));
         setBackground(Colors.DARK.getColor(false));
         setFont(Fonts.Components.BUTTON);
     }

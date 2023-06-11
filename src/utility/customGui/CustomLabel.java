@@ -12,7 +12,7 @@ public class CustomLabel extends JLabel {
      * Initialize the label with consistent styling.
      */
     private void setupLabel() {
-        setForeground(Colors.GREEN.getColor(false));
+        setForeground(Colors.OTHER.getColor(false));
         setFont(Fonts.Components.LABEL);
     }
 
