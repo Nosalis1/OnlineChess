@@ -1,6 +1,6 @@
 package audio;
 
-import util.Asset;
+import utility.Asset;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -92,8 +92,8 @@ public class AudioClip extends Asset {
             this.bigEndian = audioFormat.isBigEndian();
             this.sampleRate = audioFormat.getSampleRate();
 
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            throw new RuntimeException(e);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            throw new RuntimeException(ex);
         }
     }
 

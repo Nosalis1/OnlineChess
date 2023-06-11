@@ -1,15 +1,24 @@
 package game;
 
-import util.Array;
-import util.Vector;
+import utility.math.Array;
+import utility.math.Vector;
 
+/**
+ * Represents the data of the game board.
+ */
 public class BoardData {
 
     private final Board board;
 
+    /**
+     * Constructs a new BoardData instance.
+     *
+     * @param board The associated game board.
+     */
     public BoardData(Board board) {
         this.board = board;
 
+        // Add event listeners
         this.board.onMoveDone.add(this::addMove);
         this.board.onCaptured.add((Piece piece) -> {
             if (piece.isColor(Piece.Color.White))
@@ -22,23 +31,30 @@ public class BoardData {
         });
     }
 
-    private final util.Array<Piece> allPieces = new Array<>();
-    public final util.Array<Piece> getAllPieces(){
+    private final Array<Piece> allPieces = new Array<>();
+    public final Array<Piece> getAllPieces() {
         return this.allPieces;
     }
+
     public final BoardDataElement white = new BoardDataElement();
     public final BoardDataElement black = new BoardDataElement();
 
+    /**
+     * Resets the board data elements.
+     */
     public void resetElements() {
         allPieces.clear();
         white.reset();
         black.reset();
     }
 
+    /**
+     * Updates the board data elements based on the current state of the game board.
+     */
     public void updateElements() {
         resetElements();
 
-        for (int i = 0; i < Board.SIZE; i++)
+        for (int i = 0; i < Board.SIZE; i++) {
             for (int j = 0; j < Board.SIZE; j++) {
                 if (board.isNull(i, j))
                     continue;
@@ -51,12 +67,18 @@ public class BoardData {
                 else
                     black.addElement(temp);
             }
+        }
     }
 
     private final String[] LABELS = {"a", "b", "c", "d", "e", "f", "g", "h"};
-    private final util.Array<String> moves = new Array<>();
+    private final Array<String> moves = new Array<>();
 
-    public final util.Array<String> getMoves() {
+    /**
+     * Returns the recorded moves in algebraic notation.
+     *
+     * @return The recorded moves.
+     */
+    public final Array<String> getMoves() {
         return this.moves;
     }
 

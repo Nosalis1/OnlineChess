@@ -1,10 +1,11 @@
 package gui;
 
-import util.Vector;
+import utility.math.Vector;
 
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("unused")
 public class Window extends JFrame {
     public static final java.awt.Color INTERFACE_COLOR = new Color(49, 46, 43, 255);
 

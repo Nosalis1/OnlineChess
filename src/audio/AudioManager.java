@@ -4,7 +4,7 @@ import game.Board;
 import game.GameManager;
 import game.Piece;
 import gui.GuiManager;
-import util.Array;
+import utility.math.Array;
 
 import java.io.File;
 import java.io.FileNotFoundException;

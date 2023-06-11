@@ -1,9 +1,8 @@
 package gui;
 
-import gui.design.*;
+import utility.customGui.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -67,7 +66,7 @@ public class Login extends Window implements ActionListener {
             usernameField.setText("");
             passwordField.setText("");
 
-            util.Console.message("Valid User", this);
+            utility.Console.message("Valid User", this);
 
             GuiManager.loggedIn();
         } else {
@@ -76,7 +75,7 @@ public class Login extends Window implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Invalid Username/Password! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
 
-            util.Console.warning("Invalid User!", this);
+            utility.Console.warning("Invalid User!", this);
         }
     }
 }

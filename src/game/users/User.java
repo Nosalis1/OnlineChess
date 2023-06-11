@@ -5,18 +5,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import game.Board;
 import game.GameManager;
-import socket.packages.Packet;
-import util.Array;
+import utility.math.Array;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class User implements socket.packages.Streamable {
+public class User implements networking.packageSystem.Streamable {
     public static User currentUser = null;
     private static final com.google.gson.Gson gson = new com.google.gson.Gson();
     private static final com.google.gson.Gson gsonBuilder = new com.google.gson.GsonBuilder().setPrettyPrinting().create();
-    private static final util.Array<User> existingUsers = new Array<>();
+    private static final Array<User> existingUsers = new Array<>();
 
     private String userName;
     private final String password;
@@ -42,7 +41,7 @@ public class User implements socket.packages.Streamable {
     }
 
     public void changeSide() {
-        this.white = !this.white;
+        setWhite(!this.white);
     }
 
     public final boolean canPlay() {
@@ -53,7 +52,7 @@ public class User implements socket.packages.Streamable {
         for (int i = 0; i < existingUsers.size(); i++) {
             User user = existingUsers.get(i);
             if (user.getUserName().equals(userName) && user.isCorrectPassword(password)) {
-                util.Console.message("User logged in");
+                utility.Console.message("User logged in");
                 currentUser = user;
                 GameManager.localUser = currentUser;
                 return true;

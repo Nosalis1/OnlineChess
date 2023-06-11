@@ -1,11 +1,11 @@
 package gui.images;
 
 import game.Board;
-import gui.design.CustomImage;
-import gui.design.CustomLabel;
-import util.ColorGradient;
-import util.Vector;
-import util.events.ArgumentEvent;
+import utility.customGui.CustomImage;
+import utility.customGui.CustomLabel;
+import utility.customGui.Colors;
+import utility.math.Vector;
+import utility.eventSystem.ArgumentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
  * The Field class represents a customized image panel that represents a field on a chessboard.
  * It provides functionality to handle mouse events and display labels for the field position.
  */
+@SuppressWarnings("unused")
 public class Field extends CustomImage implements MouseListener {
     private final Vector boardPosition;
     private final boolean isGradient;
@@ -39,7 +40,7 @@ public class Field extends CustomImage implements MouseListener {
 
         setLabels();
 
-        setColor(isGradient ? ColorGradient.FIELD.getLightColor() : ColorGradient.FIELD.getDarkColor());
+        setColor(isGradient ? Colors.FIELD.getLightColor() : Colors.FIELD.getDarkColor());
 
         addMouseListener(this);
     }
@@ -76,12 +77,12 @@ public class Field extends CustomImage implements MouseListener {
             super.setLabel(Integer.toString(boardPosition.x + 1));
             imageLabel.setBounds(5, 5, 15, 15);
         }
-        imageLabel.setForeground(ColorGradient.FIELD.getColor(!isGradient));
+        imageLabel.setForeground(Colors.FIELD.getColor(!isGradient));
 
         if (boardPosition.x == Board.LAST && boardPosition.y == 0) {
             JLabel lab = new CustomLabel(Integer.toString(boardPosition.x + 1));
             lab.setBounds(5, 5, 15, 15);
-            lab.setForeground(!isGradient ? ColorGradient.FIELD.getLightColor() : ColorGradient.FIELD.getDarkColor());
+            lab.setForeground(!isGradient ? Colors.FIELD.getLightColor() : Colors.FIELD.getDarkColor());
             add(lab);
         }
     }

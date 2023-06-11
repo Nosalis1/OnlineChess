@@ -1,10 +1,11 @@
 package gui;
 
 import game.*;
-import gui.design.CustomLabel;
+import utility.customGui.CustomLabel;
 import gui.images.Field;
-import util.ColorGradient;
-import util.Vector;
+import utility.customGui.Colors;
+import utility.math.Array;
+import utility.math.Vector;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -67,7 +68,7 @@ public class Game extends Window {
     private JPanel getPlayerInfoPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(ColorGradient.DARK.getDarkColor());
+        panel.setBackground(Colors.DARK.getDarkColor());
 
         JLabel label = new CustomLabel("Player info");
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -83,7 +84,7 @@ public class Game extends Window {
         return String.format("<html>Username: %s<br>", name) + String.format("ELO: %s<br>", elo) + String.format("CurrentPiecesCount: %d<br>", piecesCount) + String.format("CurrentPiecesScore: %d<br>", piecesScore) + String.format("Pawns: %d<br>", pawnsCount) + String.format("Rooks (Castles): %d<br>", rooksCount) + String.format("Knights: %d<br>", knightsCount) + String.format("Bishops: %d<br>", bishopsCount) + String.format("Have Queen: %s<br>", queensCount != 0 ? "true" : "false") + String.format("Have King: %s</html>", kingsCount != 0 ? "true" : "false");
     }
 
-    private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, util.Array<Integer> data) {
+    private String createInfoMessage(final String name, final int elo, final int piecesCount, final int piecesScore, Array<Integer> data) {
         return createInfoMessage(name, elo, piecesCount, piecesScore, data.get(Piece.Type.Pawn.getCode() - 1), data.get(Piece.Type.Rook.getCode() - 1), data.get(Piece.Type.Knight.getCode() - 1), data.get(Piece.Type.Bishop.getCode() - 1), data.get(Piece.Type.Queen.getCode() - 1), data.get(Piece.Type.King.getCode() - 1));
     }
 
@@ -96,15 +97,15 @@ public class Game extends Window {
         playerLabel.setText(messageWhite);
         opponentLabel.setText(messageBlack);
 
-        Color playColor = ColorGradient.FIELD.getColor(GameManager.localUser.canPlay());
-        Color opponentColor = ColorGradient.FIELD.getColor(!GameManager.localUser.canPlay());
+        Color playColor = Colors.FIELD.getColor(GameManager.localUser.canPlay());
+        Color opponentColor = Colors.FIELD.getColor(!GameManager.localUser.canPlay());
         playerPanel.setBorder(BorderFactory.createLineBorder(playColor, 5));
         opponentPanel.setBorder(BorderFactory.createLineBorder(opponentColor, 5));
     }
 
     public void updateMovesTable(Move ignore) {
         BoardData data = Board.instance.getData();
-        util.Array<String> movesData = data.getMoves();
+        Array<String> movesData = data.getMoves();
 
         if (movesTableModel.getRowCount() >= 15) movesTableModel.removeRow(0);
         String moveString = movesData.get(movesData.size() - 1);
@@ -115,10 +116,12 @@ public class Game extends Window {
     private JLabel playerLabel, opponentLabel, playerTimeLabel, opponentTimeLabel;
     private DefaultTableModel movesTableModel;
 
+    @SuppressWarnings("unused")
     public JLabel getPlayerTimeLabel() {
         return playerTimeLabel;
     }
 
+    @SuppressWarnings("unused")
     public JLabel getOpponentTimeLabel() {
         return opponentTimeLabel;
     }
@@ -133,13 +136,13 @@ public class Game extends Window {
         JTable movesPanel = new JTable(movesTableModel);
         movesPanel.setName("moves_panel");
         movesPanel.setLayout(new BoxLayout(movesPanel, BoxLayout.Y_AXIS));
-        movesPanel.setBackground(ColorGradient.DARK.getLightColor());
+        movesPanel.setBackground(Colors.DARK.getLightColor());
         movesPanel.setForeground(Color.white);
         movesPanel.setTableHeader(null);
         movesPanel.setBounds(823, 475, 251, 240);
         JPanel movesPanelWrapper = new JPanel();
         movesPanelWrapper.add(movesPanel);
-        movesPanelWrapper.setBackground(ColorGradient.DARK.getDarkColor());
+        movesPanelWrapper.setBackground(Colors.DARK.getDarkColor());
         movesPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
         movesPanelWrapper.setBounds(818, 470, 260, 250);
         add(movesPanelWrapper);
@@ -152,7 +155,7 @@ public class Game extends Window {
         timerPanel.setBorder(timerBorder);
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.Y_AXIS));
         timerPanel.setBounds(818, 725, 260, 85);
-        timerPanel.setBackground(ColorGradient.DARK.getLightColor());
+        timerPanel.setBackground(Colors.DARK.getLightColor());
         playerTimeLabel = new CustomLabel();
         opponentTimeLabel = new CustomLabel();
         playerTimeLabel.setBounds(10, 10, 120, 20);
@@ -166,12 +169,8 @@ public class Game extends Window {
 
         // TODO: NAPRAVI TAJMER OBJEKAT I DODAJ "TIMER.SETTIMERSTATE(TRUE);" ZA STARTOVANJE TAJMERA) timer = new GameClock(playerTimeLabel, opponentTimeLabel);
         GameClock clock = new GameClock(playerTimeLabel,opponentTimeLabel);
-        GameManager.onGameStarted.addAction(()->{
-            clock.setTimerState(true);
-        });
-        GameManager.onGameEnded.addAction(()->{
-            clock.setTimerState(false);
-        });
+        GameManager.onGameStarted.addAction(()-> clock.setTimerState(true));
+        GameManager.onGameEnded.addAction(()-> clock.setTimerState(false));
 
         playerPanel = getPlayerInfoPanel();
         opponentPanel = getPlayerInfoPanel();

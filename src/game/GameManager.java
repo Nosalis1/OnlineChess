@@ -4,14 +4,15 @@ import game.users.User;
 import gui.ChosePiece;
 import gui.GuiManager;
 import gui.images.Field;
-import socket.LocalClient;
-import socket.packages.Packet;
-import socket.packages.PacketType;
-import util.Vector;
-import util.events.Event;
+import networking.LocalClient;
+import networking.packageSystem.Packet;
+import networking.packageSystem.PacketType;
+import utility.math.Vector;
+import utility.eventSystem.Event;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public abstract class GameManager {
     private static boolean initialized = false;
 
@@ -31,17 +32,13 @@ public abstract class GameManager {
 
         Field.onFieldClicked.add(GameManager::onFieldClicked);
 
-        Board.instance.onCheck.add((Piece.Color color) -> {
-            System.out.println(color.toString() + " in check!");
-        });
+        Board.instance.onCheck.add((Piece.Color color) -> System.out.println(color.toString() + " in check!"));
         Board.instance.onCheckMate.add((Piece.Color color) -> {
             System.out.println(color.toString() + " in checkMate!");
             onGameEnded.run();
         });
 
-        Board.instance.onMoved.add((Piece piece) -> {
-            lastMovedPiece = piece;
-        });
+        Board.instance.onMoved.add((Piece piece) -> lastMovedPiece = piece);
         ChosePiece.onTypeSelected.add((Piece.Type newType) -> {
             if (lastMovedPiece == null)
                 return;
@@ -59,8 +56,8 @@ public abstract class GameManager {
         initialized = true;
     }
 
-    public static util.events.Event onGameStarted = new Event();
-    public static util.events.Event onGameEnded = new Event();
+    public static utility.eventSystem.Event onGameStarted = new Event();
+    public static utility.eventSystem.Event onGameEnded = new Event();
 
     public static void newGame() {
         Board.instance.reset();
@@ -106,7 +103,7 @@ public abstract class GameManager {
                 break;
             case CHANGE_TYPE:
                 Vector at = new Vector();
-                Piece.Type newType = null;
+                Piece.Type newType;
                 values = packet.getBufferData().split("~");
 
                 if (values.length == 2) {

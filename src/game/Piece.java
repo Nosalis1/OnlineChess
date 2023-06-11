@@ -1,7 +1,7 @@
 package game;
 
-import util.Array;
-import util.Vector;
+import utility.math.Array;
+import utility.math.Vector;
 
 /**
 
@@ -150,6 +150,7 @@ public class Piece {
 
     /**
      * Change the type of piece.
+     *
      * @param toType type of piece we want to change to
      */
     public void promote(final Type toType) {
@@ -210,14 +211,14 @@ public class Piece {
         updatePosition(newPosition.x, newPosition.y);
     }
 
-    private final util.Array<Vector> moves = new Array<>();
+    private final Array<Vector> moves = new Array<>();
 
     /**
      * Retrieves the valid moves for the piece.
      *
      * @return an array of valid moves
      */
-    public util.Array<Vector> getMoves() {
+    public Array<Vector> getMoves() {
         updateMoves();
         return this.moves;
     }
@@ -246,6 +247,9 @@ public class Piece {
         }
     }
 
+    /**
+     * Generates valid moves for a rook piece.
+     */
     private void getRookMoves() {
         int x, y;
         for (int i = 0; i < 8; i++) {
@@ -261,6 +265,9 @@ public class Piece {
         }
     }
 
+    /**
+     * Generates valid moves for a knight piece.
+     */
     private void getKnightMoves() {
         int x, y;
 
@@ -306,6 +313,9 @@ public class Piece {
         tryAddMove(x, y);
     }
 
+    /**
+     * Generates valid moves for a bishop piece.
+     */
     private void getBishopMoves() {
         int x, y;
         for (int i = -8; i < 8; i++) {
@@ -323,12 +333,18 @@ public class Piece {
         }
     }
 
+    /**
+     * Generates valid moves for a queen piece.
+     */
     private void getQueenMoves() {
         getKingMoves();
         getBishopMoves();
         getRookMoves();
     }
 
+    /**
+     * Generates valid moves for a king piece.
+     */
     private void getKingMoves() {
         int x, y;
         for (int i = -1; i < 2; i++) {
@@ -345,6 +361,9 @@ public class Piece {
         }
     }
 
+    /**
+     * Generates valid moves for a pawn piece.
+     */
     private void getPawnMoves() {
         int direction = isColor(Color.White) ? 1 : -1;
 
@@ -415,6 +434,13 @@ public class Piece {
         };
     }
 
+    /**
+     * Checks if a rook can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the rook can move to the position, false otherwise.
+     */
     private boolean canRookMove(int x, int y) {
         if (position.x != x && position.y != y)
             return false;
@@ -427,6 +453,13 @@ public class Piece {
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
+    /**
+     * Checks if a knight can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the knight can move to the position, false otherwise.
+     */
     private boolean canKnightMove(int x, int y) {
         int ddx = Math.abs(x - position.x);
         int ddy = Math.abs(y - position.y);
@@ -434,6 +467,13 @@ public class Piece {
         return (ddx == 2 && ddy == 1) || (ddx == 1 && ddy == 2);
     }
 
+    /**
+     * Checks if a bishop can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the bishop can move to the position, false otherwise.
+     */
     private boolean canBishopMove(int x, int y) {
         int ddx = Math.abs(x - position.x);
         int ddy = Math.abs(y - position.y);
@@ -447,6 +487,13 @@ public class Piece {
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
+    /**
+     * Checks if a queen can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the queen can move to the position, false otherwise.
+     */
     private boolean canQueenMove(int x, int y) {
         int ddx = Math.abs(x - position.x);
         int ddy = Math.abs(y - position.y);
@@ -460,6 +507,13 @@ public class Piece {
         return Board.instance.inPath(position, x, y, ddx, ddy);
     }
 
+    /**
+     * Checks if a king can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the king can move to the position, false otherwise.
+     */
     private boolean canKingMove(int x, int y) {
         int ddx = Math.abs(x - position.x);
         int ddy = Math.abs(y - position.y);
@@ -468,14 +522,21 @@ public class Piece {
 
     }
 
+    /**
+     * Checks if a pawn can move to the specified position.
+     *
+     * @param x The x-coordinate of the target position.
+     * @param y The y-coordinate of the target position.
+     * @return True if the pawn can move to the position, false otherwise.
+     */
     private boolean canPawnMove(int x, int y) {
         int direction = isColor(Color.White) ? 1 : -1;
 
-        if (y == position.y && (x == position.x + direction
-                || (position.x == 1 || position.x == 6)
-                && x == position.x + (2 * direction))) {
+        if (y == position.y && x == position.x + direction)
             return Board.instance.isNull(x, y);
-        }
+
+        if (y == position.y && ((position.x == 1 || position.x == 6) && x == position.x + (2 * direction)))
+            return Board.instance.inPath(position, x, y, direction, 0);
 
         if (Math.abs(y - position.y) == 1 && x == position.x + direction) {
             return !Board.instance.isNull(x, y) && !isColor(Board.instance.get(x, y).getColor());

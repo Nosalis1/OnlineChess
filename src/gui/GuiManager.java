@@ -6,26 +6,41 @@ import game.Move;
 import game.Piece;
 import gui.images.Field;
 import gui.images.Image;
-import util.Array;
-import util.ColorGradient;
-import util.Vector;
-import util.events.Event;
+import utility.math.Array;
+import utility.customGui.Colors;
+import utility.math.Vector;
+import utility.eventSystem.Event;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public abstract class GuiManager {
-    public static final util.events.Event onButtonClick = new Event();
+    public static final String DATA_PATH = "src\\gui\\images\\256px";
+
+    public static final utility.eventSystem.Event onButtonClick = new Event();
+
+    private static boolean initialized = false;
+
+    @SuppressWarnings("unused")
+    private static boolean isInitialized() {
+        return initialized;
+    }
 
     public static void initialize() {
-        Image.wakeUp();
+        if (initialized)
+            return;
 
-        loginWindow.showWindow();
+        try {
+            load();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
 
-        Board.instance.onCaptured.add((Piece piece) -> {
-            gameWindow.getField(piece.getPosition()).setImage(null);
-        });
+        Board.instance.onCaptured.add((Piece piece) -> gameWindow.getField(piece.getPosition()).setImage(null));
         Board.instance.onMoveDone.add((Move move) -> {
             Piece piece = Board.instance.get(move.getTo());
             gameWindow.getField(move.getFrom()).setImage(null);
-            gameWindow.getField(move.getTo()).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+            gameWindow.getField(move.getTo()).setImage(pieceImages[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
 
         GameManager.onGameStarted.addAction(() -> {
@@ -35,15 +50,72 @@ public abstract class GuiManager {
             gameWindow.updateInfoTable(null);
         });
 
+        loginWindow = new Login();
+        registerWindow = new Register();
+        menuWindow  = new Menu();
+        gameWindow = new Game();
+        chosePieceWindow = new ChosePiece();
+
         updateFields();
+        loginWindow.showWindow();
+
+        initialized = true;
     }
 
-    private static final Login loginWindow = new Login();
-    private static final Register registerWindow = new Register();
-    private static final Menu menuWindow = new Menu();
-    private static final Game gameWindow = new Game();
-    private static final ChosePiece chosePieceWindow = new ChosePiece();
+    private static final Array<Image> loadedImages = new Array<>();
 
+    private static Image findImage(String name) {
+        for (int i = 0; i < loadedImages.size(); i++) {
+            if (loadedImages.get(i).isName(name))
+                return loadedImages.get(i);
+        }
+        return null;
+    }
+
+    private static void load() throws FileNotFoundException {
+        File file = new File(DATA_PATH);
+
+        if (file.exists()) {
+            String[] list = file.list();
+
+            assert list != null;
+
+            for (String item : list) {
+                loadedImages.add(
+                        new Image(file.getPath() + "\\" + item));
+            }
+
+            pieceImages = new Image[][]{
+                    {
+                            findImage("w_rook_png_shadow_256px.png"),
+                            findImage("w_knight_png_shadow_256px.png"),
+                            findImage("w_bishop_png_shadow_256px.png"),
+                            findImage("w_queen_png_shadow_256px.png"),
+                            findImage("w_king_png_shadow_256px.png"),
+                            findImage("w_pawn_png_shadow_256px.png")
+                    },
+                    {
+                            findImage("b_rook_png_shadow_256px.png"),
+                            findImage("b_knight_png_shadow_256px.png"),
+                            findImage("b_bishop_png_shadow_256px.png"),
+                            findImage("b_queen_png_shadow_256px.png"),
+                            findImage("b_king_png_shadow_256px.png"),
+                            findImage("b_pawn_png_shadow_256px.png")
+                    }
+            };
+        } else
+            throw new FileNotFoundException();
+    }
+
+    public static Image[][] pieceImages = null;
+
+    private static Login loginWindow;
+    private static Register registerWindow;
+    private static Menu menuWindow;
+    private static Game gameWindow;
+    private static ChosePiece chosePieceWindow;
+
+    @SuppressWarnings("unused")
     public static Login getLoginWindow() {
         return loginWindow;
     }
@@ -52,6 +124,7 @@ public abstract class GuiManager {
         return registerWindow;
     }
 
+    @SuppressWarnings("unused")
     public static Menu getMenuWindow() {
         return menuWindow;
     }
@@ -69,11 +142,11 @@ public abstract class GuiManager {
     public static void updateFields() {
         gameWindow.clearFields();
 
-        util.Array<Piece> allPieces = Board.instance.getData().getAllPieces();
+        Array<Piece> allPieces = Board.instance.getData().getAllPieces();
         allPieces.forEach((Piece piece) -> {
-            util.Vector at = piece.getPosition();
+            Vector at = piece.getPosition();
 
-            gameWindow.getField(at).setImage(Image.IMAGES[piece.getColorCode()][piece.getTypeCode() - 1]);
+            gameWindow.getField(at).setImage(pieceImages[piece.getColorCode()][piece.getTypeCode() - 1]);
         });
     }
 
@@ -84,17 +157,19 @@ public abstract class GuiManager {
             tempField.setImage(null);
         } else {
             Piece tempPiece = Board.instance.get(at);
-            tempField.setImage(Image.IMAGES[tempPiece.getColorCode()][tempPiece.getTypeCode() - 1]);
+            tempField.setImage(pieceImages[tempPiece.getColorCode()][tempPiece.getTypeCode() - 1]);
         }
     }
 
     public static void loggedIn() {
         loginWindow.hideWindow();
+        menuWindow.setLocation(loginWindow.getLocation());
         menuWindow.showWindow();
     }
 
     public static void registered() {
         registerWindow.hideWindow();
+        menuWindow.setLocation(registerWindow.getLocation());
         menuWindow.showWindow();
     }
 
@@ -107,21 +182,21 @@ public abstract class GuiManager {
     private static final Array<Field> currentHighlights = new Array<>();
 
     public static void resetHighlights() {
-        currentHighlights.forEach((Field field) -> field.setColor(field.isGradient()?ColorGradient.FIELD.getLightColor():ColorGradient.FIELD.getDarkColor()));
+        currentHighlights.forEach((Field field) -> field.setColor(field.isGradient() ? Colors.FIELD.getLightColor() : Colors.FIELD.getDarkColor()));
         currentHighlights.clear();
     }
 
     private static void setHighlight(Vector at) {
         Field temp = gameWindow.getField(at);
-        temp.setColor(ColorGradient.HIGHLIGHT.getColor(temp.isGradient()));
+        temp.setColor(Colors.HIGHLIGHT.getColor(temp.isGradient()));
         currentHighlights.add(temp);
     }
 
-    private static void setHighlights(util.Array<Vector> at) {
+    private static void setHighlights(Array<Vector> at) {
         at.forEach((Vector position) -> {
             Field temp = gameWindow.getField(position);
 
-            temp.setColor(Board.instance.isNull(position) ? ColorGradient.MOVE.getColor(temp.isGradient()) : ColorGradient.ATTACK.getColor(temp.isGradient()));
+            temp.setColor(Board.instance.isNull(position) ? Colors.MOVE.getColor(temp.isGradient()) : Colors.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         });
     }

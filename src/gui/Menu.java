@@ -2,10 +2,10 @@ package gui;
 
 import audio.AudioManager;
 import game.users.User;
-import gui.design.CustomButton;
-import gui.design.CustomTitle;
-import socket.LocalClient;
-import socket.NetworkManager;
+import utility.customGui.CustomButton;
+import utility.customGui.CustomTitle;
+import networking.LocalClient;
+import networking.NetworkManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -48,7 +48,7 @@ public class Menu extends Window implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Your account has successfully been deleted!", "User Removed", JOptionPane.INFORMATION_MESSAGE);
                 GuiManager.accountDeleted();
             } catch (IOException ex) {
-                util.Console.error(String.format("User %s not removed", User.currentUser.getUserName()));
+                utility.Console.error(String.format("User %s not removed", User.currentUser.getUserName()));
             }
         }));
         add(stopButton = new CustomButton("Cancel",x,y, e->{

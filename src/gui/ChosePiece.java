@@ -1,10 +1,10 @@
 package gui;
 
 import game.Piece;
-import util.Array;
-import util.ColorGradient;
-import util.Vector;
-import util.events.ArgumentEvent;
+import utility.math.Array;
+import utility.customGui.Colors;
+import utility.math.Vector;
+import utility.eventSystem.ArgumentEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,13 +21,13 @@ public class ChosePiece extends Window implements ActionListener {
         setAlwaysOnTop(true);
     }
 
-    private final util.Array<JButton> buttons = new Array<>();
+    private final Array<JButton> buttons = new Array<>();
 
     private JButton getStylizedButton(int x, Image imageDir, ActionListener action) {
         JButton btn = new JButton();
         btn.setPreferredSize(new Dimension(50, 50));
         btn.setBounds(7 + x, 15, 50, 50);
-        btn.setBackground(ColorGradient.DARK.getDarkColor());
+        btn.setBackground(Colors.DARK.getDarkColor());
         Image img = new ImageIcon(imageDir).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         btn.setIcon(new ImageIcon(img));
         btn.addActionListener(action);
@@ -39,24 +39,22 @@ public class ChosePiece extends Window implements ActionListener {
 
     private void createUserInterface() {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBackground(ColorGradient.DARK.getLightColor());
+        panel.setBackground(Colors.DARK.getLightColor());
         panel.setLayout(null);
 
-        boolean isWhite = true;//GameManager.localUser.isWhite();//TODO:LATER
-
-        JButton rookButton = getStylizedButton(10, gui.images.Image.IMAGES[isWhite ? 0 : 1][0].getImage(), e -> {
+        JButton rookButton = getStylizedButton(10, GuiManager.pieceImages[0][0].getImage(), e -> {
             onTypeSelected.run(Piece.Type.Rook);
             this.hideWindow();
         });
-        JButton knightButton = getStylizedButton(65, gui.images.Image.IMAGES[isWhite ? 0 : 1][1].getImage(), e -> {
+        JButton knightButton = getStylizedButton(65, GuiManager.pieceImages[0][1].getImage(), e -> {
             onTypeSelected.run(Piece.Type.Knight);
             this.hideWindow();
         });
-        JButton bishopButton = getStylizedButton(120, gui.images.Image.IMAGES[isWhite ? 0 : 1][2].getImage(), e -> {
+        JButton bishopButton = getStylizedButton(120, GuiManager.pieceImages[0][2].getImage(), e -> {
             onTypeSelected.run(Piece.Type.Bishop);
             this.hideWindow();
         });
-        JButton queenButton = getStylizedButton(175, gui.images.Image.IMAGES[isWhite ? 0 : 1][3].getImage(), e -> {
+        JButton queenButton = getStylizedButton(175, GuiManager.pieceImages[0][3].getImage(), e -> {
             onTypeSelected.run(Piece.Type.Queen);
             this.hideWindow();
         });

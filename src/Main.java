@@ -1,21 +1,22 @@
 import audio.AudioManager;
 import game.GameManager;
-import gui.Game;
 import gui.GuiManager;
-import socket.NetworkManager;
-import socket.RoomManager;
-import util.Vector;
+import networking.NetworkManager;
+import networking.RoomManager;
 
 public class Main {
     public static void main(String[] args) {
+
+        System.out.println("Hello World!");
+
         if (NetworkManager.isMaster()) {
             //Initializing Server
-            util.Console.message("No active Master Server.Initializing Master Server.");
+            utility.Console.message("No active Master Server.Initializing Master Server.");
             RoomManager.initialize();
             NetworkManager.initialize();
         } else {
             //Initializing Client
-            util.Console.message("Initializing Client.");
+            utility.Console.message("Initializing Client.");
             AudioManager.initialize();
             GameManager.initialize();
             GuiManager.initialize();

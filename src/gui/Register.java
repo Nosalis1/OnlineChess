@@ -1,8 +1,8 @@
 package gui;
 
-import gui.design.CustomButton;
-import gui.design.CustomLabel;
-import gui.design.CustomTitle;
+import utility.customGui.CustomButton;
+import utility.customGui.CustomLabel;
+import utility.customGui.CustomTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,7 +63,7 @@ public class Register extends Window implements ActionListener {
 
         try {
             if (game.users.User.addUser(userName, password)) {
-                util.Console.message("User registered!", this);
+                utility.Console.message("User registered!", this);
 
                 usernameField.setText("");
                 passwordField.setText("");
@@ -75,7 +75,7 @@ public class Register extends Window implements ActionListener {
 
                 JOptionPane.showMessageDialog(null, "Username taken! Try again.", "User Validation", JOptionPane.ERROR_MESSAGE);
 
-                util.Console.warning("User already exist!", this);
+                utility.Console.warning("User already exist!", this);
             }
         } catch (IOException ignored) {
         }
