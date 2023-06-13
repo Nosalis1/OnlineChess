@@ -41,6 +41,7 @@ public class User implements networking.packageSystem.Streamable {
     }
 
     public void changeSide() {
+        System.out.println("CHANGE SIDE CALLED");
         setWhite(!this.white);
     }
 

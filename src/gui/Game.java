@@ -149,6 +149,7 @@ public class Game extends Window {
      * @param ignore The move to ignore.
      */
     public void updateInfoTable(Move ignore) {
+        System.out.println("UPDATE INFO TABLE CALLED");
         final BoardData data = Board.instance.getData();
 
         String messageWhite = createInfoMessage(GameManager.localUser.getUserName(), 1, data.white.getPieces().size(), data.white.getScore(), data.white.getPiecesCount());

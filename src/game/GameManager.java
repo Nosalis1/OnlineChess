@@ -141,6 +141,7 @@ public abstract class GameManager {
                 break;
             case PLAYER:
                 opponent = new User(packet.getBufferData());
+                opponent.setWhite(!localUser.isWhite());
                 break;
             case START_GAME:
                 newGame();

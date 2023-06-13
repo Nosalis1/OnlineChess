@@ -202,8 +202,11 @@ public abstract class GuiManager {
             temp.setColor(Colors.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         }
-        if(data.black.isInCheck()){
-            Field temp = gameWindow.getField(Board.instance.get(Piece.Color.Black, Piece.Type.King).getPosition());
+        if(data.black.isInCheck()) {
+            Piece kingPiece = Board.instance.get(Piece.Color.Black, Piece.Type.King);
+            if (kingPiece == null)
+                return;
+            Field temp = gameWindow.getField(kingPiece.getPosition());
             temp.setColor(Colors.ATTACK.getColor(temp.isGradient()));
             currentHighlights.add(temp);
         }

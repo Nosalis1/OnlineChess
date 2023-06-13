@@ -443,8 +443,12 @@ public class Board {
         Piece king = get(Piece.Color.White, Piece.Type.King);
         data.white.setInCheck(false);
 
-        if (king == null)
+        if (king == null) {
             data.white.setInCheck(true);
+            data.white.setInCheckMate(true);
+            onCheckMate.run(Piece.Color.White);
+            return;
+        }
         else {
             Array<Piece> opponentPieces = data.black.getPieces();
             for (int i = 0; i < opponentPieces.size(); i++) {
@@ -461,8 +465,12 @@ public class Board {
         king = get(Piece.Color.Black, Piece.Type.King);
         data.black.setInCheck(false);
 
-        if (king == null)
+        if (king == null) {
             data.black.setInCheck(true);
+            data.black.setInCheckMate(true);
+            onCheckMate.run(Piece.Color.Black);
+            return;
+        }
         else {
             Array<Piece> opponentPieces = data.white.getPieces();
             for (int i = 0; i < opponentPieces.size(); i++) {

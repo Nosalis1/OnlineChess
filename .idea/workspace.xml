@@ -5,25 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c087f4fa-f8e8-4f7c-b40d-a8305b08e930" name="Changes" comment="Old changes">
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceCapture.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/sfx/pieceMove.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utility/junitTest/ArrayTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utility/junitTest/VectorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_11_2023_4_18_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_11_2023_4_18_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_11_2023_4_18_PM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_11_2023_4_18_PM__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_4_2023_12_11_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_4_2023_7_24_AM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_4_2023_9_56_AM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_1_10_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_1_10_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_1_12_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_1_12_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_9_13_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_9_13_AM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_9_24_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_5_2023_9_24_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OnlineChess.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OnlineChess.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio/AudioManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceCapture1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio/sfx/pieceMove1.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/users/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/users/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/GuiManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GuiManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/Colors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomInputTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomInputTextField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomPasswordField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomPasswordField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/customGui/CustomTitle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/customGui/CustomTitle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/math/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/math/Vector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,24 +49,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.appearance"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="JUnit.ArrayTest">
+}</component>
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="OnlineChess" />
@@ -179,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686465908511</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Old changes">
+      <created>1686481260768</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686481260768</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
